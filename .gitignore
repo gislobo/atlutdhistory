@@ -17,3 +17,6 @@ dist/
 Thumbs.db
 .idea/
 .vscode/
+
+# Project
+testfile.txt
