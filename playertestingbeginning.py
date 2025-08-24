@@ -5,6 +5,7 @@ import urllib.parse
 from datetime import datetime
 import psycopg2
 from psycopg2.extras import execute_values
+import sys
 
 def loadHeaders(headersPath="headers.json"):
     with open(headersPath, "r", encoding="utf-8") as f:
@@ -121,6 +122,18 @@ def getPositionId(conn, positionname):
             return positionId
 
 
+def playerLookup(conn, playerId):
+    with conn.cursor() as cur:
+        cur.execute("SELECT apifootballid FROM public.player")
+        rows = cur.fetchall()
+    existingPlayers = {row[0] for row in rows if row[0] is not None}
+
+    if playerId in existingPlayers:
+        print(f"Player {playerId} is already in the database, no need to proceed.")
+        sys.exit(0)
+    else:
+        print(f"Player {playerId} is not in the database, proceeding.")
+
 print("Loading headers...")
 headers = loadHeaders("headers.json")
 print("...headers loaded.")
@@ -131,9 +144,19 @@ print("...DB config loaded.")
 print("Getting Player ID...")
 #playerId = int(input("Enter the Player ID:  "))
 playerId = 50870
+#playerId = 6068
 print(f"You entered: {playerId}.")
 
+# Connect once for lookups and load
+conn = psycopg2.connect(
+    host=db["host"],
+    port=db["port"],
+    dbname=db["dbname"],
+    user=db["user"],
+    password=db["password"],
+)
 
+playerLookup(conn, playerId)
 
 print(f"Building the dicitonary for {playerId}...")
 player = getPlayerProfile(headers, playerId)
@@ -146,14 +169,7 @@ positionname = player.get(playerId).get("position")
 print(birthcountryname)
 print(nationalityname)
 print(positionname)
-# Connect once for lookups and load
-conn = psycopg2.connect(
-    host=db["host"],
-    port=db["port"],
-    dbname=db["dbname"],
-    user=db["user"],
-    password=db["password"],
-)
+
 with conn:
     # Map birthcountry name to code in database and replace dict value
     print("Map birthcountry name to code in database and replace dict value...")
