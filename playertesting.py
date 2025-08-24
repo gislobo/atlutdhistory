@@ -56,6 +56,23 @@ def load_db_config(config_path="dbConfig.json"):
     }
 
 
+def extract_position_name(stats):
+    """
+    stats: list of statistics objects from the API
+    Returns the first non-empty position found in any stats[i].games.position (fallback to stats[i].position if present).
+    """
+    if not stats:
+        return None
+    for s in stats:
+        if not s:
+            continue
+        games = (s.get("games") or {})
+        pos = games.get("position") or s.get("position")
+        if pos and str(pos).strip():
+            return pos
+    return None
+
+
 def fetch_player_profiles(headers, player_ids):
     """
     player_ids: list[int]
@@ -81,11 +98,8 @@ def fetch_player_profiles(headers, player_ids):
             p = item.get("player", {}) or {}
             birth = p.get("birth", {}) or {}
             stats = item.get("statistics") or []
-            # Try to get a position from statistics[0].games.position
-            position_name = None
-            if stats:
-                games = (stats[0] or {}).get("games") or {}
-                position_name = games.get("position") or None
+            # CHANGED: find the first available position across all statistics entries
+            position_name = extract_position_name(stats)
 
             normalized.append(
                 {
