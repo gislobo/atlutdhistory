@@ -168,6 +168,38 @@ def buildDictionary(conn, playerId):
         player[playerId]["position"] = positionId
         print(player)
 
+    sql = """
+        INSERT INTO public.player (apifootballid, \
+                                   firstname, \
+                                   lastname, \
+                                   birthdate, \
+                                   birthplace, \
+                                   birthcountrycode, \
+                                   nationality, \
+                                   heightcm, \
+                                   weightkg, \
+                                   position) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
+    """
+    params = (
+        playerId,
+        player[playerId]["firstname"],
+        player[playerId]["lastname"],
+        player[playerId]["birthdate"],
+        player[playerId]["birthplace"],
+        player[playerId]["birthcountrycode"],
+        player[playerId]["nationality"],
+        player[playerId]["heightcm"],
+        player[playerId]["weightkg"],
+        player[playerId]["position"],
+    )
+
+    with conn:
+        with conn.cursor() as cur:
+            cur.execute(sql, params)
+            newId = cur.fetchone()[0]
+            print(f"Player {playerId} inserted with id {newId}.")
+
 print("Loading headers...")
 headers = loadHeaders("headers.json")
 print("...headers loaded.")
@@ -176,8 +208,8 @@ db = loadDbConfig("dbConfig.json")
 print("...DB config loaded.")
 
 print("Getting Player ID...")
-#playerId = int(input("Enter the Player ID:  "))
-playerId = 50870
+playerId = int(input("Enter the Player ID:  "))
+#playerId = 50870
 #playerId = 6068
 print(f"You entered: {playerId}.")
 
@@ -192,5 +224,5 @@ conn = psycopg2.connect(
 
 playerLookup(conn, playerId)
 
-#buildDictionary(conn, playerId)
+
 
