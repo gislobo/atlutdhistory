@@ -133,6 +133,40 @@ def playerLookup(conn, playerId):
         sys.exit(0)
     else:
         print(f"Player {playerId} is not in the database, proceeding.")
+        buildDictionary(conn, playerId)
+
+
+def buildDictionary(conn, playerId):
+    print(f"Building the dicitonary for {playerId}...")
+    player = getPlayerProfile(headers, playerId)
+    print("...dictionary built.")
+    print("Replacing birthcountry and nationality with codes from database...")
+    # print(player.get(playerId).get("position"))
+    birthcountryname = player.get(playerId).get("birthcountrycode")
+    nationalityname = player.get(playerId).get("nationality")
+    positionname = player.get(playerId).get("position")
+    print(birthcountryname)
+    print(nationalityname)
+    print(positionname)
+
+    with conn:
+        # Map birthcountry name to code in database and replace dict value
+        print("Map birthcountry name to code in database and replace dict value...")
+        birthCountryCodeMap = applyCountryCodes(conn, birthcountryname)
+        birthCountryCode = next(iter(birthCountryCodeMap.values()))
+        player[playerId]["birthcountrycode"] = birthCountryCode
+        print("...done.")
+        # Map nationality name to code in database and replace dict value
+        print("Map nationality name to code in database and replace dict value...")
+        nationalityCodeMap = applyCountryCodes(conn, nationalityname)
+        nationalityCountryCode = next(iter(nationalityCodeMap.values()))
+        player[playerId]["nationality"] = nationalityCountryCode
+        print("...done.")
+
+        positionId = getPositionId(conn, positionname)
+        print(positionId)
+        player[playerId]["position"] = positionId
+        print(player)
 
 print("Loading headers...")
 headers = loadHeaders("headers.json")
@@ -158,33 +192,5 @@ conn = psycopg2.connect(
 
 playerLookup(conn, playerId)
 
-print(f"Building the dicitonary for {playerId}...")
-player = getPlayerProfile(headers, playerId)
-print("...dictionary built.")
-print("Replacing birthcountry and nationality with codes from database...")
-#print(player.get(playerId).get("position"))
-birthcountryname = player.get(playerId).get("birthcountrycode")
-nationalityname = player.get(playerId).get("nationality")
-positionname = player.get(playerId).get("position")
-print(birthcountryname)
-print(nationalityname)
-print(positionname)
+#buildDictionary(conn, playerId)
 
-with conn:
-    # Map birthcountry name to code in database and replace dict value
-    print("Map birthcountry name to code in database and replace dict value...")
-    birthCountryCodeMap = applyCountryCodes(conn, birthcountryname)
-    birthCountryCode = next(iter(birthCountryCodeMap.values()))
-    player[playerId]["birthcountrycode"] = birthCountryCode
-    print("...done.")
-    # Map nationality name to code in database and replace dict value
-    print("Map nationality name to code in database and replace dict value...")
-    nationalityCodeMap = applyCountryCodes(conn, nationalityname)
-    nationalityCountryCode = next(iter(nationalityCodeMap.values()))
-    player[playerId]["nationality"] = nationalityCountryCode
-    print("...done.")
-
-    positionId = getPositionId(conn, positionname)
-    print(positionId)
-    player[playerId]["position"] = positionId
-    print(player)
