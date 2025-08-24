@@ -23,7 +23,7 @@ def loadDbConfig(configPath="dbConfig.json"):
     }
 
 
-def fetchPlayerProfile(headers, playerId):
+def getPlayerProfile(headers, playerId):
     conn = http.client.HTTPSConnection("v3.football.api-sports.io")
     path = f"/players/profiles?player={playerId}"
     normalized = {}
@@ -54,7 +54,6 @@ def fetchPlayerProfile(headers, playerId):
             "weightkg": parseHeightWeight(p.get("weight")),
             "position": p.get("position")
         }
-
     conn.close()
     return normalized
 
@@ -68,6 +67,60 @@ def parseHeightWeight(str):
         return None
 
 
+def applyCountryCodes(conn, country):
+    countryClean = normalizeName(country)
+    print(f"Looking up {countryClean}...")
+
+    with conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT LOWER(name) AS lname, code
+            FROM public.country
+            WHERE LOWER(name) = %s
+            """,
+            (countryClean,)
+        )
+        rows = cur.fetchall()
+    return {lname: code for lname, code in rows}
+
+
+def normalizeName(s: str | None) -> str | None:
+    if s and s.strip():
+        return s.strip().lower()
+    return None
+
+
+def getPositionId(conn, positionname):
+    print(f"Looking up {positionname}...")
+
+    with conn.cursor() as cur:
+        cur.execute("SELECT position FROM public.position")
+        rows = cur.fetchall()
+    existingPositions = {row[0] for row in rows if row[0] is not None}
+    if positionname in existingPositions:
+        print(f"Position {positionname} is already in the database.")
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT id
+                FROM public.position
+                WHERE position = %s
+                """,
+                (positionname,)
+            )
+            positionId = cur.fetchone()[0]
+            return positionId
+    else:
+        print(f"Position {positionname} is not in the database.")
+        with conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO public.position (position) VALUES (%s) RETURNING id",
+                (positionname,),
+            )
+            positionId = cur.fetchone()[0]
+            return positionId
+
+
 print("Loading headers...")
 headers = loadHeaders("headers.json")
 print("...headers loaded.")
@@ -77,7 +130,45 @@ print("...DB config loaded.")
 
 print("Getting Player ID...")
 #playerId = int(input("Enter the Player ID:  "))
-playerId = 6068
+playerId = 50870
 print(f"You entered: {playerId}.")
-player = fetchPlayerProfile(headers, playerId)
-print(player.get(playerId).get("position"))
+
+
+
+print(f"Building the dicitonary for {playerId}...")
+player = getPlayerProfile(headers, playerId)
+print("...dictionary built.")
+print("Replacing birthcountry and nationality with codes from database...")
+#print(player.get(playerId).get("position"))
+birthcountryname = player.get(playerId).get("birthcountrycode")
+nationalityname = player.get(playerId).get("nationality")
+positionname = player.get(playerId).get("position")
+print(birthcountryname)
+print(nationalityname)
+print(positionname)
+# Connect once for lookups and load
+conn = psycopg2.connect(
+    host=db["host"],
+    port=db["port"],
+    dbname=db["dbname"],
+    user=db["user"],
+    password=db["password"],
+)
+with conn:
+    # Map birthcountry name to code in database and replace dict value
+    print("Map birthcountry name to code in database and replace dict value...")
+    birthCountryCodeMap = applyCountryCodes(conn, birthcountryname)
+    birthCountryCode = next(iter(birthCountryCodeMap.values()))
+    player[playerId]["birthcountrycode"] = birthCountryCode
+    print("...done.")
+    # Map nationality name to code in database and replace dict value
+    print("Map nationality name to code in database and replace dict value...")
+    nationalityCodeMap = applyCountryCodes(conn, nationalityname)
+    nationalityCountryCode = next(iter(nationalityCodeMap.values()))
+    player[playerId]["nationality"] = nationalityCountryCode
+    print("...done.")
+
+    positionId = getPositionId(conn, positionname)
+    print(positionId)
+    player[playerId]["position"] = positionId
+    print(player)
