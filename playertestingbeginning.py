@@ -20,6 +20,37 @@ def loadDbConfig(configPath="dbConfig.json"):
     }
 
 
+def getPlayers(headers, playerIds):
+    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
+    path = f"/fixtures?id=147926"
+
+    conn.request("GET", path, headers=headers)
+    res = conn.getresponse()
+    raw = res.read()
+
+    payload = json.loads(raw.decode("utf-8"))
+    print(payload)
+
+    for item in payload.get("response", []):
+        lineups = item.get("lineups") or []
+        if not isinstance(lineups, list):
+            continue
+        for lineup in lineups:
+            # Extract starters
+            for s in (lineup.get("startXI") or []):
+                player = (s or {}).get("player") or {}
+                pid = player.get("id")
+                if pid and pid not in playerIds:
+                    playerIds.append(pid)
+            # Extract substitutes
+            for s in (lineup.get("substitutes") or []):
+                player = (s or {}).get("player") or {}
+                pid = player.get("id")
+                if pid and pid not in playerIds:
+                    playerIds.append(pid)
+    conn.close()
+
+
 def getPlayerProfile(headers, playerId):
     conn = http.client.HTTPSConnection("v3.football.api-sports.io")
     path = f"/players/profiles?player={playerId}"
@@ -209,8 +240,9 @@ print("Getting Player IDs...")
 #playerId = 6068
 #print(f"You entered: {playerId}.")
 #playerIds = [103046, 2460, 6068]
-
-
+playerIds = []
+getPlayers(headers, playerIds)
+print(playerIds)
 
 # Connect once for lookups and load
 conn = psycopg2.connect(
