@@ -1,11 +1,7 @@
-import os
 import http.client
 import json
-import urllib.parse
-from datetime import datetime
 import psycopg2
-from psycopg2.extras import execute_values
-import sys
+
 
 def loadHeaders(headersPath="headers.json"):
     with open(headersPath, "r", encoding="utf-8") as f:
@@ -130,7 +126,7 @@ def playerLookup(conn, playerId):
 
     if playerId in existingPlayers:
         print(f"Player {playerId} is already in the database, no need to proceed.")
-        sys.exit(0)
+        return
     else:
         print(f"Player {playerId} is not in the database, proceeding.")
         buildDictionary(conn, playerId)
@@ -207,11 +203,14 @@ print("Loading DB config...")
 db = loadDbConfig("dbConfig.json")
 print("...DB config loaded.")
 
-print("Getting Player ID...")
-playerId = int(input("Enter the Player ID:  "))
+print("Getting Player IDs...")
+#playerId = int(input("Enter the Player ID:  "))
 #playerId = 50870
 #playerId = 6068
-print(f"You entered: {playerId}.")
+#print(f"You entered: {playerId}.")
+#playerIds = [103046, 2460, 6068]
+
+
 
 # Connect once for lookups and load
 conn = psycopg2.connect(
@@ -222,7 +221,8 @@ conn = psycopg2.connect(
     password=db["password"],
 )
 
-playerLookup(conn, playerId)
+for playerId in playerIds:
+    playerLookup(conn, playerId)
 
 
 
