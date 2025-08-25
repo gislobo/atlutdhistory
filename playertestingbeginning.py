@@ -1,6 +1,7 @@
 import http.client
 import json
 import psycopg2
+import unicodedata
 
 
 def loadHeaders(headersPath="headers.json"):
@@ -96,17 +97,54 @@ def parseHeightWeight(str):
 
 
 def applyCountryCodes(conn, country):
-    countryClean = normalizeName(country)
-    print(f"Looking up {countryClean}...")
+    def country_lookup_candidates(name):
+        if not name:
+            return []
+        s = str(name).strip()
+        candidates = set()
+
+        def add(v):
+            if v and v.strip():
+                candidates.add(" ".join(v.strip().lower().split()))
+
+        # Base
+        add(s)
+        # Hyphen/space variants
+        add(s.replace("-", " "))
+        add(s.replace(" ", "-"))
+        # Remove punctuation except hyphens
+        s_no_punct = "".join(ch for ch in s if ch.isalnum() or ch.isspace() or ch == "-")
+        add(s_no_punct)
+        add(s_no_punct.replace("-", " "))
+        add(s_no_punct.replace(" ", "-"))
+        # Accent fold
+        s_ascii = unicodedata.normalize("NFKD", s)
+        s_ascii = "".join(ch for ch in s_ascii if not unicodedata.combining(ch))
+        add(s_ascii)
+        add(s_ascii.replace("-", " "))
+        add(s_ascii.replace(" ", "-"))
+
+        # Special-case: Republic of Ireland -> also match Ireland
+        s_lower_spaces = " ".join(s.strip().lower().replace("-", " ").split())
+        if "republic of ireland" in s_lower_spaces:
+            add("ireland")
+
+        return sorted(candidates)
+
+    candidates = country_lookup_candidates(country)
+    print(f"Looking up candidates: {candidates!r}")
+
+    if not candidates:
+        return {}
 
     with conn.cursor() as cur:
         cur.execute(
             """
             SELECT LOWER(name) AS lname, code
             FROM public.country
-            WHERE LOWER(name) = %s
+            WHERE LOWER(name) = ANY(%s)
             """,
-            (countryClean,)
+            (candidates,)
         )
         rows = cur.fetchall()
     return {lname: code for lname, code in rows}
@@ -180,13 +218,21 @@ def buildDictionary(conn, playerId):
         # Map birthcountry name to code in database and replace dict value
         print("Map birthcountry name to code in database and replace dict value...")
         birthCountryCodeMap = applyCountryCodes(conn, birthcountryname)
-        birthCountryCode = next(iter(birthCountryCodeMap.values()))
+        if birthCountryCodeMap:
+            birthCountryCode = next(iter(birthCountryCodeMap.values()))
+        else:
+            birthCountryCode = None  # keep NULL if not found
+            print(f"Warning: No match found for birth country '{birthcountryname}'. Leaving NULL.")
         player[playerId]["birthcountrycode"] = birthCountryCode
         print("...done.")
         # Map nationality name to code in database and replace dict value
         print("Map nationality name to code in database and replace dict value...")
         nationalityCodeMap = applyCountryCodes(conn, nationalityname)
-        nationalityCountryCode = next(iter(nationalityCodeMap.values()))
+        if nationalityCodeMap:
+            nationalityCountryCode = next(iter(nationalityCodeMap.values()))
+        else:
+            nationalityCountryCode = None  # keep NULL if not found
+            print(f"Warning: No match found for nationality '{nationalityname}'. Leaving NULL.")
         player[playerId]["nationality"] = nationalityCountryCode
         print("...done.")
 
