@@ -21,9 +21,10 @@ def loadDbConfig(configPath="dbConfig.json"):
     }
 
 
-def getPlayers(headers, playerIds):
+def getReferee(headers):
     conn = http.client.HTTPSConnection("v3.football.api-sports.io")
-    path = f"/fixtures?id=147926"
+    fixtureId = int(input("Enter the Fixture ID:  "))
+    path = f"/fixtures?id={fixtureId}"
 
     conn.request("GET", path, headers=headers)
     res = conn.getresponse()
@@ -33,23 +34,40 @@ def getPlayers(headers, playerIds):
     print(payload)
 
     for item in payload.get("response", []):
-        lineups = item.get("lineups") or []
-        if not isinstance(lineups, list):
-            continue
-        for lineup in lineups:
-            # Extract starters
-            for s in (lineup.get("startXI") or []):
-                player = (s or {}).get("player") or {}
-                pid = player.get("id")
-                if pid and pid not in playerIds:
-                    playerIds.append(pid)
-            # Extract substitutes
-            for s in (lineup.get("substitutes") or []):
-                player = (s or {}).get("player") or {}
-                pid = player.get("id")
-                if pid and pid not in playerIds:
-                    playerIds.append(pid)
+        fixture = item.get("fixture") or {}
+        refereeRaw = fixture.get("referee")
+        if refereeRaw:
+            parts = [p.strip() for p in refereeRaw.split(",")]
+            referee = parts[0] if len(parts) > 0 and parts[0] else None
+            refereeCountry = parts[1] if len(parts) > 1 and parts[1] else None
+        else:
+            referee = None
+            refereeCountry = None
+        print(f"Referee: {referee}, Country: {refereeCountry}")
+
     conn.close()
+
+    return referee, refereeCountry
+
+
+
+        # lineups = item.get("lineups") or []
+        # if not isinstance(lineups, list):
+        #     continue
+        # for lineup in lineups:
+        #     # Extract starters
+        #     for s in (lineup.get("startXI") or []):
+        #         player = (s or {}).get("player") or {}
+        #         pid = player.get("id")
+        #         if pid and pid not in playerIds:
+        #             playerIds.append(pid)
+        #     # Extract substitutes
+        #     for s in (lineup.get("substitutes") or []):
+        #         player = (s or {}).get("player") or {}
+        #         pid = player.get("id")
+        #         if pid and pid not in playerIds:
+        #             playerIds.append(pid)
+    #conn.close()
 
 
 def getPlayerProfile(headers, playerId):
@@ -81,7 +99,7 @@ def getPlayerProfile(headers, playerId):
             "nationality": p.get("nationality"),
             "heightcm": parseHeightWeight(p.get("height")),
             "weightkg": parseHeightWeight(p.get("weight")),
-            "position": p.get("position")
+            #"position": p.get("position")
         }
     conn.close()
     return normalized
@@ -209,10 +227,10 @@ def buildDictionary(conn, playerId):
     # print(player.get(playerId).get("position"))
     birthcountryname = player.get(playerId).get("birthcountrycode")
     nationalityname = player.get(playerId).get("nationality")
-    positionname = player.get(playerId).get("position")
+    #positionname = player.get(playerId).get("position")
     print(birthcountryname)
     print(nationalityname)
-    print(positionname)
+    #print(positionname)
 
     with conn:
         # Map birthcountry name to code in database and replace dict value
@@ -236,9 +254,9 @@ def buildDictionary(conn, playerId):
         player[playerId]["nationality"] = nationalityCountryCode
         print("...done.")
 
-        positionId = getPositionId(conn, positionname)
-        print(positionId)
-        player[playerId]["position"] = positionId
+        # positionId = getPositionId(conn, positionname)
+        # print(positionId)
+        # player[playerId]["position"] = positionId
         print(player)
 
     sql = """
@@ -250,9 +268,8 @@ def buildDictionary(conn, playerId):
                                    birthcountrycode, \
                                    nationality, \
                                    heightcm, \
-                                   weightkg, \
-                                   position) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
+                                   weightkg) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
     """
     params = (
         playerId,
@@ -264,7 +281,7 @@ def buildDictionary(conn, playerId):
         player[playerId]["nationality"],
         player[playerId]["heightcm"],
         player[playerId]["weightkg"],
-        player[playerId]["position"],
+       # player[playerId]["position"],
     )
 
     with conn:
@@ -280,15 +297,17 @@ print("Loading DB config...")
 db = loadDbConfig("dbConfig.json")
 print("...DB config loaded.")
 
-print("Getting Player IDs...")
-#playerId = int(input("Enter the Player ID:  "))
-#playerId = 50870
-#playerId = 6068
-#print(f"You entered: {playerId}.")
-#playerIds = [103046, 2460, 6068]
-playerIds = []
-getPlayers(headers, playerIds)
-print(playerIds)
+print("Getting Referee...")
+# #playerId = int(input("Enter the Player ID:  "))
+# #playerId = 50870
+# #playerId = 6068
+# #print(f"You entered: {playerId}.")
+# #playerIds = [103046, 2460, 6068]
+# playerIds = []
+# getPlayers(headers, playerIds)
+# print(playerIds)
+referee, refereeCountry = getReferee(headers)
+print(f"Referee: {referee}, Country: {refereeCountry}")
 
 # Connect once for lookups and load
 conn = psycopg2.connect(
@@ -299,8 +318,8 @@ conn = psycopg2.connect(
     password=db["password"],
 )
 
-for playerId in playerIds:
-    playerLookup(conn, playerId)
+# for playerId in playerIds:
+#     playerLookup(conn, playerId)
 
 
 
