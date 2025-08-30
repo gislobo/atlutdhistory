@@ -4,11 +4,13 @@ import psycopg2
 import unicodedata
 
 
+#used
 def loadHeaders(headersPath="headers.json"):
     with open(headersPath, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
+#used
 def loadDbConfig(configPath="dbConfig.json"):
     with open(configPath, "r", encoding="utf-8") as f:
         cfg = json.load(f)
@@ -21,9 +23,13 @@ def loadDbConfig(configPath="dbConfig.json"):
     }
 
 
+#used
 def getReferee(headers):
     conn = http.client.HTTPSConnection("v3.football.api-sports.io")
-    fixtureId = int(input("Enter the Fixture ID:  "))
+    #fixtureId = int(input("Enter the Fixture ID:  "))
+    #fixtureId = 147926
+    #fixtureId = 147915
+    fixtureId = 147936
     path = f"/fixtures?id={fixtureId}"
 
     conn.request("GET", path, headers=headers)
@@ -43,7 +49,7 @@ def getReferee(headers):
         else:
             referee = None
             refereeCountry = None
-        print(f"Referee: {referee}, Country: {refereeCountry}")
+        #print(f"Referee: {referee}, Country: {refereeCountry}")
 
     conn.close()
 
@@ -205,18 +211,84 @@ def getPositionId(conn, positionname):
             return positionId
 
 
-def playerLookup(conn, playerId):
+#used
+def refereeLookup(conn, r):
     with conn.cursor() as cur:
-        cur.execute("SELECT apifootballid FROM public.player")
+        cur.execute("SELECT concat_ws(' ', firstname, lastname) as fullname FROM public.referee")
         rows = cur.fetchall()
-    existingPlayers = {row[0] for row in rows if row[0] is not None}
+    existingReferees = {row[0] for row in rows if row[0] is not None}
+    print(existingReferees)
 
-    if playerId in existingPlayers:
-        print(f"Player {playerId} is already in the database, no need to proceed.")
+    if r in existingReferees:
+        print(f"Referee {r} is already in the database, exiting.")
+        return
+    elif r is None:
+        print(f"Referee is None ({r}), exiting.")
         return
     else:
-        print(f"Player {playerId} is not in the database, proceeding.")
-        buildDictionary(conn, playerId)
+        print(f"Referee {r} is not in the database, proceeding.")
+        firstname, lastname = splitFullName(r)
+        print(f"Firstname: {firstname}, Lastname: {lastname}")
+        #buildDictionary(conn, r)
+
+
+    # if playerId in existingPlayers:
+    #     print(f"Player {playerId} is already in the database, no need to proceed.")
+    #     return
+    # else:
+    #     print(f"Player {playerId} is not in the database, proceeding.")
+    #     buildDictionary(conn, playerId)
+
+
+#used
+# Python
+def splitFullName(fullname: str) -> tuple[str | None, str | None]:
+    if not fullname or not fullname.strip():
+        return None, None
+
+    # Normalize whitespace
+    tokens = fullname.strip().split()
+
+    # Single token
+    if len(tokens) == 1:
+        return tokens[0], None
+
+    # Common suffixes (case-insensitive, with punctuation ignored)
+    suffixes = {"jr", "sr", "ii", "iii", "iv", "v", "phd", "md", "esq"}
+    def norm(t: str) -> str:
+        return "".join(ch for ch in t.lower() if ch.isalnum())
+
+    # Strip trailing suffixes
+    while len(tokens) > 1 and norm(tokens[-1]) in suffixes:
+        tokens.pop()
+
+    # If everything got stripped to one token
+    if len(tokens) == 1:
+        return tokens[0], None
+
+    # Surname particles that often belong with the last name
+    particles = {"da", "de", "del", "della", "der", "di", "dos", "du", "la", "le",
+                 "van", "von", "bin", "al", "ibn", "mac", "mc", "st", "st.", "ter"}
+
+    # Start with last token as core last name
+    lastParts = [tokens[-1]]
+
+    # Pull preceding particles into the last name
+    i = len(tokens) - 2
+    while i >= 1 and norm(tokens[i]) in particles:
+        lastParts.insert(0, tokens[i])
+        i -= 1
+
+    firstname = tokens[0]
+    lastname = " ".join(lastParts) if lastParts else None
+
+    # If anything remains between first and lastParts, treat as middle names; attach to last name
+    if i >= 1:
+        middle = " ".join(tokens[1:i+1])
+        lastname = f"{middle} {lastname}" if lastname else middle
+
+    return firstname, lastname
+
 
 
 def buildDictionary(conn, playerId):
@@ -298,14 +370,6 @@ db = loadDbConfig("dbConfig.json")
 print("...DB config loaded.")
 
 print("Getting Referee...")
-# #playerId = int(input("Enter the Player ID:  "))
-# #playerId = 50870
-# #playerId = 6068
-# #print(f"You entered: {playerId}.")
-# #playerIds = [103046, 2460, 6068]
-# playerIds = []
-# getPlayers(headers, playerIds)
-# print(playerIds)
 referee, refereeCountry = getReferee(headers)
 print(f"Referee: {referee}, Country: {refereeCountry}")
 
@@ -317,6 +381,9 @@ conn = psycopg2.connect(
     user=db["user"],
     password=db["password"],
 )
+
+refereeLookup(conn, referee)
+
 
 # for playerId in playerIds:
 #     playerLookup(conn, playerId)
