@@ -49,31 +49,8 @@ def getReferee(headers):
         else:
             referee = None
             refereeCountry = None
-        #print(f"Referee: {referee}, Country: {refereeCountry}")
-
     conn.close()
-
     return referee, refereeCountry
-
-
-
-        # lineups = item.get("lineups") or []
-        # if not isinstance(lineups, list):
-        #     continue
-        # for lineup in lineups:
-        #     # Extract starters
-        #     for s in (lineup.get("startXI") or []):
-        #         player = (s or {}).get("player") or {}
-        #         pid = player.get("id")
-        #         if pid and pid not in playerIds:
-        #             playerIds.append(pid)
-        #     # Extract substitutes
-        #     for s in (lineup.get("substitutes") or []):
-        #         player = (s or {}).get("player") or {}
-        #         pid = player.get("id")
-        #         if pid and pid not in playerIds:
-        #             playerIds.append(pid)
-    #conn.close()
 
 
 def getPlayerProfile(headers, playerId):
@@ -120,6 +97,7 @@ def parseHeightWeight(str):
         return None
 
 
+#used
 def applyCountryCodes(conn, country):
     def country_lookup_candidates(name):
         if not name:
@@ -219,29 +197,23 @@ def refereeLookup(conn, r):
     existingReferees = {row[0] for row in rows if row[0] is not None}
     print(existingReferees)
 
+    addToDb = True
     if r in existingReferees:
         print(f"Referee {r} is already in the database, exiting.")
-        return
+        addToDb = False
+        return addToDb, addToDb
     elif r is None:
         print(f"Referee is None ({r}), exiting.")
-        return
+        addToDb = False
+        return addToDb, r
     else:
         print(f"Referee {r} is not in the database, proceeding.")
-        firstname, lastname = splitFullName(r)
-        print(f"Firstname: {firstname}, Lastname: {lastname}")
-        #buildDictionary(conn, r)
-
-
-    # if playerId in existingPlayers:
-    #     print(f"Player {playerId} is already in the database, no need to proceed.")
-    #     return
-    # else:
-    #     print(f"Player {playerId} is not in the database, proceeding.")
-    #     buildDictionary(conn, playerId)
+        first, last = splitFullName(r)
+        print(f"Firstname: {first}, Lastname: {last}")
+        return first, last
 
 
 #used
-# Python
 def splitFullName(fullname: str) -> tuple[str | None, str | None]:
     if not fullname or not fullname.strip():
         return None, None
@@ -290,77 +262,27 @@ def splitFullName(fullname: str) -> tuple[str | None, str | None]:
     return firstname, lastname
 
 
-
-def buildDictionary(conn, playerId):
-    print(f"Building the dicitonary for {playerId}...")
-    player = getPlayerProfile(headers, playerId)
-    print("...dictionary built.")
-    print("Replacing birthcountry and nationality with codes from database...")
-    # print(player.get(playerId).get("position"))
-    birthcountryname = player.get(playerId).get("birthcountrycode")
-    nationalityname = player.get(playerId).get("nationality")
-    #positionname = player.get(playerId).get("position")
-    print(birthcountryname)
-    print(nationalityname)
-    #print(positionname)
-
-    with conn:
-        # Map birthcountry name to code in database and replace dict value
-        print("Map birthcountry name to code in database and replace dict value...")
-        birthCountryCodeMap = applyCountryCodes(conn, birthcountryname)
-        if birthCountryCodeMap:
-            birthCountryCode = next(iter(birthCountryCodeMap.values()))
-        else:
-            birthCountryCode = None  # keep NULL if not found
-            print(f"Warning: No match found for birth country '{birthcountryname}'. Leaving NULL.")
-        player[playerId]["birthcountrycode"] = birthCountryCode
-        print("...done.")
-        # Map nationality name to code in database and replace dict value
-        print("Map nationality name to code in database and replace dict value...")
-        nationalityCodeMap = applyCountryCodes(conn, nationalityname)
-        if nationalityCodeMap:
-            nationalityCountryCode = next(iter(nationalityCodeMap.values()))
-        else:
-            nationalityCountryCode = None  # keep NULL if not found
-            print(f"Warning: No match found for nationality '{nationalityname}'. Leaving NULL.")
-        player[playerId]["nationality"] = nationalityCountryCode
-        print("...done.")
-
-        # positionId = getPositionId(conn, positionname)
-        # print(positionId)
-        # player[playerId]["position"] = positionId
-        print(player)
-
+#used
+def insertRef(first, last, code):
     sql = """
-        INSERT INTO public.player (apifootballid, \
-                                   firstname, \
+        INSERT INTO public.referee (firstname, \
                                    lastname, \
-                                   birthdate, \
-                                   birthplace, \
-                                   birthcountrycode, \
-                                   nationality, \
-                                   heightcm, \
-                                   weightkg) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
+                                   countrycode) 
+            VALUES (%s, %s, %s) RETURNING id
     """
     params = (
-        playerId,
-        player[playerId]["firstname"],
-        player[playerId]["lastname"],
-        player[playerId]["birthdate"],
-        player[playerId]["birthplace"],
-        player[playerId]["birthcountrycode"],
-        player[playerId]["nationality"],
-        player[playerId]["heightcm"],
-        player[playerId]["weightkg"],
-       # player[playerId]["position"],
+        first,
+        last,
+        code,
     )
 
     with conn:
         with conn.cursor() as cur:
             cur.execute(sql, params)
             newId = cur.fetchone()[0]
-            print(f"Player {playerId} inserted with id {newId}.")
+            print(f"Ref inserted with id {newId}.")
+    return newId
+
 
 print("Loading headers...")
 headers = loadHeaders("headers.json")
@@ -382,11 +304,21 @@ conn = psycopg2.connect(
     password=db["password"],
 )
 
-refereeLookup(conn, referee)
+firstname, lastname = refereeLookup(conn, referee)
+refId = 0
+if firstname:
+    print(f"Proceeding....")
+    refereeCountryCodeMap = applyCountryCodes(conn, refereeCountry)
+    print(refereeCountryCodeMap)
+    refereeCountryCode = None
+    if refereeCountryCodeMap:
+        refereeCountryCode = next(iter(refereeCountryCodeMap.values()))
+        print(f"Referee Country Code: {refereeCountryCode}")
+    refId = insertRef(firstname, lastname, refereeCountryCode)
+elif lastname is None:
+    refId = 1
+else:
 
-
-# for playerId in playerIds:
-#     playerLookup(conn, playerId)
-
+print(refId)
 
 
