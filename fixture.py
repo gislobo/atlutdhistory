@@ -188,6 +188,14 @@ def refereeWork(f, conn):
     return refId
 
 
+def venueWork(f, conn):
+    #Get venue api id
+    venueRaw = f.get("venue")
+    print(f"Venue: {venueRaw}")
+
+
+
+
 
 
 # Load headers from json file for use in api requests
@@ -201,10 +209,10 @@ db = loadDbConfig("dbConfig.json")
 print("...DB config loaded.")
 
 # Get fixture id, store it as a variable
-fixtureId = int(input("Enter the fixture ID:  "))
+#fixtureId = int(input("Enter the fixture ID:  "))
 #fixtureId = 147926
 #fixtureId = 147915
-#fixtureId = 147936
+fixtureId = 147936
 # Store path to fixture info in a variable, to be used w/ connection information
 path = f"/fixtures?id={fixtureId}"
 
@@ -214,6 +222,7 @@ apiconn.request("GET", path, headers=headers)
 res = apiconn.getresponse()
 raw = res.read()
 payload = json.loads(raw.decode("utf-8"))
+print(payload)
 # Strip out just the fixture info
 fixture = ""
 for item in payload.get("response", []):
@@ -234,3 +243,11 @@ conn = psycopg2.connect(
 refereeId = refereeWork(fixture, conn)
 print(f"The referee id is {refereeId}.")
 
+# Need to do venue before date and time
+venueId = venueWork(fixture, conn)
+print(f"The venue id is {venueId}.")
+
+
+# Looking into the date and time info
+# utcdatetime = fixture.get("date")
+# print(f"The date and time is {utcdatetime}.")

@@ -24,6 +24,9 @@ def loadDbConfig(configPath="dbConfig.json"):
 def getPlayers(headers, playerIds):
     conn = http.client.HTTPSConnection("v3.football.api-sports.io")
     fixtureId = int(input("Enter the Fixture ID:  "))
+    #fixtureId = 147926
+    #fixtureId = 147915
+    #fixtureId = 147936
     path = f"/fixtures?id={fixtureId}"
 
     conn.request("GET", path, headers=headers)
