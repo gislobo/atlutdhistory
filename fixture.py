@@ -192,6 +192,21 @@ def venueWork(f, conn):
     #Get venue api id
     venueRaw = f.get("venue")
     print(f"Venue: {venueRaw}")
+    venueName = venueRaw['name']
+    if venueRaw['id'] is None:
+        print("Venue is None.")
+        # Check to see if Venue already exists anyway
+        with conn.cursor() as cur:
+            cur.execute("SELECT name, id FROM public.venue WHERE apifootballid is NULL")
+            rows = cur.fetchall()
+        existingNoneVenues = {row[0]: row[1] for row in rows if row[0] is not None}
+        print(existingNoneVenues)
+        if venueName in existingNoneVenues:
+            print(f"Venue {venueName} is already in the database, no need to proceed.")
+        else:
+            print("not in db, going to add it in")
+
+
 
 
 
@@ -240,8 +255,8 @@ conn = psycopg2.connect(
 )
 
 # Looking into the referee info
-refereeId = refereeWork(fixture, conn)
-print(f"The referee id is {refereeId}.")
+# refereeId = refereeWork(fixture, conn)
+# print(f"The referee id is {refereeId}.")
 
 # Need to do venue before date and time
 venueId = venueWork(fixture, conn)
