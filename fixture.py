@@ -7,7 +7,7 @@ from geopy.extra.rate_limiter import RateLimiter
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError, GeocoderUnavailable
 from timezonefinderL import TimezoneFinder
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 from typing import Optional, Tuple
 
 
@@ -308,14 +308,40 @@ def venueWork(f, conn): # f is fixture
             surface = input(f"Enter the surface for {venueName}: ")
 
             # create a function that finds and inserts lat and long based on address
-            def geocode_address(a: str) -> tuple[float, float] | None:
+            def geocode_address(a: str) -> Optional[tuple[float, float]]:
                 """
                 Returns (latitude, longitude) in decimal degrees for the given address,
-                or None if not found.
+                or None if not found or on transient network errors.
                 """
-                geolocator = Nominatim(user_agent="gislobo")  # set a descriptive app name
-                geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)  # be polite with OSM
-                location = geocode(address, exactly_one=True, addressdetails=False)
+                address = (a or "").strip()
+                if not address:
+                    return None
+
+                # Configure a descriptive user agent and a sensible timeout per request
+                geolocator = Nominatim(user_agent="atlutdhistory-app/1.0 (contact: youremail@example.com)", timeout=10)
+
+                # RateLimiter helps respect Nominatim usage policy; add retries and error swallowing
+                geocode = RateLimiter(
+                    geolocator.geocode,
+                    min_delay_seconds=1.0,
+                    max_retries=3,  # retry transient failures
+                    error_wait_seconds=2.0,  # wait between retries on errors
+                    swallow_exceptions=False,  # propagate so we can handle specific cases below
+                )
+
+                try:
+                    # exactly_one True returns a single Location or None
+                    location = geocode(address, exactly_one=True, addressdetails=False)
+                except (GeocoderTimedOut, GeocoderUnavailable) as e:
+                    # Network/service transient issue: return None gracefully
+                    return None
+                except GeocoderServiceError:
+                    # Other geopy service errors (e.g., bad response)
+                    return None
+                except Exception:
+                    # Any unexpected error: fail gracefully
+                    return None
+
                 if location is None:
                     return None
                 return location.latitude, location.longitude
@@ -433,6 +459,78 @@ def leaguework(lid, conn):
     return databaseid
 
 
+def insertteam(aid, name, code, fdate):
+    sql = """
+        INSERT INTO public.team (apifootballid, \
+                                 name, \
+                                 countrycode, \
+                                 foundeddate)
+            VALUES (%s, %s, %s, %s) RETURNING id
+    """
+    params = (
+        aid,
+        name,
+        code,
+        fdate,
+    )
+
+    with conn:
+        with conn.cursor() as cur:
+            cur.execute(sql, params)
+            newid = cur.fetchone()[0]
+            print(f"Team inserted with id {newid}.")
+    return newid
+
+
+def teamwork(tid, conn, headers):
+    with conn.cursor() as cur:
+        cur.execute("SELECT id, apifootballid from public.team")
+        rows = cur.fetchall()
+    existingteamsdict = {row[0]: row[1] for row in rows if row[0] is not None}
+    existingteams = list(existingteamsdict.values())
+    #print(f"All existing teams: {existingteams}")
+    databaseid = ""
+    if tid in existingteams:
+        print("Team already exists in database.")
+        databaseid = key_for_value(existingteamsdict, tid)
+    else:
+        print(f"API Team ID {tid} is not in your database.")
+        # do some fancy stuff to put team in database
+        path = f"/teams?id={tid}"
+        apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
+        apiconn.request("GET", path, headers=headers)
+        res = apiconn.getresponse()
+        raw = res.read()
+        payload = json.loads(raw.decode("utf-8"))
+        teaminfo = ""
+        for item in payload.get("response", []):
+            teaminfo = item.get("team") or {}
+        apiconn.close()
+        print(f"API Team ID {tid}: {teaminfo}")
+        name = teaminfo.get("name")
+        country = teaminfo.get("country")
+        teamcountrycodemap = applyCountryCodes(conn, country)
+        teamcountrycode = None
+        if teamcountrycodemap:
+            teamcountrycode = next(iter(teamcountrycodemap.values()))
+        print(f"Team name: {name}")
+        print(f"Team countrycode: {teamcountrycode}")
+        teamfounded = str(teaminfo.get("founded"))
+        # Normalize founded year
+        def coerce_founded_to_date(value):
+            if value is None:
+                return None
+            try:
+                year = int(value)
+                return date(year, 1, 1)
+            except Exception:
+                pass
+            return None
+        foundeddate = coerce_founded_to_date(teamfounded)
+        databaseid = insertteam(tid, name, teamcountrycode, foundeddate)
+    return databaseid
+
+
 
 # Load headers from json file for use in api requests
 print("Loading headers...")
@@ -465,6 +563,7 @@ leagueinfo = ""
 for item in payload.get("response", []):
     fixture = item.get("fixture") or {}
     leagueinfo = item.get("league") or {}
+    teamsinfo = item.get("teams") or {}
 apiconn.close()
 print(fixture)
 
@@ -506,3 +605,13 @@ leagueid = leaguework(leagueapiid, conn)
 print(f"The league id is {leagueid}.")
 
 # Team info
+homeinfo = teamsinfo.get("home") or {}
+awayinfo = teamsinfo.get("away") or {}
+hometeamapiid = homeinfo.get("id")
+awayteamapiid = awayinfo.get("id")
+print(f"Home team api id: {hometeamapiid}.")
+print(f"Away team api id: {awayteamapiid}.")
+hometeamid = teamwork(hometeamapiid, conn, headers)
+awayteamid = teamwork(awayteamapiid, conn, headers)
+print(f"Home team id:  {hometeamid}.")
+print(f"Away team id:  {awayteamid}.")
