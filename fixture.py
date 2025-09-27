@@ -284,7 +284,7 @@ def venueWork(f, conn): # f is fixture
         with conn.cursor() as cur: # creating a list (or dictionary?  tuple?) of all venues where api id is none
             cur.execute("SELECT name, id FROM public.venue WHERE apifootballid is NULL")
             rows = cur.fetchall()
-        # getting just the names of the venues into a list, leaving the gislobo id behind
+        # getting just the names of the venues into a dictionary
         existingNoneVenues = {row[0]: row[1] for row in rows if row[0] is not None}
         print(f"All existing venues w/o api id:  {existingNoneVenues}")
         if venueName in existingNoneVenues: # running through the list to see if venue name is in the list
@@ -405,6 +405,31 @@ def to_tz_from_utc(utc_dt, target_tz: str) -> datetime:
     return dt.astimezone(tz)
 
 
+def key_for_value(d, value):
+    for k, v in d.items():
+        if v == value:
+            return k
+    return None
+
+
+def leaguework(lid, conn):
+    with conn.cursor() as cur:
+        cur.execute("SELECT id, apifootballid from public.league")
+        rows = cur.fetchall()
+    existingleaguesdict = {row[0]: row[1] for row in rows if row[0] is not None}
+    existingleagues = list(existingleaguesdict.values())
+    print(f"All existing leagues: {existingleagues}")
+    databaseid = ""
+    if lid in existingleagues:
+        print(f"Yes, {lid}")
+        databaseid = key_for_value(existingleaguesdict, lid)
+    else:
+        print(f"API League ID {lid} is not in your database.")
+        print("Please insert it and then give me the number.")
+        databaseid = int(input("Enter the league ID:  "))
+    return databaseid
+
+
 
 # Load headers from json file for use in api requests
 print("Loading headers...")
@@ -433,8 +458,10 @@ payload = json.loads(raw.decode("utf-8"))
 print(payload)
 # Strip out just the fixture info
 fixture = ""
+leagueinfo = ""
 for item in payload.get("response", []):
     fixture = item.get("fixture") or {}
+    leagueinfo = item.get("league") or {}
 apiconn.close()
 print(fixture)
 
@@ -460,5 +487,22 @@ print(f"The timezone is {fixturetimezone}.")
 # Looking into the date and time info
 utcdatetime = fixture.get("date")
 localtime = to_tz_from_utc(utcdatetime, fixturetimezone)
-print(utcdatetime)
-print(localtime)
+atlantatime = ""
+atlantatimezone = "America/New_York"
+if fixturetimezone == atlantatimezone:
+    atlantatime = localtime
+else:
+    atlantatime = to_tz_from_utc(utcdatetime, atlantatimezone)
+print(f"UTC date/time:  {utcdatetime}.")
+print(f"Local time:  {localtime}.")
+print(f"Atlanta time:  {atlantatime}.")
+
+
+# League info
+leagueapiid = leagueinfo.get("id")
+print(f"API League ID: {leagueapiid}.")
+leagueid = leaguework(leagueapiid, conn)
+print(f"The league id is {leagueid}.")
+
+
+# Team info
