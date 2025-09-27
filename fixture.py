@@ -2,6 +2,9 @@ import json
 import http.client
 import psycopg2
 import unicodedata
+from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
+from timezonefinderL import TimezoneFinder
 
 def loadHeaders(headersPath="headers.json"):
     with open(headersPath, "r", encoding="utf-8") as f:
@@ -188,7 +191,7 @@ def refereeWork(f, conn):
     return refId
 
 
-def insertVenue(apiid, name, address, city, state, countrycode, capacity, surface):
+def insertVenue(apiid, name, address, city, state, countrycode, capacity, surface, lat, long, tz):
     sql = """
         INSERT INTO public.venue (
             apifootballid, \
@@ -198,8 +201,11 @@ def insertVenue(apiid, name, address, city, state, countrycode, capacity, surfac
             state, \
             countrycode, \
             capacity, \
-            surface)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
+            surface, \
+            latitude, \
+            longitude, \
+            timezone)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
     """
     params = (
         apiid,
@@ -210,6 +216,9 @@ def insertVenue(apiid, name, address, city, state, countrycode, capacity, surfac
         countrycode,
         capacity,
         surface,
+        lat,
+        long,
+        tz,
     )
 
     with conn:
@@ -218,17 +227,16 @@ def insertVenue(apiid, name, address, city, state, countrycode, capacity, surfac
             newId = cur.fetchone()[0]
             print(f"Venue inserted with id {newId}.")
 
-    # create a function that finds and inserts lat and long based on address
-
-    # create a function that finds and inserts timezone based on lat/long
-
     return newId
 
-def venueWork(f, conn):
+
+def venueWork(f, conn): # f is fixture
     #Get venue api id
     venueRaw = f.get("venue")
     print(f"Venue: {venueRaw}")
+    # single out the venue name
     venueName = venueRaw['name']
+    # some initializing
     apiid = None
     address = ""
     city = ""
@@ -236,30 +244,60 @@ def venueWork(f, conn):
     countrycode = ""
     capacity = ""
     surface = ""
-    if venueRaw['id'] is None:
+    if venueRaw['id'] is None: # most venues in apifootball don't have an api id, at least fo the first few matches
         print("Venue is None.")
         # Check to see if Venue already exists anyway
-        with conn.cursor() as cur:
+        with conn.cursor() as cur: # creating a list (or dictionary?  tuple?) of all venues where api id is none
             cur.execute("SELECT name, id FROM public.venue WHERE apifootballid is NULL")
             rows = cur.fetchall()
+        # getting just the names of the venues into a list, leaving the gislobo id behind
         existingNoneVenues = {row[0]: row[1] for row in rows if row[0] is not None}
         print(f"All existing venues w/o api id:  {existingNoneVenues}")
-        if venueName in existingNoneVenues:
+        if venueName in existingNoneVenues: # running through the list to see if venue name is in the list
             print(f"Venue {venueName} is already in the database, no need to proceed.")
             print(f"Venue id: {existingNoneVenues[venueName]}")
-            return existingNoneVenues[venueName]
-        else:
+            return existingNoneVenues[venueName] # if it is, we're done, return the id
+        else:  # else we have some work to do
             print("not in db, going to add it in")
             # solicit information
-            address = input(f"Enter the address for {venueName}: ")
+            address = input(f"Enter the street address for {venueName}: ")
             city = input(f"Enter the city for {venueName}: ")
             state = input(f"Enter the state for {venueName}: ")
             countrycode = input(f"Enter the country code for {venueName}: ")
             capacity = input(f"Enter the capacity for {venueName}: ")
             surface = input(f"Enter the surface for {venueName}: ")
 
+            # create a function that finds and inserts lat and long based on address
+            def geocode_address(a: str) -> tuple[float, float] | None:
+                """
+                Returns (latitude, longitude) in decimal degrees for the given address,
+                or None if not found.
+                """
+                geolocator = Nominatim(user_agent="gislobo")  # set a descriptive app name
+                geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)  # be polite with OSM
+                location = geocode(address, exactly_one=True, addressdetails=False)
+                if location is None:
+                    return None
+                return location.latitude, location.longitude
+
+
+            geocodeaddr = f"{address}, {city}, {state}"
+            coords = geocode_address(geocodeaddr)
+            if coords:
+                lat, lon = coords
+                print(f"Latitude: {lat}, Longitude: {lon}")
+            else:
+                lat = None
+                lon = None
+                print("Address not found.")
+
+            # create a function that finds and inserts timezone based on lat/long
+            tf = TimezoneFinder()
+            tz = tf.timezone_at(lng=lon, lat=lat)
+            print(f"The timezone is {tz}.")
+
             # call insertVenue
-            thevenueid = insertVenue(apiid, venueName, address, city, state, countrycode, capacity, surface)
+            thevenueid = insertVenue(apiid, venueName, address, city, state, countrycode, capacity, surface, lat, lon, tz)
             return thevenueid
 
 
