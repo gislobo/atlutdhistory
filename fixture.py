@@ -4,9 +4,11 @@ import psycopg2
 import unicodedata
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
+from geopy.exc import GeocoderTimedOut, GeocoderServiceError, GeocoderUnavailable
 from timezonefinderL import TimezoneFinder
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from datetime import datetime, timezone
+from typing import Optional, Tuple
 
 
 # Minimal alias mapping for common names and Windows zones to IANA
@@ -182,6 +184,7 @@ def insertRef(first, last, code):
 def refereeWork(f, conn):
     # Get the raw referee info
     refereeRaw = f.get("referee")
+    print(f"Referee raw info:  {refereeRaw}")
     # If there is no information for referee in api, setting variables for None
     referee = None
     refereeCountry = None
@@ -443,8 +446,8 @@ print("...DB config loaded.")
 
 # Get fixture id, store it as a variable
 #fixtureId = int(input("Enter the fixture ID:  "))
-#fixtureId = 147926
-fixtureId = 147915
+fixtureId = 147926
+#fixtureId = 147915
 #fixtureId = 147936
 # Store path to fixture info in a variable, to be used w/ connection information
 path = f"/fixtures?id={fixtureId}"
@@ -474,17 +477,16 @@ conn = psycopg2.connect(
     password=db["password"],
 )
 
-# Looking into the referee info
-# refereeId = refereeWork(fixture, conn)
-# print(f"The referee id is {refereeId}.")
+# Referee info
+refereeId = refereeWork(fixture, conn)
+print(f"The referee id is {refereeId}.")
 
-# Need to do venue before date and time
+# Venue info
 venueId, fixturetimezone = venueWork(fixture, conn)
 print(f"The venue id is {venueId}.")
 print(f"The timezone is {fixturetimezone}.")
 
-
-# Looking into the date and time info
+# Date and time info
 utcdatetime = fixture.get("date")
 localtime = to_tz_from_utc(utcdatetime, fixturetimezone)
 atlantatime = ""
@@ -497,12 +499,10 @@ print(f"UTC date/time:  {utcdatetime}.")
 print(f"Local time:  {localtime}.")
 print(f"Atlanta time:  {atlantatime}.")
 
-
 # League info
 leagueapiid = leagueinfo.get("id")
 print(f"API League ID: {leagueapiid}.")
 leagueid = leaguework(leagueapiid, conn)
 print(f"The league id is {leagueid}.")
-
 
 # Team info
