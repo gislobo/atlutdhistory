@@ -188,11 +188,54 @@ def refereeWork(f, conn):
     return refId
 
 
+def insertVenue(apiid, name, address, city, state, countrycode, capacity, surface):
+    sql = """
+        INSERT INTO public.venue (
+            apifootballid, \
+            name, \
+            address, \
+            city, \
+            state, \
+            countrycode, \
+            capacity, \
+            surface)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
+    """
+    params = (
+        apiid,
+        name,
+        address,
+        city,
+        state,
+        countrycode,
+        capacity,
+        surface,
+    )
+
+    with conn:
+        with conn.cursor() as cur:
+            cur.execute(sql, params)
+            newId = cur.fetchone()[0]
+            print(f"Venue inserted with id {newId}.")
+
+    # create a function that finds and inserts lat and long based on address
+
+    # create a function that finds and inserts timezone based on lat/long
+
+    return newId
+
 def venueWork(f, conn):
     #Get venue api id
     venueRaw = f.get("venue")
     print(f"Venue: {venueRaw}")
     venueName = venueRaw['name']
+    apiid = None
+    address = ""
+    city = ""
+    state = ""
+    countrycode = ""
+    capacity = ""
+    surface = ""
     if venueRaw['id'] is None:
         print("Venue is None.")
         # Check to see if Venue already exists anyway
@@ -200,11 +243,24 @@ def venueWork(f, conn):
             cur.execute("SELECT name, id FROM public.venue WHERE apifootballid is NULL")
             rows = cur.fetchall()
         existingNoneVenues = {row[0]: row[1] for row in rows if row[0] is not None}
-        print(existingNoneVenues)
+        print(f"All existing venues w/o api id:  {existingNoneVenues}")
         if venueName in existingNoneVenues:
             print(f"Venue {venueName} is already in the database, no need to proceed.")
+            print(f"Venue id: {existingNoneVenues[venueName]}")
+            return existingNoneVenues[venueName]
         else:
             print("not in db, going to add it in")
+            # solicit information
+            address = input(f"Enter the address for {venueName}: ")
+            city = input(f"Enter the city for {venueName}: ")
+            state = input(f"Enter the state for {venueName}: ")
+            countrycode = input(f"Enter the country code for {venueName}: ")
+            capacity = input(f"Enter the capacity for {venueName}: ")
+            surface = input(f"Enter the surface for {venueName}: ")
+
+            # call insertVenue
+            thevenueid = insertVenue(apiid, venueName, address, city, state, countrycode, capacity, surface)
+            return thevenueid
 
 
 
@@ -226,8 +282,8 @@ print("...DB config loaded.")
 # Get fixture id, store it as a variable
 #fixtureId = int(input("Enter the fixture ID:  "))
 #fixtureId = 147926
-#fixtureId = 147915
-fixtureId = 147936
+fixtureId = 147915
+#fixtureId = 147936
 # Store path to fixture info in a variable, to be used w/ connection information
 path = f"/fixtures?id={fixtureId}"
 
