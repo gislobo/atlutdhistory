@@ -720,3 +720,58 @@ print(f"penaltyhome = {penaltyhome}.")
 print(f"penaltyaway = {penaltyaway}.")
 
 # Insert fixture record
+sql = """
+INSERT INTO public.fixture (apisportsid, \
+                            referee, \
+                            utcdatetime, \
+                            localdatetime, \
+                            venue, \
+                            league, \
+                            hometeam, \
+                            awayteam, \
+                            fixturestatus, \
+                            fixturewinner, \
+                            homegoal, \
+                            awaygoal, \
+                            halftimehomescore, \
+                            halftimeawayscore, \
+                            fulltimehomescore, \
+                            fulltimeawayscore, \
+                            extratimehomescore, \
+                            extratimeawayscore, \
+                            penaltyhome, \
+                            penaltyaway, \
+                            atlantatime)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
+"""
+params = (
+    fixtureId,
+    refereeId,
+    utcdatetime,
+    localtime,
+    venueId,
+    leagueid,
+    hometeamid,
+    awayteamid,
+    fixturestatusid,
+    fixturewinner,
+    homegoals,
+    awaygoals,
+    halftimehome,
+    halftimeaway,
+    fulltimehome,
+    fulltimeaway,
+    extratimehome,
+    extratimeaway,
+    penaltyhome,
+    penaltyaway,
+    atlantatime,
+)
+
+with conn:
+    with conn.cursor() as cursor:
+        cursor.execute(sql, params)
+        databasefixtureid = cursor.fetchone()[0]
+        print(f"Database fixture id: {databasefixtureid}.")
+
+print("and you're done")
