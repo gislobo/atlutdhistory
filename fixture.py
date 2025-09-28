@@ -531,6 +531,40 @@ def teamwork(tid, conn, headers):
     return databaseid
 
 
+def fixturestatuswork(fs):
+    long = fs.get("long")
+    print(f"long: {long}")
+    short = fs.get("short")
+    print(f"short: {short}")
+    elapsed = fs.get("elapsed")
+    print(f"elapsed: {elapsed}")
+    extra = fs.get("extra")
+    print(f"extra: {extra}")
+
+    fsboolean = True
+    if long != "Match Finished":
+        fsboolean = False
+        print("Fixture status long doesn't match.")
+    if short != "FT":
+        fsboolean = False
+        print("Fixture status short doesn't match.")
+    if elapsed != 90:
+        fsboolean = False
+        print("Fixture status elapsed doesn't match.")
+    if extra is not None:
+        fsboolean = False
+        print("Fixture status extra doesn't match.")
+    if fsboolean:
+        return 1
+    else:
+        print("This is a new fixture status.  You need to enter a new one.")
+        newfixturestatusid = int(input("What is the new public.fixturestatus.id?:  "))
+        return newfixturestatusid
+
+
+
+
+
 
 # Load headers from json file for use in api requests
 print("Loading headers...")
@@ -615,3 +649,10 @@ hometeamid = teamwork(hometeamapiid, conn, headers)
 awayteamid = teamwork(awayteamapiid, conn, headers)
 print(f"Home team id:  {hometeamid}.")
 print(f"Away team id:  {awayteamid}.")
+
+# Fixturestatus
+fixturestatus = fixture.get("status")
+print(f"Fixture status: {fixturestatus}.")
+fixturestatusid = fixturestatuswork(fixturestatus)
+print(f"Fixture status id is {fixturestatusid}.")
+
