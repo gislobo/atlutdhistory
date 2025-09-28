@@ -556,11 +556,22 @@ def fixturestatuswork(fs):
         print("Fixture status extra doesn't match.")
     if fsboolean:
         return 1
-    else:
-        print("This is a new fixture status.  You need to enter a new one.")
-        newfixturestatusid = int(input("What is the new public.fixturestatus.id?:  "))
-        return newfixturestatusid
 
+    fsboolean1 = True
+    if long != "Match Finished":
+        fsboolean1 = False
+        print("Fixture status long doesn't match.")
+    if short != "PEN":
+        fsboolean1 = False
+        print("Fixture status short doesn't match.")
+    if elapsed != 120:
+        fsboolean1 = False
+        print("Fixture status elapsed doesn't match.")
+    if extra is not None:
+        fsboolean1 = False
+        print("Fixture status extra doesn't match.")
+    if fsboolean1:
+        return 2
 
 
 
@@ -598,6 +609,8 @@ for item in payload.get("response", []):
     fixture = item.get("fixture") or {}
     leagueinfo = item.get("league") or {}
     teamsinfo = item.get("teams") or {}
+    goalsinfo = item.get("goals") or {}
+    scoreinfo = item.get("score") or {}
 apiconn.close()
 print(fixture)
 
@@ -656,3 +669,54 @@ print(f"Fixture status: {fixturestatus}.")
 fixturestatusid = fixturestatuswork(fixturestatus)
 print(f"Fixture status id is {fixturestatusid}.")
 
+# Fixturewinner
+print(f"home info {homeinfo}.")
+print(f"away info {awayinfo}.")
+homewinner = homeinfo.get("winner")
+awaywinner = awayinfo.get("winner")
+print(f"homewinner = {homewinner}.")
+print(f"awaywinner = {awaywinner}.")
+fixturewinner = ""
+if homewinner:
+    print("home won")
+    fixturewinner = hometeamid
+elif awaywinner:
+    print("away won")
+    fixturewinner = awayteamid
+else:
+    print("something else")
+    fixturewinner = 30000
+print(f"fixturewinner = {fixturewinner}.")
+
+# Goals info
+homegoals = goalsinfo.get("home")
+awaygoals = goalsinfo.get("away")
+print(f"home goals = {homegoals}.")
+print(f"away goals = {awaygoals}.")
+
+# Score info
+halftimeinfo = scoreinfo.get("halftime")
+halftimehome = halftimeinfo.get("home")
+halftimeaway = halftimeinfo.get("away")
+print(f"halftimehome = {halftimehome}.")
+print(f"halftimeaway = {halftimeaway}.")
+
+fulltimeinfo = scoreinfo.get("fulltime")
+fulltimehome = fulltimeinfo.get("home")
+fulltimeaway = fulltimeinfo.get("away")
+print(f"fulltimehome = {fulltimehome}.")
+print(f"fulltimeaway = {fulltimeaway}.")
+
+extratimeinfo = scoreinfo.get("extratime")
+extratimehome = extratimeinfo.get("home")
+extratimeaway = extratimeinfo.get("away")
+print(f"extratimehome = {extratimehome}.")
+print(f"extratimeaway = {extratimeaway}.")
+
+penaltyinfo = scoreinfo.get("penalty")
+penaltyhome = penaltyinfo.get("home")
+penaltyaway = penaltyinfo.get("away")
+print(f"penaltyhome = {penaltyhome}.")
+print(f"penaltyaway = {penaltyaway}.")
+
+# Insert fixture record
