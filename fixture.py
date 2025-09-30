@@ -1,7 +1,6 @@
 import json
 import http.client
 import sys
-
 import psycopg2
 import unicodedata
 from geopy.geocoders import Nominatim
