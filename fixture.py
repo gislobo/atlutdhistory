@@ -1,5 +1,7 @@
 import json
 import http.client
+import sys
+
 import psycopg2
 import unicodedata
 from geopy.geocoders import Nominatim
@@ -585,7 +587,14 @@ def fixturestatuswork(fs):
         return 2
 
 
-
+def _parse_api_utc(s: str) -> datetime:
+    s = s.strip()
+    if s.endswith("Z"):
+        s = s[:-1] + "+00:00"
+    dt = datetime.fromisoformat(s)
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt
 
 
 # Load headers from json file for use in api requests
@@ -634,6 +643,18 @@ conn = psycopg2.connect(
     password=db["password"],
 )
 
+# Run a check to see if that fixture id is already in the database
+with conn.cursor() as cur:
+    cur.execute("SELECT apisportsid, id from public.fixture where apisportsid = %s", (fixtureId,))
+    existingfixtures = cur.fetchall()
+existingfixturesdict = {existingfixture[0]: existingfixture[1] for existingfixture in existingfixtures if existingfixture[0] is not None}
+print(f"Existing fixtures: {existingfixturesdict}")
+if fixtureId in existingfixturesdict:
+    print(f"Fixture {fixtureId} is already in the database.")
+    print(f"Fixture id is {existingfixturesdict[fixtureId]}.")
+    sys.exit(0)
+
+
 # Referee info
 refereeId = refereeWork(fixture, conn)
 print(f"The referee id is {refereeId}.")
@@ -644,19 +665,11 @@ print(f"The venue id is {venueId}.")
 print(f"The timezone is {fixturetimezone}.")
 
 # Date and time info
-utcdatetime = fixture.get("date")
-localtime = to_tz_from_utc(utcdatetime, fixturetimezone)
-print(f"testing, look here, local time is {localtime}")
-atlantatime = ""
+utcdatetime_str = fixture.get("date")
+localtime_aware = to_tz_from_utc(utcdatetime_str, fixturetimezone)
 atlantatimezone = "America/New_York"
-if fixturetimezone == atlantatimezone:
-    atlantatime = localtime
-else:
-    atlantatime = to_tz_from_utc(utcdatetime, atlantatimezone)
-print(f"testing, look here, atlanta time is {atlantatime}")
-print(f"UTC date/time:  {utcdatetime}.")
-print(f"Local time:  {localtime}.")
-print(f"Atlanta time:  {atlantatime}.")
+atlantatime_aware = localtime_aware if fixturetimezone == atlantatimezone else to_tz_from_utc(utcdatetime_str, atlantatimezone)
+
 
 # League info
 leagueapiid = leagueinfo.get("id")
@@ -732,59 +745,69 @@ penaltyaway = penaltyinfo.get("away")
 print(f"penaltyhome = {penaltyhome}.")
 print(f"penaltyaway = {penaltyaway}.")
 
-# Insert fixture record
-# sql = """
-# INSERT INTO public.fixture (apisportsid, \
-#                             referee, \
-#                             utcdatetime, \
-#                             localdatetime, \
-#                             venue, \
-#                             league, \
-#                             hometeam, \
-#                             awayteam, \
-#                             fixturestatus, \
-#                             fixturewinner, \
-#                             homegoal, \
-#                             awaygoal, \
-#                             halftimehomescore, \
-#                             halftimeawayscore, \
-#                             fulltimehomescore, \
-#                             fulltimeawayscore, \
-#                             extratimehomescore, \
-#                             extratimeawayscore, \
-#                             penaltyhome, \
-#                             penaltyaway, \
-#                             atlantatime)
-#     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
-# """
-# params = (
-#     fixtureId,
-#     refereeId,
-#     utcdatetime,
-#     localtime,
-#     venueId,
-#     leagueid,
-#     hometeamid,
-#     awayteamid,
-#     fixturestatusid,
-#     fixturewinner,
-#     homegoals,
-#     awaygoals,
-#     halftimehome,
-#     halftimeaway,
-#     fulltimehome,
-#     fulltimeaway,
-#     extratimehome,
-#     extratimeaway,
-#     penaltyhome,
-#     penaltyaway,
-#     atlantatime,
-# )
-#
-# with conn:
-#     with conn.cursor() as cursor:
-#         cursor.execute(sql, params)
-#         databasefixtureid = cursor.fetchone()[0]
-#         print(f"Database fixture id: {databasefixtureid}.")
-#
-# print("and you're done")
+# For timestamp (without time zone) columns, use naive "wall times"
+utcdatetime = _parse_api_utc(utcdatetime_str).replace(tzinfo=None)     # wall time in UTC
+localtime = localtime_aware.replace(tzinfo=None)                        # wall time in venue tz
+atlantatime = atlantatime_aware.replace(tzinfo=None)                    # wall time in Atlanta
+
+print(f"before insert, utcdatetime_str is {utcdatetime_str}")
+print(f"before insert, localtime is {localtime}")
+print(f"before insert, atlantatime is {atlantatime}")
+utcdatetime = _parse_api_utc(utcdatetime_str)
+print(f"after parsing thingy, utcdatetime is {utcdatetime}")
+#Insert fixture record
+sql = """
+INSERT INTO public.fixture (apisportsid, \
+                            referee, \
+                            utcdatetime, \
+                            localdatetime, \
+                            venue, \
+                            league, \
+                            hometeam, \
+                            awayteam, \
+                            fixturestatus, \
+                            fixturewinner, \
+                            homegoal, \
+                            awaygoal, \
+                            halftimehomescore, \
+                            halftimeawayscore, \
+                            fulltimehomescore, \
+                            fulltimeawayscore, \
+                            extratimehomescore, \
+                            extratimeawayscore, \
+                            penaltyhome, \
+                            penaltyaway, \
+                            atlantatime)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
+"""
+params = (
+    fixtureId,
+    refereeId,
+    utcdatetime,
+    localtime,
+    venueId,
+    leagueid,
+    hometeamid,
+    awayteamid,
+    fixturestatusid,
+    fixturewinner,
+    homegoals,
+    awaygoals,
+    halftimehome,
+    halftimeaway,
+    fulltimehome,
+    fulltimeaway,
+    extratimehome,
+    extratimeaway,
+    penaltyhome,
+    penaltyaway,
+    atlantatime,
+)
+
+with conn:
+    with conn.cursor() as cursor:
+        cursor.execute(sql, params)
+        databasefixtureid = cursor.fetchone()[0]
+        print(f"Database fixture id: {databasefixtureid}.")
+
+print("and you're done")
