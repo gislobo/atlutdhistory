@@ -20,7 +20,7 @@ def loadDbConfig(configPath="dbConfig.json"):
     }
 
 
-# Initializing
+## Initializing
 # Load headers from json file for use in api requests
 print("Loading headers...")
 headers = loadHeaders("headers.json")
@@ -31,15 +31,15 @@ print("Loading DB config...")
 db = loadDbConfig("dbConfig.json")
 print("...DB config loaded.")
 
-# Get api fixture id, store it as a variable
+## Get api fixture id, store it as a variable
 #fixtureId = int(input("Enter the fixture ID:  "))
-fixtureId = 147926
+apifixtureid = 147926
 ######fixtureId = 147915
 #fixtureId = 147936
 # Store path to fixture info in a variable, to be used w/ connection information
-path = f"/fixtures/events?fixture={fixtureId}"
+path = f"/fixtures/events?fixture={apifixtureid}"
 
-# Get api info on fixture, store it as a variable, payload
+## Get api info on fixture, store it as a variable, payload
 apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
 apiconn.request("GET", path, headers=headers)
 res = apiconn.getresponse()
@@ -58,7 +58,7 @@ print(payload)
 # apiconn.close()
 # print(fixture)
 
-# Connect once for lookups and load
+## Connect once to postgres for lookups and load
 conn = psycopg2.connect(
     host=db["host"],
     port=db["port"],
@@ -67,26 +67,39 @@ conn = psycopg2.connect(
     password=db["password"],
 )
 
-# Check to see if the fixture has events already in the table
+## Grab the database fixtureid
+with conn.cursor() as cur:
+    cur.execute("SELECT apisportsid, id from public.fixture where apisportsid = %s", (apifixtureid,))
+    existingfixtures = cur.fetchall()
+existingfixturesdict = {existingfixture[0]: existingfixture[1] for existingfixture in existingfixtures if existingfixture[0] is not None}
+print(f"Existing fixtures: {existingfixturesdict}")
+if apifixtureid in existingfixturesdict:
+    print(f"The database fixture id is {existingfixturesdict[apifixtureid]}.")
 
-# Grab the api fixtureid
+## Check to see if the fixture has events already in the table
 
+## Work out how to grab each event individually
+# API tells us how many events there are
+apiresults = payload.get("results") or {}
+print(f"The API tells us there are {apiresults} events.")
 
+# Ge the events into a list of dictionaries
+response = payload.get("response") or {}
+print(response)
+print(len(response))
 
-# Grab the database fixtureid
+## Event type work
 
-# Event type work
+## Event comments
 
-# Event comments
+## Time elapsed
 
-# Time elapsed
+## Extratime elapsed
 
-# Extratime elapsed
+## Get database team id
 
-# Get database team id
+## Get database player id
 
-# Get database player id
+## Assist work (database player id)
 
-# Assist work (database player id)
-
-# Load into database
+## Load into database
