@@ -40,10 +40,10 @@ print("")
 
 ## Get api fixture id, store it as a variable
 print("Getting the api fixture id...")
-#apifixtureid = int(input("Enter the fixture ID:  "))
+apifixtureid = int(input("Enter the fixture ID:  "))
 #apifixtureid = 147926
 ######fixtureId = 147915
-apifixtureid = 147936
+#apifixtureid = 147936
 print(f"...fixture id is {apifixtureid}.")
 # Store path to fixture info in a variable, to be used w/ connection information
 print("Storing the path to the api in a path variable...")
