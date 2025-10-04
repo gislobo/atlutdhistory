@@ -89,7 +89,7 @@ if databasefixtureid in existingfixturestatisticsids:
 apiresults = payload.get("results") or {}
 print(f"The API tells us there are {apiresults} events.")
 
-# Ge the events into a list of dictionaries
+# Get the events into a list of dictionaries
 response = payload.get("response") or {}
 print(response)
 print(f"There are {len(response)} events in the response.")
