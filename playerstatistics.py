@@ -41,9 +41,9 @@ print("")
 ## Get api fixture id, store it as a variable
 print("Getting the api fixture id...")
 #apifixtureid = int(input("Enter the fixture ID:  "))
-apifixtureid = 147926
+#apifixtureid = 147926
 ######fixtureId = 147915
-#apifixtureid = 147936
+apifixtureid = 147936
 print(f"...fixture id is {apifixtureid}.")
 # Store path to fixture info in a variable, to be used w/ connection information
 print("Storing the path to the api in a path variable...")
@@ -357,3 +357,119 @@ for event in response:
         foulsdrawn = foulsinfo.get("drawn")
         print(f"This player's fouls committed:  {foulscommitted}.")
         print(f"This player's fouls drawn:  {foulsdrawn}.")
+
+        # Get the player's cards information
+        print("Getting the player's cards information...")
+        cardsinfo = statistics.get("cards") or {}
+        yellowcards = cardsinfo.get("yellow")
+        redcards = cardsinfo.get("red")
+        print(f"This player's yellow cards:  {yellowcards}.")
+        print(f"This player's red cards:  {redcards}.")
+
+        # Get the player's penalties information
+        print("Getting the player's penalties information...")
+        penaltiesinfo = statistics.get("penalty") or {}
+        penaltieswon = penaltiesinfo.get("won")
+        penaltiescommitted = penaltiesinfo.get("committed")
+        penaltiesscored = penaltiesinfo.get("scored")
+        penaltiesmissed = penaltiesinfo.get("missed")
+        penaltiessaved = penaltiesinfo.get("saved")
+        print(f"This player's penalties won:  {penaltieswon}.")
+        print(f"This player's penalties committed:  {penaltiescommitted}.")
+        print(f"This player's penalties scored:  {penaltiesscored}.")
+        print(f"This player's penalties missed:  {penaltiesmissed}.")
+        print(f"This player's penalties saved:  {penaltiessaved}.")
+        print("")
+        print("We now have all of this player's stats into variables.")
+        print("")
+
+        # Now we insert this information into the database
+        print("Now we insert this information into the database...")
+        sql = """
+        insert into public.fixtureplayerstatistics (
+            dbfixtureid, \
+            dbteamid, \
+            dbplayerid, \
+            minutes, \
+            number, \
+            positionid, \
+            rating, \
+            captain, \
+            substitute, \
+            offsides, \
+            totalshots, \
+            shotsongoal, \
+            goals, \
+            goalsconceded, \
+            assists, \
+            saves, \
+            totalpasses, \
+            keypasses, \
+            passesaccuracy, \
+            tackles, \
+            blocks, \
+            interceptions, \
+            duels, \
+            duelswon, \
+            dribblesattempts, \
+            dribblessuccess, \
+            dribblespast, \
+            foulscommitted, \
+            foulsdrawn, \
+            yellowcards, \
+            redcards, \
+            penaltieswon, \
+            penaltiescommitted, \
+            penaltiesscored, \
+            penaltiesmissed, \
+            penaltiessaved)
+        values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id
+        """
+        params = (
+            dbfixtureid,
+            dbteamid,
+            dbplayerid,
+            minutes,
+            number,
+            positionid,
+            rating,
+            captain,
+            substitute,
+            offsides,
+            totalshots,
+            shotsongoal,
+            goals,
+            goalsconceded,
+            assists,
+            saves,
+            totalpasses,
+            keypasses,
+            passesaccuracy,
+            tackles,
+            blocks,
+            interceptions,
+            duels,
+            duelswon,
+            dribblesattempts,
+            dribblessuccess,
+            dribblespast,
+            foulscommitted,
+            foulsdrawn,
+            yellowcards,
+            redcards,
+            penaltieswon,
+            penaltiescommitted,
+            penaltiesscored,
+            penaltiesmissed,
+            penaltiessaved,
+        )
+
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(sql, params)
+                newid = cur.fetchone()[0]
+                print(f"...insert successful, new id:  {newid}.")
+
+        print("")
+        print("---------------------------------")
+        print("")
