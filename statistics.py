@@ -246,6 +246,6 @@ for event in response:
     print("")
     print("---------------------------------")
 
-print("")
-print("---------------------------------")
-print("Moving on to player statistics...")
+
+
+
