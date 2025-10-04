@@ -75,6 +75,15 @@ if apifixtureid in existingfixturesdict:
     databasefixtureid = existingfixturesdict[apifixtureid]
     print(f"The database fixture id is {databasefixtureid}.")
 
+## See if the fixture already has statistics
+with conn.cursor() as cur:
+    cur.execute("select dbfixtureid from public.fixturestatistics")
+    existingfixturestatisticsidsfetchall = cur.fetchall()
+existingfixturestatisticsids = {row[0] for row in existingfixturestatisticsidsfetchall}
+if databasefixtureid in existingfixturestatisticsids:
+    print(f"The fixture {databasefixtureid} already has statistics in the database, exiting.")
+    sys.exit(0)
+
 ## Work out how to grab each team's statistics individually
 # API tells us how many events there are
 apiresults = payload.get("results") or {}
@@ -236,3 +245,7 @@ for event in response:
 
     print("")
     print("---------------------------------")
+
+print("")
+print("---------------------------------")
+print("Moving on to player statistics...")
