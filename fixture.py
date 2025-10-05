@@ -9,7 +9,7 @@ from geopy.exc import GeocoderTimedOut, GeocoderServiceError, GeocoderUnavailabl
 from timezonefinderL import TimezoneFinder
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from datetime import datetime, timezone, date
-from typing import Optional, Tuple
+from typing import Optional
 
 
 # Minimal alias mapping for common names and Windows zones to IANA
@@ -394,8 +394,6 @@ def _safe_zoneinfo(key: str) -> ZoneInfo | None:
     print(f"in the second function, iana is {iana}")
     try:
         return ZoneInfo(iana)
-        #print(f"in the second function, zoneinfo thing, returning {key}")
-        #return ZoneInfo(key)
     except ZoneInfoNotFoundError:
         print("zoneinfonotfounderror")
         return None
