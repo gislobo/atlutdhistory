@@ -692,6 +692,12 @@ print(f"Fixture status: {fixturestatus}.")
 fixturestatusid = fixturestatuswork(fixturestatus)
 print(f"Fixture status id is {fixturestatusid}.")
 
+# Goals info
+homegoals = goalsinfo.get("home")
+awaygoals = goalsinfo.get("away")
+print(f"home goals = {homegoals}.")
+print(f"away goals = {awaygoals}.")
+
 # Fixturewinner
 print(f"home info {homeinfo}.")
 print(f"away info {awayinfo}.")
@@ -699,7 +705,7 @@ homewinner = homeinfo.get("winner")
 awaywinner = awayinfo.get("winner")
 print(f"homewinner = {homewinner}.")
 print(f"awaywinner = {awaywinner}.")
-fixturewinner = ""
+fixturewinner = None
 if homewinner:
     print("home won")
     fixturewinner = hometeamid
@@ -707,15 +713,9 @@ elif awaywinner:
     print("away won")
     fixturewinner = awayteamid
 else:
-    print("something else")
-    fixturewinner = 30000
+    print("Ended in a draw")
+    fixturewinner = 8
 print(f"fixturewinner = {fixturewinner}.")
-
-# Goals info
-homegoals = goalsinfo.get("home")
-awaygoals = goalsinfo.get("away")
-print(f"home goals = {homegoals}.")
-print(f"away goals = {awaygoals}.")
 
 # Score info
 halftimeinfo = scoreinfo.get("halftime")
