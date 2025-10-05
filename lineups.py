@@ -166,10 +166,6 @@ def coachwork(ac, h, aid, c):
     return newid
 
 
-
-
-
-
 ## Initializing
 # Load headers from json file for use in api requests
 print("Loading headers...")
@@ -227,7 +223,7 @@ with conn.cursor() as cur:
 existingfixturesdict = {existingfixture[0]: existingfixture[1] for existingfixture in existingfixtures if existingfixture[0] is not None}
 fixtureid = None
 if apifixtureid in existingfixturesdict:
-    dbfixtureid = existingfixturesdict[apifixtureid]
+    fixtureid = existingfixturesdict[apifixtureid]
     print(f"The database fixture id is {fixtureid}.")
     print("")
 
@@ -408,3 +404,121 @@ for event in response:
         else:
             print("Something is wrong, the number of starters is not 11.")
             sys.exit(0)
+
+    # Get the substitute ids
+    print("Getting the substitute ids...")
+    substitutes = event.get("substitutes") or []
+
+    # Initialize substitute variables
+    substitute1 = None
+    substitute2 = None
+    substitute3 = None
+    substitute4 = None
+    substitute5 = None
+    substitute6 = None
+    substitute7 = None
+
+    # Loop through substitutes
+    print("Looping through substitutes...")
+    count2 = 0
+    for substitute in substitutes:
+        count2 += 1
+        print(f"This substitute is {substitute}.")
+        player = substitute.get("player") or {}
+        apiplayerid = player.get("id")
+        print(f"The api player id is {apiplayerid}.")
+
+        # Get db player id
+        with conn.cursor() as cur:
+            cur.execute("SELECT id from public.player WHERE apifootballid = %s", (apiplayerid,))
+            databaseplayerid = cur.fetchone()[0]
+        print(f"The database player id is {databaseplayerid}.")
+
+        # Set substitute variables
+        if count2 == 1:
+            substitute1 = databaseplayerid
+            print(f"Substitute 1 is {substitute1}.")
+        elif count2 == 2:
+            substitute2 = databaseplayerid
+            print(f"Substitute 2 is {substitute2}.")
+        elif count2 == 3:
+            substitute3 = databaseplayerid
+            print(f"Substitute 3 is {substitute3}.")
+        elif count2 == 4:
+            substitute4 = databaseplayerid
+            print(f"Substitute 4 is {substitute4}.")
+        elif count2 == 5:
+            substitute5 = databaseplayerid
+            print(f"Substitute 5 is {substitute5}.")
+        elif count2 == 6:
+            substitute6 = databaseplayerid
+            print(f"Substitute 6 is {substitute6}.")
+        elif count2 == 7:
+            substitute7 = databaseplayerid
+            print(f"Substitute 7 is {substitute7}.")
+        else:
+            print("Something is wrong, the number of substitutes is not 7.")
+            sys.exit(0)
+
+    # Inserting variables into database
+    print("Inserting variables into database...")
+    sql = """
+    insert into public.fixturelineups (
+        fixtureid, \
+        teamid, \
+        coachid, \
+        formationid, \
+        starter1, \
+        starter2, \
+        starter3, \
+        starter4, \
+        starter5, \
+        starter6, \
+        starter7, \
+        starter8, \
+        starter9, \
+        starter10, \
+        starter11, \
+        substitute1, \
+        substitute2, \
+        substitute3, \
+        substitute4, \
+        substitute5, \
+        substitute6, \
+        substitute7)
+    values (%s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id 
+    """
+    params = (
+        fixtureid,
+        dbteamid,
+        coachid,
+        formationid,
+        starter1,
+        starter2,
+        starter3,
+        starter4,
+        starter5,
+        starter6,
+        starter7,
+        starter8,
+        starter9,
+        starter10,
+        starter11,
+        substitute1,
+        substitute2,
+        substitute3,
+        substitute4,
+        substitute5,
+        substitute6,
+        substitute7,
+    )
+
+    with conn:
+        with conn.cursor() as cur:
+            cur.execute(sql, params)
+            newid = cur.fetchone()[0]
+            print(f"...insert successful, new id: {newid}.")
+
+    print("")
+    print("---------------------------------")
+    print("")
