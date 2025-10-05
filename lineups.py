@@ -181,8 +181,8 @@ print("")
 
 ## Get api fixture id, store it as a variable
 print("Getting the api fixture id...")
-#apifixtureid = int(input("Enter the fixture ID:  "))
-apifixtureid = 147926
+apifixtureid = int(input("Enter the fixture ID:  "))
+#apifixtureid = 147926
 ######fixtureId = 147915
 #apifixtureid = 147936
 print(f"...fixture id is {apifixtureid}.")

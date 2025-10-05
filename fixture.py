@@ -607,10 +607,10 @@ db = loadDbConfig("dbConfig.json")
 print("...DB config loaded.")
 
 # Get fixture id, store it as a variable
-#fixtureId = int(input("Enter the fixture ID:  "))
+fixtureId = int(input("Enter the fixture ID:  "))
 #fixtureId = 147926
 ######fixtureId = 147915
-fixtureId = 147936
+#fixtureId = 147936
 # Store path to fixture info in a variable, to be used w/ connection information
 path = f"/fixtures?id={fixtureId}"
 
