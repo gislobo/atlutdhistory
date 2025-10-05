@@ -329,4 +329,82 @@ for event in response:
         print("")
     else:
         print(f"Formation {formation} is not in your database.")
+        print("Adding formation to database...")
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute("insert into public.formation (formation) values (%s) returning id", (formation,))
+                formationid = cur.fetchone()[0]
+                print(f"The formation id is {formationid}.")
+                print("")
 
+    ## Get the player ids
+    # Get the starter ids
+    print("Getting the starter ids...")
+    starters = event.get("startXI") or []
+
+    # Initialize starter variables
+    starter1 = None
+    starter2 = None
+    starter3 = None
+    starter4 = None
+    starter5 = None
+    starter6 = None
+    starter7 = None
+    starter8 = None
+    starter9 = None
+    starter10 = None
+    starter11 = None
+
+    # Loop through starters
+    print("Looping through starters...")
+    count1 = 0
+    for starter in starters:
+        count1 += 1
+        print(f"This starter is {starter}.")
+        player = starter.get("player") or {}
+        apiplayerid = player.get("id")
+        print(f"The api player id is {apiplayerid}.")
+
+        # Get db player id
+        with conn.cursor() as cur:
+            cur.execute("SELECT id from public.player WHERE apifootballid = %s", (apiplayerid,))
+            databaseplayerid = cur.fetchone()[0]
+        print(f"The database player id is {databaseplayerid}.")
+
+        # Set starter variables
+        if count1 == 1:
+            starter1 = databaseplayerid
+            print(f"Starter 1 is {starter1}.")
+        elif count1 == 2:
+            starter2 = databaseplayerid
+            print(f"Starter 2 is {starter2}.")
+        elif count1 == 3:
+            starter3 = databaseplayerid
+            print(f"Starter 3 is {starter3}.")
+        elif count1 == 4:
+            starter4 = databaseplayerid
+            print(f"Starter 4 is {starter4}.")
+        elif count1 == 5:
+            starter5 = databaseplayerid
+            print(f"Starter 5 is {starter5}.")
+        elif count1 == 6:
+            starter6 = databaseplayerid
+            print(f"Starter 6 is {starter6}.")
+        elif count1 == 7:
+            starter7 = databaseplayerid
+            print(f"Starter 7 is {starter7}.")
+        elif count1 == 8:
+            starter8 = databaseplayerid
+            print(f"Starter 8 is {starter8}.")
+        elif count1 == 9:
+            starter9 = databaseplayerid
+            print(f"Starter 9 is {starter9}.")
+        elif count1 == 10:
+            starter10 = databaseplayerid
+            print(f"Starter 10 is {starter10}.")
+        elif count1 == 11:
+            starter11 = databaseplayerid
+            print(f"Starter 11 is {starter11}.")
+        else:
+            print("Something is wrong, the number of starters is not 11.")
+            sys.exit(0)
