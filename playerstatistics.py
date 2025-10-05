@@ -271,8 +271,16 @@ for event in response:
         # Get the player's rating, turn it from a string to numeric
         print("Getting the player's rating, and turning it from a string to numeric...")
         ratingstr = games.get("rating")
-        if ratingstr is not None:
-            rating = float(ratingstr)
+        print(f"Api rating:  {ratingstr}.")
+        if ratingstr in ['-', '–', None, ''] or (isinstance(ratingstr, str) and ratingstr.strip() in ['-', '–', '']):
+            print("This player has no rating, keeping rating as None.")
+            pass  # keeps rating as None
+        else:
+            try:
+                rating = float(ratingstr)
+            except (ValueError, TypeError):
+                print(f"Warning: Could not convert rating '{ratingstr}' to float. Keeping as None.")
+                rating = None
         print(f"This player's rating:  {rating}.")
 
         # Get the player's captain status, it's a boolean

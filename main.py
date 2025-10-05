@@ -1,4 +1,5 @@
 import subprocess
+import sys
 
 
 def main():
@@ -23,7 +24,7 @@ def main():
 
         # Run the script with real-time output
         process = subprocess.Popen(
-            ["python", script],
+            [sys.executable, script],
             stdin=subprocess.PIPE,
             text=True
         )
