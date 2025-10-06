@@ -298,6 +298,8 @@ def venueWork(f, conn): # f is fixture
                 cur.execute("SELECT timezone FROM public.venue WHERE id = %s", (existingNoneVenues[venueName],))
                 tz = cur.fetchone()[0]
             return existingNoneVenues[venueName], tz # if it is, we're done, return the id
+        elif venueName == 'Mercedes-Benz Stadium (Atlanta, Georgia)':
+            return 4, "America/New_York"
         else:  # else we have some work to do
             print("not in db, going to add it in")
             # solicit information
@@ -454,7 +456,7 @@ def key_for_value(d, value):
     return None
 
 
-def leaguework(lid, conn):
+def leaguework(lid, conn, lr):
     with conn.cursor() as cur:
         cur.execute("SELECT id, apifootballid from public.league")
         rows = cur.fetchall()
@@ -465,6 +467,8 @@ def leaguework(lid, conn):
     if lid in existingleagues:
         print(f"Yes, {lid}")
         databaseid = key_for_value(existingleaguesdict, lid)
+        if lid == 253 and lr == 'Play-In Round - Finals':
+            databaseid = 3
     else:
         print(f"API League ID {lid} is not in your database.")
         print("Please insert it and then give me the number.")
@@ -673,8 +677,10 @@ atlantatime_aware = localtime_aware if fixturetimezone == atlantatimezone else t
 
 # League info
 leagueapiid = leagueinfo.get("id")
+leagueround = leagueinfo.get("round")
 print(f"API League ID: {leagueapiid}.")
-leagueid = leaguework(leagueapiid, conn)
+print(f"Round: {leagueround}.")
+leagueid = leaguework(leagueapiid, conn, leagueround)
 print(f"The league id is {leagueid}.")
 
 # Team info
