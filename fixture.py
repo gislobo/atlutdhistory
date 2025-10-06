@@ -366,6 +366,9 @@ def venueWork(f, conn): # f is fixture
             # call insertVenue
             thevenueid = insertVenue(apiid, venueName, address, city, state, countrycode, capacity, surface, lat, lon, tz)
             return thevenueid, tz
+    else:
+        print("Venue has an id in the api!!")
+        return venueRaw['id'], tz
 
 
 def _normalize_tz_key(key: str | None) -> str | None:
