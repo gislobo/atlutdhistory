@@ -16,7 +16,7 @@ def loaddbconfig(configPath="dbConfig.json"):
     }
 
 
-with open('2017attendance.txt', 'r') as file:
+with open('Archive/2017attendance.txt', 'r') as file:
     lines = file.readlines()
 
 updates = []
