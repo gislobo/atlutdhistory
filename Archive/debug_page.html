@@ -1,0 +1,3490 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <script data-description="sourcepoint stub code" type="text/javascript">
+   !function () { var e = function () { var e, t = "__tcfapiLocator", a = [], n = window; for (; n;) { try { if (n.frames[t]) { e = n; break } } catch (e) { } if (n === window.top) break; n = n.parent } e || (!function e() { var a = n.document, r = !!n.frames[t]; if (!r) if (a.body) { var i = a.createElement("iframe"); i.style.cssText = "display:none", i.name = t, a.body.appendChild(i) } else setTimeout(e, 5); return !r }(), n.__tcfapi = function () { for (var e, t = arguments.length, n = new Array(t), r = 0; r < t; r++)n[r] = arguments[r]; if (!n.length) return a; if ("setGdprApplies" === n[0]) n.length > 3 && 2 === parseInt(n[1], 10) && "boolean" == typeof n[3] && (e = n[3], "function" == typeof n[2] && n[2]("set", !0)); else if ("ping" === n[0]) { var i = { gdprApplies: e, cmpLoaded: !1, cmpStatus: "stub" }; "function" == typeof n[2] && n[2](i) } else a.push(n) }, n.addEventListener("message", (function (e) { var t = "string" == typeof e.data, a = {}; try { a = t ? JSON.parse(e.data) : e.data } catch (e) { } var n = a.__tcfapiCall; n && window.__tcfapi(n.command, n.version, (function (a, r) { var i = { __tcfapiReturn: { returnValue: a, success: r, callId: n.callId } }; t && (i = JSON.stringify(i)), e.source.postMessage(i, "*") }), n.parameter) }), !1)) }; "undefined" != typeof module ? module.exports = e : e() }();
+  </script>
+  <script data-description="sourcepoint configuration">
+   window._sp_ = {
+    config: {"accountId":1254,"propertyId":7435,"gdpr":{"consentLanguage":"en-US","targetingParams":{"acps":"false"}},"baseEndpoint":"https://cdn.privacy-mgmt.com","isSPA":true,"cpPropertyId":"c43c8c9c"}}
+  </script>
+  <script async="" src="https://cdn.privacy-mgmt.com/wrapperMessagingWithoutDetection.js">
+  </script>
+  <script data-description="contentpass integration" type="text/javascript">
+   (function() {
+        var cpBaseUrl = 'https://cp.transfermarkt.us';
+        var cpController = cpBaseUrl + '/now.js';
+        var cpPropertyId = 'c43c8c9c';
+
+        !function(C,o,n,t,P,a,s){C['CPObject']=n;C[n]||(C[n]=function(){
+        (C[n].q=C[n].q||[]).push(arguments)});C[n].l=+new Date;a=o.createElement(t);
+        s=o.getElementsByTagName(t)[0];a.src=P;s.parentNode.insertBefore(a,s)}
+        (window,document,'cp','script',cpController);
+
+        !function(C,o,n,t,P){if(!C[n].patched){cp('extension','authenticate');P=C[n].q.push;
+        C[n].q.push=function(a){if(a[0]==='authenticate'){if((o['cookie']||'').indexOf('_cpauthhint=')===-1&&
+        !(C['localStorage']||{})['_cpuser']&&C.location.href.toLowerCase().indexOf('cpauthenticated')===-1){
+        t={isLoggedIn:function(){return false;},hasValidSubscription:function(){return false;}};
+        (typeof a[1]==='function'&&a[1](null,t));C[n].afp=true;P.apply(C[n].q,[['authenticate',null]]);
+        return t;}}P.apply(C[n].q,[a]);}}}
+        (window,document,'cp',false);
+
+        cp('create', cpPropertyId, {
+        baseUrl: cpBaseUrl
+        });
+
+        cp('render', {
+        onFullConsent: function() {
+            console.log('[DEMO] onFullConsent');
+        }
+        })
+    })()
+  </script>
+  <script data-description="contentpass sourcepoint fast path" type="text/javascript">
+   (function () {
+    cp('authenticate', function(err, user) {
+        if (err || (!user.isLoggedIn() && !user.hasValidSubscription())) {
+        // console.log('[SPCP] Taking fast path');
+        (function spExecMsg() {
+            if (window._sp_ && window._sp_.executeMessaging) {
+            if (!window._sp_.config.isSPA) {
+                // console.warn('[SPCP] Sourcepoint not in SPA mode!');
+            } else if (window._sp_.version) {
+                // console.log('[SPCP] Sourcepoint already running');
+            } else {
+                // console.log('[SPCP] Starting Sourcepoint');
+                window._sp_.executeMessaging();
+            }
+            } else {
+            // console.log('[SPCP] Sourcepoint not loaded yet. Retrying.');
+            setTimeout(spExecMsg, 10);
+            }
+        })();
+        }
+    });
+    })();
+  </script>
+  <meta charset="utf-8"/>
+  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+  <link href="/favicon-16x16.png" rel="shortcut icon" sizes="16x16"/>
+  <link href="/android-chrome-192x192.png" rel="shortcut icon" sizes="192x192"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=no" name="viewport"/>
+  <meta content="Atlanta United FC,United States" name="keywords"/>
+  <meta content="Diese Seite enthält eine detaillierte Übersicht aller Saisonspiele für den Verein Atlanta in chronologischer Reihenfolge." name="description"/>
+  <meta content="article" property="og:type"/>
+  <meta content="https://tmssl.akamaized.net/images/tm_logo.png" property="og:image"/>
+  <meta content="" property="og:description"/>
+  <meta content="Atlanta United FC - Fixtures by date (Detailed view)" property="og:title"/>
+  <meta content="https://www.transfermarkt.us/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" property="og:url"/>
+  <link href="https://www.transfermarkt.de/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="de" rel="alternate">
+   <link href="https://www.transfermarkt.de/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="de-LU" rel="alternate">
+    <link href="https://www.transfermarkt.at/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="de-AT" rel="alternate"/>
+    <link href="https://www.transfermarkt.ch/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="de-CH" rel="alternate"/>
+    <link href="https://www.transfermarkt.com.tr/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="tr" rel="alternate"/>
+    <link href="https://www.transfermarkt.it/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="it-CH" rel="alternate"/>
+    <link href="https://www.transfermarkt.it/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="it" rel="alternate"/>
+    <link href="https://www.transfermarkt.pl/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="pl" rel="alternate"/>
+    <link href="https://www.transfermarkt.co.uk/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="en-GB" rel="alternate"/>
+    <link href="https://www.transfermarkt.co.uk/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="en-IE" rel="alternate"/>
+    <link href="https://www.transfermarkt.es/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="es" rel="alternate"/>
+    <link href="https://www.transfermarkt.es/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="es-ES" rel="alternate"/>
+    <link href="https://www.transfermarkt.es/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="es-CL" rel="alternate"/>
+    <link href="https://www.transfermarkt.es/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="es-VE" rel="alternate"/>
+    <link href="https://www.transfermarkt.es/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="es-EC" rel="alternate"/>
+    <link href="https://www.transfermarkt.es/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="es-CU" rel="alternate"/>
+    <link href="https://www.transfermarkt.nl/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="nl" rel="alternate"/>
+    <link href="https://www.transfermarkt.pt/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="pt" rel="alternate"/>
+    <link href="https://www.transfermarkt.world/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="ru" rel="alternate"/>
+    <link href="https://www.transfermarkt.fr/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="fr-CH" rel="alternate"/>
+    <link href="https://www.transfermarkt.fr/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="fr" rel="alternate"/>
+    <link href="https://www.transfermarkt.fr/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="fr-CA" rel="alternate"/>
+    <link href="https://www.transfermarkt.fr/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="fr-CI" rel="alternate"/>
+    <link href="https://www.transfermarkt.fr/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="fr-LU" rel="alternate"/>
+    <link href="https://www.transfermarkt.fr/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="fr-BE" rel="alternate"/>
+    <link href="https://www.transfermarkt.com.br/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="pt-BR" rel="alternate"/>
+    <link href="https://www.transfermarkt.us/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="en-US" rel="alternate"/>
+    <link href="https://www.transfermarkt.us/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="en-CA" rel="alternate"/>
+    <link href="https://www.transfermarkt.co.in/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="en-IN" rel="alternate"/>
+    <link href="https://www.transfermarkt.co.za/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="en-ZA" rel="alternate"/>
+    <link href="https://www.transfermarkt.com/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="x-default" rel="alternate"/>
+    <link href="https://www.transfermarkt.com/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="en" rel="alternate"/>
+    <link href="https://www.transfermarkt.be/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="nl-BE" rel="alternate"/>
+    <link href="https://www.transfermarkt.ro/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="ro" rel="alternate"/>
+    <link href="https://www.transfermarkt.gr/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="el-GR" rel="alternate"/>
+    <link href="https://www.transfermarkt.co.kr/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="ko-KR" rel="alternate"/>
+    <link href="https://www.transfermarkt.com.ar/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="es-AR" rel="alternate"/>
+    <link href="https://www.transfermarkt.mx/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="es-MX" rel="alternate"/>
+    <link href="https://www.transfermarkt.co/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="es-CO" rel="alternate"/>
+    <link href="https://www.transfermarkt.pe/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="es-PE" rel="alternate"/>
+    <link href="https://www.transfermarkt.my/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="ms" rel="alternate"/>
+    <link href="https://www.transfermarkt.jp/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="ja" rel="alternate"/>
+    <link href="https://www.transfermarkt.co.id/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1" hreflang="id" rel="alternate"/>
+    <link href="https://tmssl.akamaized.net/styles/tm-main.min.css?lm=1760121264" rel="stylesheet" type="text/css"/>
+    <link href="https://tmssl.akamaized.net/css/stylesheets/main_desktop.css?lm=1760120460" rel="stylesheet" type="text/css"/>
+    <link href="https://tmssl.akamaized.net/styles/tm-discover.min.css?lm=1760121264" rel="stylesheet" type="text/css"/>
+    <link href="https://tmssl.akamaized.net/styles/tm-button-list.min.css?lm=1760121264" rel="stylesheet" type="text/css"/>
+    <link href="https://tmssl.akamaized.net/styles/tm-link-list.min.css?lm=1760121264" rel="stylesheet" type="text/css"/>
+    <link href="https://tmssl.akamaized.net/styles/tm-print.min.css?lm=1760121264" rel="stylesheet" type="text/css"/>
+    <link href="https://tmssl.akamaized.net/css/stylesheets/vereinsseite.css?lm=1760120460" rel="stylesheet" type="text/css"/>
+    <link href="https://tmssl.akamaized.net/styles/tm-statistics.min.css?lm=1760121264" rel="stylesheet" type="text/css"/>
+    <link href="https://tmssl.akamaized.net/styles/tm-game-report.min.css?lm=1760121264" rel="stylesheet" type="text/css"/>
+    <link href="https://tmssl.akamaized.net/styles/tm-chosen.min.css?lm=1760121264" rel="stylesheet" type="text/css"/>
+    <link href="https://tmssl.akamaized.net/css/stylesheets/main.css?lm=1760120460" rel="stylesheet" type="text/css"/>
+    <link href="https://tmssl.akamaized.net/css/jquery-ui-custom.css?lm=1760120460" rel="stylesheet" type="text/css"/>
+    <link href="https://tmssl.akamaized.net/styles/tm-club-profile.min.css?lm=1760121264" rel="stylesheet" type="text/css"/>
+    <script src="https://tmssl.akamaized.net/js/vendor/jquery.min.js?lm=1760120460" type="text/javascript">
+    </script>
+    <script src="https://tmssl.akamaized.net/js/jquery-ui-1.10.4.custom.min.js?lm=1760120460" type="text/javascript">
+    </script>
+    <script src="https://tmssl.akamaized.net/js/main.js?lm=1760120460" type="text/javascript">
+    </script>
+    <script src="https://tmssl.akamaized.net/js/chosen.ajaxaddition.jquery.js?lm=1760120460" type="text/javascript">
+    </script>
+    <script src="https://tmssl.akamaized.net/js/functions.js?lm=1760120460" type="text/javascript">
+    </script>
+    <script src="https://tmssl.akamaized.net/js/main_desktop.js?lm=1760120460" type="text/javascript">
+    </script>
+    <script src="https://tmssl.akamaized.net/js/chosen.jquery.js?lm=1760120460" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+     /*<![CDATA[*/
+console.info("%c [TM-ADs] Initialize Ads on domain .us (verein/spielplandatum)", "background: #282828; color: #bada55")
+console.info("%c [TM-ADs] Render slot skyscraper (/div-gpt-ad-skyscraper) for footballco", "background: #282828; color: #bada55")
+console.info("%c [TM-ADs] Render slot billboard (/div-gpt-ad-top_banner) for footballco", "background: #282828; color: #bada55")
+console.info("%c [TM-ADs] Render slot fullsize_contentad (/div-gpt-ad-bottom_banner) for footballco", "background: #282828; color: #bada55")
+    var oddsServe = function(placement,competition,match,node) {
+        if (!node){
+            var s=document.readyState==='loading'?document.getElementsByTagName('script'):[];
+            node=s.length?s[s.length-1].parentNode:null;
+        }
+        oddsServe.queue.push({contentUnitId:placement,competition:competition,match:match,node:node});
+    }
+    
+    oddsServe.onInit=function(callbacks){
+        if (typeof window.__tcfapi === 'function') {
+            __tcfapi('addEventListener', 2, function(tcdata, success) {
+                let tcf20compatibleString;
+                if(success) {
+                    if (tcdata.eventStatus === 'useractioncomplete') {
+                        tcf20compatibleString = tcdata.tcString;
+                    } else if (tcdata.eventStatus === 'tcloaded') {
+                        tcf20compatibleString = tcdata.tcString;
+                    }
+                    callbacks.setGdprOptions({
+                        gdpr:1,
+                        gdpr_pd:1,
+                        gdpr_consent:tcf20compatibleString,
+                    });
+                }
+            });
+        } else {
+            console.warn('E2: __tcfapi not found');
+        }
+    };
+    oddsServe.options={gdpr_wait:true};
+    oddsServe.queue=[];
+console.info("%c [TM-ADs] Add adslot configuration for skyscraper | billboard | fullsize_contentad", "background: #282828; color: #bada55")
+console.info("%c [TM-ADs] Adslots without configuration: skyscraper-left-bound | skyscraperbtf | fireplace | richmedia | 1by1px", "background: #282828; color: #bada55")
+console.info("%c [TM-ADs] Register slots with JS vendor lib", "background: #282828; color: #bada55")
+window.addEventListener('load', () => {
+  const offset = window.matchMedia('(max-width: 768px)').matches ? 80 : 120;
+  document.querySelectorAll('[data-sticky]').forEach(node => {
+    const parent = node.parentElement;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) {
+        parent.style.position = 'sticky';
+        parent.style.top = `${offset}px`;
+        parent.style.zIndex = 12000000;
+        setTimeout(() => {
+          parent.style.removeProperty('position');
+          parent.style.removeProperty('top');
+          parent.style.removeProperty('z-index');
+        }, parseInt(node.dataset?.sticky) || 3000);
+        observer.unobserve(parent);
+      }
+    }, { rootMargin: `-${offset}px 0px 0px 0px`, threshold: 1 });
+    observer.observe(parent);
+  });
+});
+
+console.info("%c [TM-ADs] Render ad slots js for footballco", "background: #282828; color: #bada55")
+console.info("%c [TM-ADs] Added external ad script https://lngtd.com/transfermarkt.js for footballco on wettbewerbe_team_rest", "background: #282828; color: #bada55")
+/*]]>*/
+    </script>
+    <title>
+     Atlanta United FC - Fixtures by date (Detailed view) | Transfermarkt
+    </title>
+    <link href="/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed"/>
+    <script type="text/javascript">
+     tmData = {
+       loggedIn : "0",
+       tmTraffic: "0",
+   };
+    </script>
+    <script>
+     const urlParams = new URLSearchParams(window.location.search);
+    let utmVars = {
+        eVar1: urlParams.get('utm_campaign'),
+        eVar6: urlParams.get('utm_source'),
+        eVar24: urlParams.get('utm_medium')
+    };
+    Object.keys(utmVars).forEach((k) => utmVars[k] == null && delete utmVars[k]);
+
+    window.tmAnalyticsDataLayer = window.tmAnalyticsDataLayer || [];
+    window.tmAnalytics = {
+        dimensions: {
+            eVar7: 'Atlanta United FC (51663)',
+			eVar8: 'Major League Soccer (MLS1)',
+			eVar9: 'United States',
+			eVar10: 'https://www.transfermarkt.us/atlanta-united-fc/spielplandatum/verein/51663',
+			...utmVars,
+            evar19: window.location.href,
+            eVar35 : '',
+			eVar37 : '',
+    },
+    properties: {
+        prop2: 'statistik',
+		prop3: 'verein',
+		prop4: 'spielplandatum',
+		prop5: '51663',
+		prop14: 'statistik_verein_spielplandatum_51663',
+		prop9: window.location.hostname,
+        prop10: window.location.href,
+        prop1 : 'false',
+    },
+    pageDetails: {
+        pageViews: {
+            value: 1
+        },
+        isErrorPage: 'false',
+            isHomepage: 'false',
+            name: 'Atlanta United FC - Fixtures by date (Detailed view) | Transfermarkt',
+            URL: window.location.href,
+            server: 'prod-tm-web-server-1265'
+    },
+    };
+
+function tmEventForLink(category, aTag, label) {
+    const url = new URL(aTag.href);
+    const link = url.pathname + url.search;
+    tmEvent(category, link, label);
+}
+
+function tmEvent(category, action, label, detail = '') {
+    if (typeof gtag === 'function') {
+        gtag('event',
+            action,
+            {
+                'event_category': category,
+                'event_label': label
+            }
+        );
+    }
+
+    const ev = {
+        event: 'tmEvent',
+        tmEvent: {
+            customDimensions: {
+                eVars: {
+                    ...tmAnalytics.dimensions
+                },
+                props: {
+                    prop6: category,
+                    prop7: action,
+                    prop8: label,
+                    prop17: detail,
+                    ...tmAnalytics.properties
+                }
+            },
+            event1to100: {
+                event7: {
+                    value: 1
+                },
+                event8: null,
+            },
+            session: {
+                web: {
+                    webInteraction: {
+                        linkClicks: {
+                            value: 1
+                        }
+                    },
+                    webPageDetails: {
+                        ...tmAnalytics.pageDetails,
+                        ...{
+                            pageViews: {
+                                value: null
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+     if (!window._satellite) {
+        once = false;
+        window._satellite = { _monitors: [{
+            ruleTriggered: (e) => {
+                if (once) {
+                    return;
+                }
+                once = true;
+                setTimeout(() => {
+                    tmAnalyticsDataLayer.push(ev);
+                    tmAnalyticsDataLayer.push(function (dl) {
+                        const state = dl.getState();
+                    });
+                }, 1);
+            }
+        }] };
+    } else {
+        tmAnalyticsDataLayer.push(ev);
+        tmAnalyticsDataLayer.push(function (dl) {
+            const state = dl.getState();
+        });
+    }
+}
+function tmTrackingAndAds() {
+    if (typeof gtag === 'function') {
+        gtag("event", "page_view", {
+            page_path: "/jsContent" + window.location.pathname
+        });
+    }
+
+    tmAnalyticsDataLayer.push({
+        event: 'tmTrackingAndAds',
+        tmTrackingAndAds: {
+            customDimensions: {
+                eVars: tmAnalytics.dimensions,
+                props: tmAnalytics.properties
+            },
+            event1to100: {
+                event7: null,
+                event8: {
+                    value: 1
+                }
+            },
+            session: {
+                web: {
+                    webInteraction: {
+                        linkClicks: {
+                            value: null
+                        }
+                    },
+                    webPageDetails: {
+                        ...tmAnalytics.pageDetails,
+                        ...{
+                            pageViews: {
+                                value: 1
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+    tmAnalyticsDataLayer.push(function (dl) {
+        const state = dl.getState();
+    });
+}
+function tmTiming(value, name, event_category, event_label) {
+    console.log('tmTiming', value, name, event_category, event_label);
+}
+
+        !function(e,a,n,t){var i=e.head;if(i){
+            if (a) return;
+            var o=e.createElement("style");
+            o.id="alloy-prehiding",o.innerText=n,i.appendChild(o),setTimeout(function(){o.parentNode&&o.parentNode.removeChild(o)},t)}}
+        (document, document.location.href.indexOf("adobe_authoring_enabled") !== -1, ".personalization-container { opacity: 0 !important }", 3000);
+
+            !function(n,o){o.forEach(function(o){n[o]||((n.__alloyNS=n.__alloyNS||
+                []).push(o),n[o]=function(){var u=arguments;return new Promise(
+                function(i,l){n[o].q.push([i,l,u])})},n[o].q=[])})}
+            (window,["alloy"]);
+    </script>
+    <tm-consent embed="PHNjcmlwdCBhc3luYyBzcmM9Imh0dHBzOi8vYXNzZXRzLmFkb2JlZHRtLmNvbS83Y2FkY2E5NWRkOWEvY2Q0YWI4ODRkMjMxL2xhdW5jaC0wMTI3MmI0MDBjNjUubWluLmpzIj48L3NjcmlwdD4=" no-checkbox="" type="adobe">
+    </tm-consent>
+    <script src="https://tmssl.akamaized.net//ads/ads.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+     window.tmGaId = "UA-3816204-13";
+
+        function sendIvwData() {}
+    </script>
+    <link href="https://www.transfermarkt.us/atlanta-united-fc/spielplandatum/verein/51663" rel="canonical"/>
+   </link>
+  </link>
+ </head>
+ <body class="desktop" data-cmp-layer-id="910280" data-db-name="us-der-titan" data-tm-tld="us" itemscope="" itemtype="http://schema.org/WebPage">
+  <tm-domain-note>
+  </tm-domain-note>
+  <div id="main">
+   <button id="back-to-top" title="Nach oben">
+    <svg height="10.009" viewbox="0 0 17.795 10.009" width="17.795" xmlns="http://www.w3.org/2000/svg">
+     <path d="M20.683,17.01a1.112,1.112,0,0,1-.786-.326l-7-7-7,7a1.112,1.112,0,1,1-1.573-1.573l7.785-7.785a1.112,1.112,0,0,1,1.573,0l7.785,7.785a1.112,1.112,0,0,1-.786,1.9Z" fill="#fff" id="angle-up" transform="translate(-4 -7)">
+     </path>
+    </svg>
+   </button>
+   <div class="werbung-skyscraper-left-bound-container">
+   </div>
+   <div class="werbung-skyscraper-container">
+    <div class="werbung ad-placement-note werbung-skyscraper" data-ad-placement-note="Advertisement">
+     <div id="div-gpt-ad-skyscraper" style="min-width: 160px; min-height: 600px;">
+     </div>
+    </div>
+   </div>
+   <div class="werbung-skyscraperbtf-container">
+   </div>
+   <div id="tm-overlay">
+   </div>
+   <div class="tm-header__box">
+    <!-- logo  -->
+    <a class="tm-header__logo" href="/" onclick="tmEvent('hauptnavi', '/', 'TM-Logo');">
+     <img alt="Transfermarkt" height="62" src="https://tmsi.akamaized.net/head/tm_logo_rebrush.svg" title="Transfermarkt" width="156"/>
+    </a>
+    <!-- domainswitcher  -->
+    <div class="domin-swicher">
+     <tm-domain-switcher tld="us" translations='{"chooseYourDomain":"Choose your domain"}'>
+     </tm-domain-switcher>
+    </div>
+    <!-- live -->
+    <tm-live-match-count auto-request="" class="tm-header__live" content='{"liveMatches":"Live matches","liveMatch":"Live maches","live":"Live"}'>
+    </tm-live-match-count>
+    <!-- Search -->
+    <div class="tm-header__search" id="schnellsuche-platz">
+     <form action="/schnellsuche/ergebnis/schnellsuche" class="tm-header__form" id="schnellsuche" name="schnellsuche">
+      <input autocorrect="off" class="tm-header__input--search-field" name="query" onclick="" placeholder="Enter your search term" spellcheck="false" type="text" value=""/>
+      <button alt="search" class="tm-header__input--search-send" type="submit" value="">
+       <svg height="18" viewbox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M17.825,16.847 L14.28,13.303 C17.072,9.987 16.756,5.061 13.563,2.13 C10.37,-0.8 5.435,-0.695 2.37,2.37 C-0.695,5.435 -0.8,10.37 2.13,13.563 C5.061,16.756 9.987,17.072 13.303,14.28 L16.847,17.825 C17.121,18.069 17.538,18.057 17.797,17.797 C18.057,17.538 18.069,17.121 17.825,16.847 z M1.418,8.108 C1.417,4.413 4.412,1.417 8.107,1.416 C11.802,1.415 14.798,4.411 14.799,8.106 C14.799,11.801 11.804,14.797 8.108,14.797 C4.414,14.797 1.419,11.803 1.418,8.108 z" fill="#000">
+        </path>
+       </svg>
+      </button>
+     </form>
+     <a class="tm-header__search-detail" href="/detailsuche/spielerdetail/suche" id="detailsuche-head" title="to detailed player search">
+      <svg height="18" viewbox="0, 0, 18, 18" width="18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+       <path d="M3.138,3.558 C3.137,1.593 4.727,0 6.69,0 C8.652,-0 10.243,1.592 10.243,3.556 C10.243,5.521 8.653,7.113 6.69,7.113 C4.729,7.113 3.138,5.522 3.138,3.558 z M8.233,13.187 C8.261,11.778 8.861,10.442 9.893,9.486 C9.967,9.418 9.997,9.315 9.971,9.219 C9.946,9.119 9.863,9.044 9.76,9.03 C9.331,8.938 8.893,8.893 8.454,8.895 L4.906,8.895 C3.583,8.808 2.286,9.298 1.35,10.239 C0.414,11.179 -0.07,12.479 0.021,13.804 C-0.085,14.656 0.209,15.509 0.817,16.114 C1.425,16.72 2.279,17.009 3.13,16.897 L9.266,16.897 C9.372,16.895 9.467,16.831 9.508,16.732 C9.549,16.634 9.527,16.521 9.453,16.444 C8.665,15.544 8.232,14.387 8.236,13.191 z M17.805,17.804 C17.68,17.93 17.511,18 17.334,18 C17.158,18 16.989,17.93 16.864,17.804 L15.237,16.177 C13.686,17.242 11.58,16.949 10.378,15.501 C9.176,14.052 9.274,11.926 10.604,10.594 C11.934,9.263 14.058,9.165 15.505,10.368 C16.952,11.571 17.244,13.68 16.181,15.233 L17.805,16.866 C18.065,17.126 18.065,17.548 17.805,17.808 z M15.484,13.182 C15.484,11.911 14.455,10.881 13.186,10.881 C11.917,10.881 10.888,11.911 10.888,13.182 C10.888,14.452 11.917,15.482 13.186,15.482 C14.455,15.482 15.484,14.452 15.484,13.182 z" fill="#000">
+       </path>
+      </svg>
+     </a>
+    </div>
+    <!-- login button -->
+    <div class="tm-header__login">
+     <tm-userbox page-title="Atlanta United FC - Fixtures by date (Detailed view) | Transfermarkt" tld="us" translations='{"addFavorite":"Add favourite","adminArea":"Admin area","adminTools":"Admin tools","allFavoriteLinkText":"Go to all my favourite links","applyAsModOrDatascout":"Apply as a moderator or datascout","checkAllNews":"Check all news","checkAllRumours":"Check all rumours","chooseYourDomain":"Choose your domain","clickAgain":"Click again to copy shortlink to your clipboard","clubBoard":"Club forum","copied":"Copied to your clipboard","copyLink":"Link kopieren","createAccount":"Create your account","createNewMessage":"Create a new message","createShortlink":"create a shortlink","createShortNews":"Create memo","dashboard":"Overview","dataAdministration":"Data administration","debug":"Debug","deleteAll":"Delete all","deleteConfirm":"Yes, delete all","editText":"Edit","forgotPassword":"Forgot password?","forgotUsername":"Forgot username?","forgotLoginDetails":"Forgot your login details?","forum":"forum","groundhoppingTool":"Groundhopping Tool","lastMatch":"last match","signin":"Log in","login":"Login","logOut":"Log out","manageFavorites":"Manage favourites","marketValue":"market value","matchplan":"Schedule","messages":"Private messages","myClub":"My club","myClubText":"With a Transfermarkt account you can register your favourite club and find all important information about your club (matches, news, quick links). ","myDreamTeam":"My dream team","myFavorites":"My favourites","myFavoritesText":"With a Transfermarkt account, you can save any page as a favourite and then access it with one click.","myProfile":"My profile","news":"News","newsAdministration":"News administration","nextMatch":"next match","noNewNotifications":"No new notifications","notifications":"Notifications","notificationsDeletedAutomatically":"Note: Notifications are automatically deleted after 30 days.","notifyDeleteMessage":"Private messages older than 45 days will be deleted from time to time (except for data scouts and moderators)","or":"or","other":"Miscellaneous","overview":"overview","password":"Password","playerRatings":"Player ratings","playerWatchlist":"Players Watchlist","profile":"Profile","progDebug":"Prog. depanare","progProfile":"Prog. profile","registerNow":"Sign up now","rememberMe":"Remember me","removeFavorite":"Delete favourite","rumors":"Rumours","schedule":"Schedule","setting":"Settings","shortlink":"Shortlink","shortLinkCreationError":"An Error occured creating the shortlink.","shortLinkHasBeenCreated":"Shortlink has been created an was copied to your clipboard","shortLinkIsBeingCreated":"Creating shortlink ...","showAllMessages":"Show all messages","totalMarketValue":"Total market value","translation":"Translation","username":"Username","whyRegister":"Why register?","Bitte korrigieren Sie die markierten Felder":"Bitte korrigieren Sie die markierten Felder","Mindestens drei Zeichen":"Mindestens drei Zeichen","Mindestens acht Zeichen":"Mindestens acht Zeichen"}'>
+     </tm-userbox>
+    </div>
+   </div>
+   <!-- mobile end -->
+   <nav class="main-navbar">
+    <a class="main-navbar__lp-link" href="/" onclick="tmEvent('hauptnavi', '/', 'DISCOVER')">
+     DISCOVER
+    </a>
+    <a class="main-navbar__lp-link" href="/navigation/transfersundgeruechte" onclick="tmEvent('hauptnavi', '/navigation/transfersundgeruechte', 'TRANSFERS &amp; RUMOURS')">
+     TRANSFERS &amp; RUMOURS
+    </a>
+    <a class="main-navbar__lp-link" href="/navigation/marktwerte" onclick="tmEvent('hauptnavi', '/navigation/marktwerte', 'MARKET VALUES')">
+     MARKET VALUES
+    </a>
+    <a class="main-navbar__lp-link" href="/navigation/wettbewerbe" onclick="tmEvent('hauptnavi', '/navigation/wettbewerbe', 'COMPETITIONS')">
+     COMPETITIONS
+    </a>
+    <a class="main-navbar__lp-link" href="/navigation/statistiken" onclick="tmEvent('hauptnavi', '/navigation/statistiken', 'STATISTICS')">
+     STATISTICS
+    </a>
+    <a class="main-navbar__lp-link" href="/navigation/community" onclick="tmEvent('hauptnavi', '/navigation/community', 'COMMUNITY')">
+     COMMUNITY
+    </a>
+    <a class="main-navbar__lp-link" href="/navigation/gaming" onclick="tmEvent('hauptnavi', '/navigation/gaming', 'GAMING')">
+     GAMING
+    </a>
+    <div class="main-navbar__details">
+     <div class="hamburger">
+      <em>
+      </em>
+     </div>
+     <div class="dropdown-layer">
+     </div>
+     <div class="main-navbar__dropdown">
+      <div class="recommendation">
+       <div class="tm-discover__hero-container tm-discover__hero-container-grid tm-discover-container-grid">
+        <section class="tm-button-list__wrapper tm-button-list__wrapper--two-thirds">
+         <span class="tm-discover__h2">
+          Recommendations
+         </span>
+         <ul class="tm-button-list">
+          <li>
+           <a class="tm-button-list__list-item tm-button-list__list-item--big" href="/major-league-soccer/startseite/wettbewerb/MLS1" onclick="tmEvent('recommendations_recommendation', '/major-league-soccer/startseite/wettbewerb/MLS1' , '1_1', 'buttonList');" target="" title="MLS">
+            <img alt="Major League Soccer" class="tm-button-list__image tm-button-list__image--big 1" height="36" src="https://tmssl.akamaized.net//images/logo/homepageWappen150x150/mls1.png?lm=1612117632" width="54"/>
+           </a>
+          </li>
+          <li>
+           <a class="tm-button-list__list-item tm-button-list__list-item--big" href="/premier-league/startseite/wettbewerb/GB1" onclick="tmEvent('recommendations_recommendation', '/premier-league/startseite/wettbewerb/GB1' , '1_2', 'buttonList');" target="" title="Premier League">
+            <img alt="Premier League" class="tm-button-list__image tm-button-list__image--big 1" height="36" src="https://tmssl.akamaized.net//images/logo/homepageWappen150x150/gb1.png?lm=1521104656" width="54"/>
+           </a>
+          </li>
+          <li>
+           <a class="tm-button-list__list-item tm-button-list__list-item--big" href="/laliga/startseite/wettbewerb/ES1" onclick="tmEvent('recommendations_recommendation', '/laliga/startseite/wettbewerb/ES1' , '1_3', 'buttonList');" target="" title="LaLiga">
+            <img alt="LaLiga" class="tm-button-list__image tm-button-list__image--big 1" height="36" src="https://tmssl.akamaized.net//images/logo/homepageWappen150x150/es1.png?lm=1725974302" width="54"/>
+           </a>
+          </li>
+          <li>
+           <a class="tm-button-list__list-item tm-button-list__list-item--big" href="/serie-a/startseite/wettbewerb/IT1" onclick="tmEvent('recommendations_recommendation', '/serie-a/startseite/wettbewerb/IT1' , '1_4', 'buttonList');" target="" title="Serie A">
+            <img alt="Serie A" class="tm-button-list__image tm-button-list__image--big 1" height="36" src="https://tmssl.akamaized.net//images/logo/homepageWappen150x150/it1.png?lm=1656073460" width="54"/>
+           </a>
+          </li>
+          <li>
+           <a class="tm-button-list__list-item tm-button-list__list-item--big" href="/bundesliga/startseite/wettbewerb/L1" onclick="tmEvent('recommendations_recommendation', '/bundesliga/startseite/wettbewerb/L1' , '1_5', 'buttonList');" target="" title="Bundesliga">
+            <img alt="Bundesliga" class="tm-button-list__image tm-button-list__image--big 1" height="36" src="https://tmssl.akamaized.net//images/logo/homepageWappen150x150/l1.png?lm=1525905518" width="54"/>
+           </a>
+          </li>
+          <li>
+           <a class="tm-button-list__list-item tm-button-list__list-item--big" href="/champions-league/startseite/pokalwettbewerb/CL" onclick="tmEvent('recommendations_recommendation', '/champions-league/startseite/pokalwettbewerb/CL' , '1_6', 'buttonList');" target="_self" title="UEFA Champions League">
+            <img alt="Ligue 1" class="tm-button-list__image tm-button-list__image--big 1" height="36" src="https://tmssl.akamaized.net//images/logo/homepageWappen150x150/fr1.png?lm=1732280518" width="54"/>
+           </a>
+          </li>
+         </ul>
+        </section>
+        <section class="tm-button-list__wrapper tm-button-list__wrapper--one-third tm-button-list__desktop">
+         <span class="tm-discover__h2">
+          Player agents
+         </span>
+         <ul class="tm-button-list">
+          <li>
+           <a class="tm-button-list__list-item tm-button-list__list-item--big tm-button-list__agent" href="/agent-support/beraterIndex/berater" onclick="tmEvent('recommendations_recommendation', '/agent-support/beraterIndex/berater' , '2_1', 'buttonList');" target="_self" title="Agent support">
+            <img alt="" class="tm-button-list__image tm-button-list__image--big tm-button-list__image--country tm-button-list__image--border" height="36" src="https://tmsi.akamaized.net/rebrush/navigation/agent-support.webp" width="54"/>
+            Agent
+            <br/>
+            support
+           </a>
+          </li>
+          <li>
+           <a class="tm-button-list__list-item tm-button-list__list-item--big tm-button-list__agent" href="/berater/beraterfirmenuebersicht/berater" onclick="tmEvent('recommendations_recommendation', '/berater/beraterfirmenuebersicht/berater' , '2_2', 'buttonList');" target="_self" title="Agent statistics">
+            <img alt="" class="tm-button-list__image tm-button-list__image--big tm-button-list__image--country tm-button-list__image--border" height="36" src="https://tmsi.akamaized.net/rebrush/navigation/agent-statistic.webp" width="54"/>
+            Agent
+            <br/>
+            statistics
+           </a>
+          </li>
+          <li>
+           <a class="tm-button-list__list-item tm-button-list__list-item--big tm-button-list__agent" href="/premium-service/berater" onclick="tmEvent('recommendations_recommendation', '/premium-service/berater' , '2_3', 'buttonList');" target="_self" title="Premium service">
+            <img alt="" class="tm-button-list__image tm-button-list__image--big tm-button-list__image--country tm-button-list__image--border" height="36" src="https://tmsi.akamaized.net/rebrush/navigation/premium-service.webp" width="54"/>
+            Premium
+            <br/>
+            service
+           </a>
+          </li>
+         </ul>
+        </section>
+        <section class="tm-link-list-container tm-link-list--full">
+         <div aria-label="" class="tm-link-list-element" role="navigation">
+          <ul class="tm-link-list-unordered recommendation__links">
+           <li class="tm-link-list-item">
+            <a class="tm-link__arrow" href="/statistik/neuestetransfers" onclick="tmEvent('recommendations_recommendation', '/statistik/neuestetransfers' , '3_1','linkList');" target="_self" title="Latest transfers">
+             Latest transfers
+            </a>
+           </li>
+           <li class="tm-link-list-item">
+            <a class="tm-link__arrow" href="/us-rumor-mill/detail/forum/613" onclick="tmEvent('recommendations_recommendation', '/us-rumor-mill/detail/forum/613' , '3_2','linkList');" target="_self" title="Rumour Mill">
+             Rumour Mill
+            </a>
+           </li>
+           <li class="tm-link-list-item">
+            <a class="tm-link__arrow" href="/aktuell/newsarchiv" onclick="tmEvent('recommendations_recommendation', '/aktuell/newsarchiv' , '3_3','linkList');" target="_self" title="All news">
+             All news
+            </a>
+           </li>
+           <li class="tm-link-list-item">
+            <a class="tm-link__arrow" href="/whatsMyValue" onclick="tmEvent('recommendations_recommendation', '/whatsMyValue' , '3_4','linkList');" target="_self" title="What's my value?">
+             What's my value?
+            </a>
+           </li>
+           <li class="tm-link-list-item">
+            <a class="tm-link__arrow" href="/spieler-statistik/wertvollstespieler/marktwertetop" onclick="tmEvent('recommendations_recommendation', '/spieler-statistik/wertvollstespieler/marktwertetop' , '3_5','linkList');" target="_self" title="Most valuable players in the world">
+             Most valuable players in the world
+            </a>
+           </li>
+          </ul>
+          <ul class="tm-link-list-unordered recommendation__links">
+           <li class="tm-link-list-item">
+            <a class="tm-link__arrow" href="/major-league-soccer/marktwerte/wettbewerb/MLS1" onclick="tmEvent('recommendations_recommendation', '/major-league-soccer/marktwerte/wettbewerb/MLS1' , '3_6','linkList');" target="_self" title="Most valuable players MLS">
+             Most valuable players MLS
+            </a>
+           </li>
+           <li class="tm-link-list-item">
+            <a class="tm-link__arrow" href="/statistik/vertragslosespieler" onclick="tmEvent('recommendations_recommendation', '/statistik/vertragslosespieler' , '3_7','linkList');" target="_self" title="Free agents">
+             Free agents
+            </a>
+           </li>
+           <li class="tm-link-list-item">
+            <a class="tm-link__arrow" href="/statistik/endendevertraege" onclick="tmEvent('recommendations_recommendation', '/statistik/endendevertraege' , '3_8','linkList');" target="_self" title="Contracts ending">
+             Contracts ending
+            </a>
+           </li>
+           <li class="tm-link-list-item">
+            <a class="tm-link__arrow" href="/statistik/weltrangliste" onclick="tmEvent('recommendations_recommendation', '/statistik/weltrangliste' , '3_9','linkList');" target="_self" title="FIFA World Ranking">
+             FIFA World Ranking
+            </a>
+           </li>
+          </ul>
+         </div>
+        </section>
+        <section class="tm-button-list__wrapper tm-button-list__wrapper--full tm-button-list__mobile">
+         <span class="tm-discover__h2">
+          Player agents
+         </span>
+         <ul class="tm-button-list">
+          <li>
+           <a class="tm-button-list__list-item tm-button-list__list-item--big tm-button-list__agent" href="/agent-support/beraterIndex/berater" onclick="tmEvent('recommendations_recommendation', '/agent-support/beraterIndex/berater' , '4_1', 'buttonList');" target="_self" title="Agent support">
+            <img alt="" class="tm-button-list__image tm-button-list__image--big tm-button-list__image--country tm-button-list__image--border" height="36" src="https://tmsi.akamaized.net/rebrush/navigation/agent-support.webp" width="54"/>
+            Agent
+            <br/>
+            support
+           </a>
+          </li>
+          <li>
+           <a class="tm-button-list__list-item tm-button-list__list-item--big tm-button-list__agent" href="/berater/beraterfirmenuebersicht/berater" onclick="tmEvent('recommendations_recommendation', '/berater/beraterfirmenuebersicht/berater' , '4_2', 'buttonList');" target="_self" title="Agent statistics">
+            <img alt="" class="tm-button-list__image tm-button-list__image--big tm-button-list__image--country tm-button-list__image--border" height="36" src="https://tmsi.akamaized.net/rebrush/navigation/agent-statistic.webp" width="54"/>
+            Agent
+            <br/>
+            statistics
+           </a>
+          </li>
+          <li>
+           <a class="tm-button-list__list-item tm-button-list__list-item--big tm-button-list__agent" href="/premium-service/berater" onclick="tmEvent('recommendations_recommendation', '/premium-service/berater' , '4_3', 'buttonList');" target="_self" title="Premium service">
+            <img alt="" class="tm-button-list__image tm-button-list__image--big tm-button-list__image--country tm-button-list__image--border" height="36" src="https://tmsi.akamaized.net/rebrush/navigation/premium-service.webp" width="54"/>
+            Premium
+            <br/>
+            service
+           </a>
+          </li>
+         </ul>
+        </section>
+       </div>
+      </div>
+     </div>
+    </div>
+   </nav>
+   <div class="quick-select-wrapper">
+    <tm-quick-select defaultclub="51663" defaultcompetition="MLS1" defaultcountry="184" defaultplayer="" dropdown-visible="" translations='{"home":"Home","country":"Country","competition":"Competition","club":"Club","player":"Player","attack":"Striker","midfield":"Midfielder","defense":"Defender","goalkeeper":"Goalkeeper"}'>
+    </tm-quick-select>
+   </div>
+   <div class="werbung ad-placement-note werbung-billboard" data-ad-placement-note="Advertisement">
+    <div id="div-gpt-ad-top_banner" style="min-width: 728px; min-height: 90px;">
+    </div>
+   </div>
+   <main id="tm-main">
+    <header class="data-header">
+     <div class="data-header__headline-container">
+      <h1 class="data-header__headline-wrapper data-header__headline-wrapper--oswald">
+       Atlanta United FC
+      </h1>
+     </div>
+     <div class="data-header__badge-container">
+      <a class="data-header__success-data" href="/atlanta-united-fc/erfolge/verein/51663" title="MLS Cup Winner">
+       <img alt="MLS Cup Winner" class="data-header__success-image lazy lazy" data-src="https://tmssl.akamaized.net//images/erfolge/header/241.png?lm=1520606999" src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" title="MLS Cup Winner">
+        <span class="data-header__success-number">
+         1
+        </span>
+       </img>
+      </a>
+      <a class="data-header__success-data" href="/atlanta-united-fc/erfolge/verein/51663" title="US Open Cup Winner">
+       <img alt="US Open Cup Winner" class="data-header__success-image lazy lazy" data-src="https://tmssl.akamaized.net//images/erfolge/header/244.png?lm=1466586047" src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" title="US Open Cup Winner">
+        <span class="data-header__success-number">
+         1
+        </span>
+       </img>
+      </a>
+      <a class="data-header__success-data" href="/atlanta-united-fc/erfolge/verein/51663" title="Campeones Cup Winner">
+       <img alt="Campeones Cup Winner" class="data-header__success-image lazy lazy" data-src="https://tmssl.akamaized.net//images/erfolge/header/573.png?lm=1605203837" src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" title="Campeones Cup Winner">
+        <span class="data-header__success-number">
+         1
+        </span>
+       </img>
+      </a>
+     </div>
+     <div class="data-header__box--big">
+      <a class="data-header__box__club-link" href="/major-league-soccer/startseite/wettbewerb/MLS1">
+       <img alt="Major League Soccer" height="80" srcset="
+                                    https://tmssl.akamaized.net//images/logo/homepageNewsLogo80x80/mls1.png?lm=1612117632 1x,
+                                    https://tmssl.akamaized.net//images/logo/homepageWappen150x150/mls1.png?lm=1612117632 2x
+                                " width="80">
+       </img>
+      </a>
+      <div class="data-header__club-info">
+       <span class="data-header__club" itemprop="affiliation">
+        <a href="/major-league-soccer/startseite/wettbewerb/MLS1">
+         Major League Soccer
+        </a>
+       </span>
+       <span class="data-header__label">
+        <strong>
+         League level:
+        </strong>
+        <span class="data-header__content">
+         <a href="/major-league-soccer/startseite/wettbewerb/MLS1">
+          <img alt="United States" class="flaggenrahmen vm lazy lazy" data-src="https://tmssl.akamaized.net//images/flagge/tiny/184.png?lm=1520611569" src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" title="United States">
+           First Tier
+          </img>
+         </a>
+        </span>
+       </span>
+       <span class="data-header__label">
+        Table position:
+        <span class="data-header__content">
+         <a href="/major-league-soccer/tabelle/wettbewerb/MLS1" title="League table">
+          14
+         </a>
+        </span>
+       </span>
+       <span class="data-header__label">
+        In league since:
+        <span class="data-header__content">
+         <a href="/atlanta-united-fc/platzierungen/verein/51663" title="">
+          9 years
+         </a>
+        </span>
+       </span>
+      </div>
+     </div>
+     <div class="data-header__profile-container">
+      <img alt="Atlanta United FC" class="" src="https://tmssl.akamaized.net//images/wappen/head/51663.png?lm=1478716243" title="Atlanta United FC">
+      </img>
+     </div>
+     <div class="data-header__box--small">
+      <a class="data-header__market-value-wrapper" href="/atlanta-united-fc/kader/verein/51663">
+       <span class="waehrung">
+        €
+       </span>
+       64.85
+       <span class="waehrung">
+        m
+       </span>
+       <p class="data-header__last-update">
+        Total market value
+       </p>
+      </a>
+     </div>
+     <div class="data-header__info-box">
+      <div class="data-header__details">
+       <ul class="data-header__items">
+        <li class="data-header__label">
+         Squad size:
+         <span class="data-header__content" itemprop="dataItem">
+          28
+         </span>
+        </li>
+        <li class="data-header__label">
+         Average age:
+         <span class="data-header__content" itemprop="dataItem">
+          26.4
+         </span>
+        </li>
+        <li class="data-header__label">
+         Foreigners:
+         <span class="data-header__content" itemprop="dataItem">
+          <a href="/atlanta-united-fc/legionaere/verein/51663">
+           18
+          </a>
+          <span class="tabellenplatz">
+           64.3 %
+          </span>
+         </span>
+        </li>
+       </ul>
+       <ul class="data-header__items">
+        <li class="data-header__label">
+         National team players:
+         <span class="data-header__content" itemprop="dataItem">
+          <a href="/atlanta-united-fc/nationalspieler/verein/51663">
+           10
+          </a>
+         </span>
+        </li>
+        <li class="data-header__label">
+         Stadium:
+         <span class="data-header__content" itemprop="dataItem">
+          <a href="/atlanta-united-fc/stadion/verein/51663" title="Atlanta United FC">
+           Mercedes-Benz Stadium
+          </a>
+          <span class="tabellenplatz">
+           73.019 Seats
+          </span>
+         </span>
+        </li>
+        <li class="data-header__label">
+         Current transfer record:
+         <span class="data-header__content" itemprop="dataItem">
+          <span class="greentext">
+           <a class="greentext" href="/atlanta-united-fc/transfers/verein/51663/saison_id/2024">
+            +€4.93m
+           </a>
+          </span>
+         </span>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="data-header__toggle">
+      <div class="data-header__toggle-icon">
+       +
+      </div>
+      <ul class="data-header__list-clubs">
+       <li>
+        <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC">
+         <span>
+          <a href="/atlanta-united-fc/startseite/verein/51663" title="Atlanta United FC">
+           Atlanta United FC
+          </a>
+         </span>
+        </img>
+       </li>
+       <li>
+        <img alt="Atlanta United Academy" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/56870.png?lm=1478716243" title="Atlanta United Academy">
+         <span>
+          <a href="/atlanta-united-academy/startseite/verein/56870" title="Atlanta United Academy">
+           Atlanta United Academy
+          </a>
+         </span>
+        </img>
+       </li>
+      </ul>
+     </div>
+    </header>
+    <script type="text/javascript">
+     const headerLinkList = document.querySelector('.data-header__toggle');
+    if (headerLinkList) {
+        headerLinkList.addEventListener('click', () => {
+            headerLinkList.classList.toggle('data-header__toggle--active');
+        })
+    };
+    </script>
+    <a class="db mt10" href="https://www.transfermarkt.us/ligue-1-market-values-dembele-back-to-euro-100m-zaire-emery-drops-again/view/news/461277" onclick="tmEvent('banner', 'https://www.transfermarkt.us/ligue-1-market-values-dembele-back-to-euro-100m-zaire-emery-drops-again/view/news/461277', 'd-day-banner');" target="1">
+     <img alt="deadline-day banner" height="99" loading="lazy" src="https://dzjovqk3zamsg.cloudfront.net/ligue-1-desktop-banner.jpg" width="1034"/>
+    </a>
+    <script type="text/javascript">
+     (() => {
+        const cookies = document.cookie
+            .split(';')
+            .map(c => c.trim().split('='))
+            .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+        const isContentPassUser = cookies?._cpauthhint !== undefined;
+        if (isContentPassUser) {
+            const adNodes = document.querySelectorAll('.ad-placement-note');
+            adNodes.forEach(node => node.remove());
+        }
+    })();
+    </script>
+    <tm-subnavigation controller="verein" id="51663" season="2024" section="verein" style="display: block; margin: 0 5px;">
+    </tm-subnavigation>
+    <div class="row">
+     <div class="large-12 columns">
+      <div class="box">
+       <h2 class="content-box-headline">
+        Fixtures by date
+       </h2>
+       <p class="info-content">
+        This is an overview of all fixtures of the club in chronological order.
+       </p>
+       <div class="content">
+        <form action="/atlanta-united-fc/spielplandatum/verein/51663/plus/1" method="get">
+         <div class="row">
+          <div class="large-12 columns">
+           <table class="auflistung">
+            <tbody>
+             <tr>
+              <td>
+               Season:
+              </td>
+              <td colspan="3">
+               <div class="inline-select">
+                <select class="chzn-select" data-placeholder="Filter by season" name="saison_id" tabindex="0">
+                 <option value="">
+                  doesn't matter
+                 </option>
+                 <option value="2024">
+                  24/25
+                 </option>
+                 <option value="2023">
+                  23/24
+                 </option>
+                 <option value="2022">
+                  22/23
+                 </option>
+                 <option value="2021">
+                  21/22
+                 </option>
+                 <option value="2020">
+                  20/21
+                 </option>
+                 <option value="2019">
+                  19/20
+                 </option>
+                 <option value="2018">
+                  18/19
+                 </option>
+                 <option value="2017">
+                  17/18
+                 </option>
+                 <option selected="selected" value="2016">
+                  16/17
+                 </option>
+                </select>
+               </div>
+              </td>
+              <td>
+              </td>
+             </tr>
+             <tr>
+              <td>
+               Competition:
+              </td>
+              <td colspan="3">
+               <div class="inline-select">
+                <select class="chzn-select" data-placeholder="Einen Wettbewerb auswählen" name="wettbewerb_id" tabindex="0">
+                 <option value="">
+                  All
+                 </option>
+                 <option value="CCL">
+                  CONCACAF Champions Cup
+                 </option>
+                 <option value="MLS1">
+                  MLS
+                 </option>
+                 <option value="CAMC">
+                  Campeones Cup
+                 </option>
+                 <option value="USSP">
+                  MLS is Back
+                 </option>
+                 <option value="USMX">
+                  Leagues Cup
+                 </option>
+                 <option value="MLSP">
+                  US Open Cup
+                 </option>
+                 <option value="POUS">
+                  MLS Cup Playoffs
+                 </option>
+                </select>
+               </div>
+              </td>
+              <td>
+              </td>
+             </tr>
+             <tr>
+              <td>
+               Weekday:
+              </td>
+              <td colspan="3">
+               <div class="inline-select">
+                <select class="chzn-select" data-placeholder="Wochentag wählen" name="day" tabindex="0">
+                 <option value="">
+                  All
+                 </option>
+                 <option value="6">
+                  Friday
+                 </option>
+                 <option value="7">
+                  Saturday
+                 </option>
+                 <option value="1">
+                  Sunday
+                 </option>
+                 <option value="2">
+                  Monday
+                 </option>
+                 <option value="3">
+                  Tuesday
+                 </option>
+                 <option value="4">
+                  Wednesday
+                 </option>
+                 <option value="5">
+                  Thursday
+                 </option>
+                </select>
+               </div>
+              </td>
+              <td>
+              </td>
+             </tr>
+             <tr>
+              <td>
+               Venue:
+              </td>
+              <td colspan="3">
+               <div class="inline-select">
+                <select class="chzn-select" data-placeholder="Spielort auswählen" name="heim_gast" tabindex="0">
+                 <option value="">
+                  All
+                 </option>
+                 <option value="heim">
+                  Only home games
+                 </option>
+                 <option value="gast">
+                  Only away games
+                 </option>
+                </select>
+               </div>
+              </td>
+              <td>
+              </td>
+             </tr>
+             <tr>
+              <td>
+               Result:
+              </td>
+              <td colspan="3">
+               <div class="inline-select">
+                <select class="chzn-select" data-placeholder="Resultat wählen" name="punkte" tabindex="0">
+                 <option value="">
+                  All
+                 </option>
+                 <option value="0">
+                  Defeats
+                 </option>
+                 <option value="1">
+                  Draws
+                 </option>
+                 <option value="3">
+                  Wins
+                 </option>
+                </select>
+               </div>
+              </td>
+              <td>
+              </td>
+             </tr>
+             <tr>
+              <td>
+               Period:
+              </td>
+              <td>
+               <input class="" id="datum_von" name="datum_von" style="font-weight:normal !important;" type="text" value=""/>
+              </td>
+              <td class="zentriert hauptlink">
+               -
+              </td>
+              <td>
+               <input class="" id="datum_bis" name="datum_bis" type="text" value=""/>
+              </td>
+              <td>
+              </td>
+             </tr>
+             <tr>
+              <td colspan="4">
+              </td>
+              <td>
+               <input class="small button" type="submit" value="Show"/>
+              </td>
+             </tr>
+            </tbody>
+           </table>
+          </div>
+         </div>
+        </form>
+       </div>
+       <div class="tm-tabs">
+        <a class="tm-tab" href="/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0">
+         <div class="">
+          <span>
+           Compact
+          </span>
+         </div>
+        </a>
+        <a class="tm-tab tm-tab__active--parent" href="/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1">
+         <div class="tm-tab__active">
+          <span>
+           Detailed
+          </span>
+         </div>
+        </a>
+       </div>
+       <div class="responsive-table">
+        <table>
+         <thead>
+          <tr>
+           <th class="zentriert">
+            Matchday
+           </th>
+           <th class="zentriert">
+            Date
+           </th>
+           <th class="zentriert">
+            Time
+           </th>
+           <th colspan="2">
+            Home team
+           </th>
+           <th colspan="2">
+            Away team
+           </th>
+           <th class="zentriert">
+            System of play
+           </th>
+           <th>
+            Coach
+           </th>
+           <th class="rechts">
+            Attendance
+           </th>
+           <th class="zentriert">
+            Result
+           </th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr>
+           <td class="extrarow bg_blau_20 hauptlink" colspan="13">
+            <img alt="Major League Soccer" class="wettbewerblogo" src="https://tmssl.akamaized.net//images/logo/tiny/mls1.png?lm=1612117632" title="Major League Soccer">
+             <a href="/major-league-soccer/startseite/wettbewerb/MLS1" title="Major League Soccer">
+              Major League Soccer
+             </a>
+            </img>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/1">
+             1
+            </a>
+           </td>
+           <td class="zentriert">
+            Sun 3/5/17
+           </td>
+           <td class="zentriert">
+            7:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (4.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/new-york-red-bulls/spielplan/verein/623/saison_id/2016" title="New York Red Bulls">
+             <img alt="New York Red Bulls" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/623.png?lm=1464530064" title="New York Red Bulls"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/new-york-red-bulls/spielplan/verein/623/saison_id/2016" title="New York Red Bulls">
+             New York
+            </a>
+            <span class="tabellenplatz">
+             (6.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            55.297
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2810046" id="2810046" title="Match report">
+             <span class="redtext">
+              1:2
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/2">
+             2
+            </a>
+           </td>
+           <td class="zentriert">
+            Sun 3/12/17
+           </td>
+           <td class="zentriert">
+            6:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/minnesota-united-fc/spielplan/verein/56089/saison_id/2016" title="Minnesota United FC">
+             <img alt="Minnesota United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/56089.png?lm=1474755528" title="Minnesota United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/minnesota-united-fc/spielplan/verein/56089/saison_id/2016" title="Minnesota United FC">
+             Minnesota
+            </a>
+            <span class="tabellenplatz">
+             (11.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (8.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            35.043
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2810055" id="2810055" title="Match report">
+             <span class="greentext">
+              1:6
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/3">
+             3
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 3/18/17
+           </td>
+           <td class="zentriert">
+            4:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (3.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/chicago-fire-fc/spielplan/verein/432/saison_id/2016" title="Chicago Fire">
+             <img alt="Chicago Fire" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/432_1574357491.png?lm=1574357493" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/chicago-fire-fc/spielplan/verein/432/saison_id/2016" title="Chicago Fire">
+             Chicago
+            </a>
+            <span class="tabellenplatz">
+             (2.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            45.922
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2816218" id="2816218" title="Match report">
+             <span class="greentext">
+              4:0
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/4">
+             4
+            </a>
+           </td>
+           <td class="zentriert">
+            Fri 3/31/17
+           </td>
+           <td class="zentriert">
+            10:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/seattle-sounders-fc/spielplan/verein/9636/saison_id/2016" title="Seattle Sounders FC">
+             <img alt="Seattle Sounders FC" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/9636_1702714646.png?lm=1702714646" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/seattle-sounders-fc/spielplan/verein/9636/saison_id/2016" title="Seattle Sounders FC">
+             Seattle
+            </a>
+            <span class="tabellenplatz">
+             (6.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (1.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Attacking
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            40.182
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2816227" id="2816227" title="Match report">
+             <span class="">
+              0:0
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/5">
+             5
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 4/8/17
+           </td>
+           <td class="zentriert">
+            7:30 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/toronto-fc/spielplan/verein/11141/saison_id/2016" title="Toronto FC">
+             <img alt="Toronto FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/11141.png?lm=1410196948" title="Toronto FC"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/toronto-fc/spielplan/verein/11141/saison_id/2016" title="Toronto FC">
+             Toronto
+            </a>
+            <span class="tabellenplatz">
+             (7.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (2.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-2-3-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            26.812
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2816238" id="2816238" title="Match report">
+             <span class="">
+              2:2
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/6">
+             6
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 4/15/17
+           </td>
+           <td class="zentriert">
+            12:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/club-de-foot-montreal/spielplan/verein/4078/saison_id/2016" title="Montreal Impact">
+             <img alt="Montreal Impact" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/4078_1610642709.png?lm=1610642709" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/club-de-foot-montreal/spielplan/verein/4078/saison_id/2016" title="Montreal Impact">
+             Montreal
+            </a>
+            <span class="tabellenplatz">
+             (10.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (4.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Attacking
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            17.144
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2816252" id="2816252" title="Match report">
+             <span class="redtext">
+              2:1
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/7">
+             7
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 4/22/17
+           </td>
+           <td class="zentriert">
+            8:30 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/real-salt-lake-city/spielplan/verein/6643/saison_id/2016" title="Real Salt Lake City">
+             <img alt="Real Salt Lake City" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/6643.png?lm=1410197995" title="Real Salt Lake City"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/real-salt-lake-city/spielplan/verein/6643/saison_id/2016" title="Real Salt Lake City">
+             Salt Lake
+            </a>
+            <span class="tabellenplatz">
+             (6.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (7.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            18.946
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2819355" id="2819355" title="Match report">
+             <span class="greentext">
+              1:3
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/8">
+             8
+            </a>
+           </td>
+           <td class="zentriert">
+            Sun 4/30/17
+           </td>
+           <td class="zentriert">
+            3:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (5.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/d-c-united/spielplan/verein/2440/saison_id/2016" title="D.C. United">
+             <img alt="D.C. United" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/2440.png?lm=1450113961" title="D.C. United"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/d-c-united/spielplan/verein/2440/saison_id/2016" title="D.C. United">
+             D.C. United
+            </a>
+            <span class="tabellenplatz">
+             (9.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            46.011
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2819369" id="2819369" title="Match report">
+             <span class="redtext">
+              1:3
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/9">
+             9
+            </a>
+           </td>
+           <td class="zentriert">
+            Sun 5/7/17
+           </td>
+           <td class="zentriert">
+            4:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/new-york-city-fc/spielplan/verein/40058/saison_id/2016" title="New York City FC">
+             <img alt="New York City FC" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/40058_1726076912.png?lm=1726076913" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/new-york-city-fc/spielplan/verein/40058/saison_id/2016" title="New York City FC">
+             New York City
+            </a>
+            <span class="tabellenplatz">
+             (3.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (7.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Attacking
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            25.605
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2819382" id="2819382" title="Match report">
+             <span class="redtext">
+              3:1
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/10">
+             10
+            </a>
+           </td>
+           <td class="zentriert">
+            Sun 5/14/17
+           </td>
+           <td class="zentriert">
+            3:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/portland-timbers/spielplan/verein/4291/saison_id/2016" title="Portland Timbers">
+             <img alt="Portland Timbers" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/4291_1549058139.png?lm=1549058139" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/portland-timbers/spielplan/verein/4291/saison_id/2016" title="Portland Timbers">
+             Portland
+            </a>
+            <span class="tabellenplatz">
+             (3.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (8.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-2-3-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            21.144
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2819392" id="2819392" title="Match report">
+             <span class="">
+              1:1
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/12">
+             12
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 5/20/17
+           </td>
+           <td class="zentriert">
+            7:55 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (9.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/houston-dynamo-fc/spielplan/verein/9168/saison_id/2016" title="Houston Dynamo">
+             <img alt="Houston Dynamo" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/9168_1605636768.png?lm=1605636769" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/houston-dynamo-fc/spielplan/verein/9168/saison_id/2016" title="Houston Dynamo">
+             Houston
+            </a>
+            <span class="tabellenplatz">
+             (3.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-2-3-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            44.893
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2819406" id="2819406" title="Match report">
+             <span class="greentext">
+              4:1
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/13">
+             13
+            </a>
+           </td>
+           <td class="zentriert">
+            Sun 5/28/17
+           </td>
+           <td class="zentriert">
+            5:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (9.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/new-york-city-fc/spielplan/verein/40058/saison_id/2016" title="New York City FC">
+             <img alt="New York City FC" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/40058_1726076912.png?lm=1726076913" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/new-york-city-fc/spielplan/verein/40058/saison_id/2016" title="New York City FC">
+             New York City
+            </a>
+            <span class="tabellenplatz">
+             (3.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-2-3-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            44.901
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2819419" id="2819419" title="Match report">
+             <span class="greentext">
+              3:1
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/15">
+             15
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 6/3/17
+           </td>
+           <td class="zentriert">
+            5:30 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/vancouver-whitecaps-fc/spielplan/verein/6321/saison_id/2016" title="Vancouver Whitecaps FC">
+             <img alt="Vancouver Whitecaps FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/6321.png?lm=1420976934" title="Vancouver Whitecaps FC"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/vancouver-whitecaps-fc/spielplan/verein/6321/saison_id/2016" title="Vancouver Whitecaps FC">
+             Vancouver
+            </a>
+            <span class="tabellenplatz">
+             (7.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (8.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-2-3-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            19.816
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2820054" id="2820054" title="Match report">
+             <span class="redtext">
+              3:1
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/15">
+             15
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 6/10/17
+           </td>
+           <td class="zentriert">
+            4:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/chicago-fire-fc/spielplan/verein/432/saison_id/2016" title="Chicago Fire">
+             <img alt="Chicago Fire" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/432_1574357491.png?lm=1574357493" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/chicago-fire-fc/spielplan/verein/432/saison_id/2016" title="Chicago Fire">
+             Chicago
+            </a>
+            <span class="tabellenplatz">
+             (2.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (8.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-2-3-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            18.453
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2820063" id="2820063" title="Match report">
+             <span class="redtext">
+              2:0
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="extrarow bg_blau_20 hauptlink" colspan="13">
+            <img alt="US Open Cup" class="wettbewerblogo" src="https://tmssl.akamaized.net//images/logo/tiny/mlsp.png?lm=1463649901" title="US Open Cup"/>
+            <a href="/us-open-cup/startseite/pokalwettbewerb/MLSP" title="US Open Cup">
+             US Open Cup
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            Fourth Round
+           </td>
+           <td class="zentriert">
+            Wed 6/14/17
+           </td>
+           <td class="zentriert">
+            10:10 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/charleston-battery/spielplan/verein/4115/saison_id/2016" title="Charleston Battery">
+             <img alt="Charleston Battery" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/4115_1576323472.png?lm=1576323472" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/charleston-battery/spielplan/verein/4115/saison_id/2016" title="Charleston Battery">
+             Charleston
+            </a>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            9.458
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2864507" id="2864507" title="Match report">
+             <span class="greentext">
+              3:2
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="extrarow bg_blau_20 hauptlink" colspan="13">
+            <img alt="Major League Soccer" class="wettbewerblogo" src="https://tmssl.akamaized.net//images/logo/tiny/mls1.png?lm=1612117632" title="Major League Soccer"/>
+            <a href="/major-league-soccer/startseite/wettbewerb/MLS1" title="Major League Soccer">
+             Major League Soccer
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/16">
+             16
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 6/17/17
+           </td>
+           <td class="zentriert">
+            7:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (8.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/columbus-crew-sc/spielplan/verein/813/saison_id/2016" title="Columbus Crew SC">
+             <img alt="Columbus Crew SC" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/813_1620750390.png?lm=1620750390" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/columbus-crew-sc/spielplan/verein/813/saison_id/2016" title="Columbus Crew SC">
+             Columbus Crew
+            </a>
+            <span class="tabellenplatz">
+             (6.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-2-3-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            44.922
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2820069" id="2820069" title="Match report">
+             <span class="greentext">
+              3:1
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/17">
+             17
+            </a>
+           </td>
+           <td class="zentriert">
+            Wed 6/21/17
+           </td>
+           <td class="zentriert">
+            7:30 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/d-c-united/spielplan/verein/2440/saison_id/2016" title="D.C. United">
+             <img alt="D.C. United" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/2440.png?lm=1450113961" title="D.C. United"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/d-c-united/spielplan/verein/2440/saison_id/2016" title="D.C. United">
+             D.C. United
+            </a>
+            <span class="tabellenplatz">
+             (11.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (8.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-2-3-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            14.594
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2822431" id="2822431" title="Match report">
+             <span class="redtext">
+              2:1
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/17">
+             17
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 6/24/17
+           </td>
+           <td class="zentriert">
+            7:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (8.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/colorado-rapids/spielplan/verein/1247/saison_id/2016" title="Colorado Rapids">
+             <img alt="Colorado Rapids" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/1247.png?lm=1483887816" title="Colorado Rapids"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/colorado-rapids/spielplan/verein/1247/saison_id/2016" title="Colorado Rapids">
+             Colorado
+            </a>
+            <span class="tabellenplatz">
+             (9.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            44.938
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2822440" id="2822440" title="Match report">
+             <span class="greentext">
+              1:0
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="extrarow bg_blau_20 hauptlink" colspan="13">
+            <img alt="US Open Cup" class="wettbewerblogo" src="https://tmssl.akamaized.net//images/logo/tiny/mlsp.png?lm=1463649901" title="US Open Cup"/>
+            <a href="/us-open-cup/startseite/pokalwettbewerb/MLSP" title="US Open Cup">
+             US Open Cup
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            Round of 16
+           </td>
+           <td class="zentriert">
+            Wed 6/28/17
+           </td>
+           <td class="zentriert">
+            7:30 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/miami-fc/spielplan/verein/42814/saison_id/2016" title="Miami FC">
+             <img alt="Miami FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/42814.png?lm=1508917783" title="Miami FC"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/miami-fc/spielplan/verein/42814/saison_id/2016" title="Miami FC">
+             Miami FC
+            </a>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            9.004
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2870788" id="2870788" title="Match report">
+             <span class="redtext">
+              3:2
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="extrarow bg_blau_20 hauptlink" colspan="13">
+            <img alt="Major League Soccer" class="wettbewerblogo" src="https://tmssl.akamaized.net//images/logo/tiny/mls1.png?lm=1612117632" title="Major League Soccer"/>
+            <a href="/major-league-soccer/startseite/wettbewerb/MLS1" title="Major League Soccer">
+             Major League Soccer
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/18">
+             18
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 7/1/17
+           </td>
+           <td class="zentriert">
+            7:30 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/columbus-crew-sc/spielplan/verein/813/saison_id/2016" title="Columbus Crew SC">
+             <img alt="Columbus Crew SC" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/813_1620750390.png?lm=1620750390" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/columbus-crew-sc/spielplan/verein/813/saison_id/2016" title="Columbus Crew SC">
+             Columbus Crew
+            </a>
+            <span class="tabellenplatz">
+             (5.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (6.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            20.391
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2822462" id="2822462" title="Match report">
+             <span class="greentext">
+              0:2
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/19">
+             19
+            </a>
+           </td>
+           <td class="zentriert">
+            Tue 7/4/17
+           </td>
+           <td class="zentriert">
+            7:30 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (5.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/san-jose-earthquakes/spielplan/verein/218/saison_id/2016" title="San Jose Earthquakes">
+             <img alt="San Jose Earthquakes" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/218.png?lm=1410197504" title="San Jose Earthquakes"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/san-jose-earthquakes/spielplan/verein/218/saison_id/2016" title="San Jose Earthquakes">
+             SJ Earthquakes
+            </a>
+            <span class="tabellenplatz">
+             (4.)
+            </span>
+           </td>
+           <td class="zentriert">
+            5-4-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            44.974
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2822476" id="2822476" title="Match report">
+             <span class="greentext">
+              4:2
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/21">
+             21
+            </a>
+           </td>
+           <td class="zentriert">
+            Fri 7/21/17
+           </td>
+           <td class="zentriert">
+            7:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/orlando-city-sc/spielplan/verein/45604/saison_id/2016" title="Orlando City SC">
+             <img alt="Orlando City SC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/45604.png?lm=1412248067" title="Orlando City SC"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/orlando-city-sc/spielplan/verein/45604/saison_id/2016" title="Orlando City SC">
+             Orlando
+            </a>
+            <span class="tabellenplatz">
+             (6.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (4.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-2-3-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            25.527
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2822509" id="2822509" title="Match report">
+             <span class="greentext">
+              0:1
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/22">
+             22
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 7/29/17
+           </td>
+           <td class="zentriert">
+            4:30 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (4.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/orlando-city-sc/spielplan/verein/45604/saison_id/2016" title="Orlando City SC">
+             <img alt="Orlando City SC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/45604.png?lm=1412248067" title="Orlando City SC"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/orlando-city-sc/spielplan/verein/45604/saison_id/2016" title="Orlando City SC">
+             Orlando
+            </a>
+            <span class="tabellenplatz">
+             (7.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-2-3-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            45.006
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2901675" id="2901675" title="Match report">
+             <span class="">
+              1:1
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/23">
+             23
+            </a>
+           </td>
+           <td class="zentriert">
+            Sun 8/6/17
+           </td>
+           <td class="zentriert">
+            8:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/sporting-kansas-city/spielplan/verein/4284/saison_id/2016" title="Sporting Kansas City">
+             <img alt="Sporting Kansas City" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/4284.png?lm=1520721827" title="Sporting Kansas City"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/sporting-kansas-city/spielplan/verein/4284/saison_id/2016" title="Sporting Kansas City">
+             Kansas City
+            </a>
+            <span class="tabellenplatz">
+             (1.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (5.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-2-3-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            19.481
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2824638" id="2824638" title="Match report">
+             <span class="">
+              1:1
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/26">
+             26
+            </a>
+           </td>
+           <td class="zentriert">
+            Wed 8/23/17
+           </td>
+           <td class="zentriert">
+            7:30 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/d-c-united/spielplan/verein/2440/saison_id/2016" title="D.C. United">
+             <img alt="D.C. United" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/2440.png?lm=1450113961" title="D.C. United"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/d-c-united/spielplan/verein/2440/saison_id/2016" title="D.C. United">
+             D.C. United
+            </a>
+            <span class="tabellenplatz">
+             (11.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (7.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            11.972
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2824663" id="2824663" title="Match report">
+             <span class="redtext">
+              1:0
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/27">
+             27
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 8/26/17
+           </td>
+           <td class="zentriert">
+            7:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/philadelphia-union/spielplan/verein/25467/saison_id/2016" title="Philadelphia Union">
+             <img alt="Philadelphia Union" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/25467_1518870636.png?lm=1518870636" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/philadelphia-union/spielplan/verein/25467/saison_id/2016" title="Philadelphia Union">
+             Philadelphia
+            </a>
+            <span class="tabellenplatz">
+             (10.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (7.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            17.221
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2824671" id="2824671" title="Match report">
+             <span class="">
+              2:2
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/28">
+             28
+            </a>
+           </td>
+           <td class="zentriert">
+            Sun 9/10/17
+           </td>
+           <td class="zentriert">
+            3:30 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (6.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/fc-dallas/spielplan/verein/8816/saison_id/2016" title="FC Dallas">
+             <img alt="FC Dallas" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/8816.png?lm=1402484487" title="FC Dallas"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/fc-dallas/spielplan/verein/8816/saison_id/2016" title="FC Dallas">
+             Dallas
+            </a>
+            <span class="tabellenplatz">
+             (6.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            45.314
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2824686" id="2824686" title="Match report">
+             <span class="greentext">
+              3:0
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/29">
+             29
+            </a>
+           </td>
+           <td class="zentriert">
+            Wed 9/13/17
+           </td>
+           <td class="zentriert">
+            7:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (6.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/new-england-revolution/spielplan/verein/626/saison_id/2016" title="New England Revolution">
+             <img alt="New England Revolution" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/626_1641076226.png?lm=1641076226" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/new-england-revolution/spielplan/verein/626/saison_id/2016" title="New England Revolution">
+             New England
+            </a>
+            <span class="tabellenplatz">
+             (8.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            42.511
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2824694" id="2824694" title="Match report">
+             <span class="greentext">
+              7:0
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/29">
+             29
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 9/16/17
+           </td>
+           <td class="zentriert">
+            4:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (6.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/orlando-city-sc/spielplan/verein/45604/saison_id/2016" title="Orlando City SC">
+             <img alt="Orlando City SC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/45604.png?lm=1412248067" title="Orlando City SC"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/orlando-city-sc/spielplan/verein/45604/saison_id/2016" title="Orlando City SC">
+             Orlando
+            </a>
+            <span class="tabellenplatz">
+             (9.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            70.425
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2824696" id="2824696" title="Match report">
+             <span class="">
+              3:3
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/30">
+             30
+            </a>
+           </td>
+           <td class="zentriert">
+            Wed 9/20/17
+           </td>
+           <td class="zentriert">
+            7:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (5.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/los-angeles-galaxy/spielplan/verein/1061/saison_id/2016" title="Los Angeles Galaxy">
+             <img alt="Los Angeles Galaxy" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/1061.png?lm=1493067070" title="Los Angeles Galaxy"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/los-angeles-galaxy/spielplan/verein/1061/saison_id/2016" title="Los Angeles Galaxy">
+             LA Galaxy
+            </a>
+            <span class="tabellenplatz">
+             (10.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            42.723
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2824651" id="2824651" title="Match report">
+             <span class="greentext">
+              4:0
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/30">
+             30
+            </a>
+           </td>
+           <td class="zentriert">
+            Sun 9/24/17
+           </td>
+           <td class="zentriert">
+            5:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (5.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/club-de-foot-montreal/spielplan/verein/4078/saison_id/2016" title="Montreal Impact">
+             <img alt="Montreal Impact" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/4078_1610642709.png?lm=1610642709" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/club-de-foot-montreal/spielplan/verein/4078/saison_id/2016" title="Montreal Impact">
+             Montreal
+            </a>
+            <span class="tabellenplatz">
+             (7.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            43.502
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2824712" id="2824712" title="Match report">
+             <span class="greentext">
+              2:0
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/31">
+             31
+            </a>
+           </td>
+           <td class="zentriert">
+            Wed 9/27/17
+           </td>
+           <td class="zentriert">
+            7:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (3.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/philadelphia-union/spielplan/verein/25467/saison_id/2016" title="Philadelphia Union">
+             <img alt="Philadelphia Union" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/25467_1518870636.png?lm=1518870636" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/philadelphia-union/spielplan/verein/25467/saison_id/2016" title="Philadelphia Union">
+             Philadelphia
+            </a>
+            <span class="tabellenplatz">
+             (9.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            43.006
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2824719" id="2824719" title="Match report">
+             <span class="greentext">
+              3:0
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/32">
+             32
+            </a>
+           </td>
+           <td class="zentriert">
+            Sat 9/30/17
+           </td>
+           <td class="zentriert">
+            7:30 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/new-england-revolution/spielplan/verein/626/saison_id/2016" title="New England Revolution">
+             <img alt="New England Revolution" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/626_1641076226.png?lm=1641076226" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/new-england-revolution/spielplan/verein/626/saison_id/2016" title="New England Revolution">
+             New England
+            </a>
+            <span class="tabellenplatz">
+             (8.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (3.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-2-3-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            21.925
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2824730" id="2824730" title="Match report">
+             <span class="">
+              0:0
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/24">
+             24
+            </a>
+           </td>
+           <td class="zentriert">
+            Tue 10/3/17
+           </td>
+           <td class="zentriert">
+            7:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (5.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/minnesota-united-fc/spielplan/verein/56089/saison_id/2016" title="Minnesota United FC">
+             <img alt="Minnesota United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/56089.png?lm=1474755528" title="Minnesota United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/minnesota-united-fc/spielplan/verein/56089/saison_id/2016" title="Minnesota United FC">
+             Minnesota
+            </a>
+            <span class="tabellenplatz">
+             (11.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            43.185
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2824649" id="2824649" title="Match report">
+             <span class="redtext">
+              2:3
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/33">
+             33
+            </a>
+           </td>
+           <td class="zentriert">
+            Sun 10/15/17
+           </td>
+           <td class="zentriert">
+            5:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/new-york-red-bulls/spielplan/verein/623/saison_id/2016" title="New York Red Bulls">
+             <img alt="New York Red Bulls" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/623.png?lm=1464530064" title="New York Red Bulls"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/new-york-red-bulls/spielplan/verein/623/saison_id/2016" title="New York Red Bulls">
+             New York
+            </a>
+            <span class="tabellenplatz">
+             (6.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (3.)
+            </span>
+           </td>
+           <td class="zentriert">
+            4-3-3 Attacking
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            25.219
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2824742" id="2824742" title="Match report">
+             <span class="">
+              0:0
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            <a href="/major-league-soccer/spieltag/wettbewerb/MLS1/saison_id/2016/spieltag/34">
+             34
+            </a>
+           </td>
+           <td class="zentriert">
+            Sun 10/22/17
+           </td>
+           <td class="zentriert">
+            4:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+            <span class="tabellenplatz">
+             (4.)
+            </span>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/toronto-fc/spielplan/verein/11141/saison_id/2016" title="Toronto FC">
+             <img alt="Toronto FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/11141.png?lm=1410196948" title="Toronto FC"/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/toronto-fc/spielplan/verein/11141/saison_id/2016" title="Toronto FC">
+             Toronto
+            </a>
+            <span class="tabellenplatz">
+             (1.)
+            </span>
+           </td>
+           <td class="zentriert">
+            5-4-1
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            71.874
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2824761" id="2824761" title="Match report">
+             <span class="">
+              2:2
+             </span>
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="extrarow bg_blau_20 hauptlink" colspan="13">
+            <img alt="MLS Cup Playoffs" class="wettbewerblogo" src="https://tmssl.akamaized.net//images/logo/tiny/pous.png?lm=1636569563" title="MLS Cup Playoffs"/>
+            <a href="/mls-cup-playoffs/startseite/pokalwettbewerb/POUS" title="MLS Cup Playoffs">
+             MLS Cup Playoffs
+            </a>
+           </td>
+          </tr>
+          <tr style="">
+           <td class="zentriert">
+            qualification round deciders
+           </td>
+           <td class="zentriert">
+            Thu 10/26/17
+           </td>
+           <td class="zentriert">
+            7:00 PM
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             <img alt="Atlanta United FC" class="tiny_wappen" src="https://tmssl.akamaized.net//images/wappen/tiny/51663.png?lm=1478716243" title="Atlanta United FC"/>
+            </a>
+           </td>
+           <td class="no-border-links">
+            <a href="/atlanta-united-fc/spielplan/verein/51663/saison_id/2016" title="Atlanta United FC">
+             Atlanta
+            </a>
+           </td>
+           <td class="zentriert no-border-rechts tiny_wappen_zelle">
+            <a href="/columbus-crew-sc/spielplan/verein/813/saison_id/2016" title="Columbus Crew SC">
+             <img alt="Columbus Crew SC" class="" src="https://tmssl.akamaized.net//images/wappen/tiny/813_1620750390.png?lm=1620750390" title=" "/>
+            </a>
+           </td>
+           <td class="no-border-links hauptlink">
+            <a href="/columbus-crew-sc/spielplan/verein/813/saison_id/2016" title="Columbus Crew SC">
+             Columbus Crew
+            </a>
+           </td>
+           <td class="zentriert">
+            4-3-3 Defending
+           </td>
+           <td>
+            <a href="/gerardo-martino/profil/trainer/5616" id="0" title="Gerardo Martino">
+             Gerardo Martino
+            </a>
+           </td>
+           <td class="rechts">
+            67.221
+           </td>
+           <td class="zentriert">
+            <a class="ergebnis-link" href="/spielbericht/index/spielbericht/2943646" id="2943646" title="Match report">
+             <span class="redtext">
+              1:3
+              <span class="ergebnis_zusatz">
+               on pens
+              </span>
+             </span>
+            </a>
+           </td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="werbung ad-placement-note werbung-fullsize_contentad" data-ad-placement-note="Advertisement">
+     <div id="div-gpt-ad-bottom_banner" style="min-width: 970px; min-height: 250px;">
+     </div>
+    </div>
+   </main>
+   <footer class="tm-footer">
+    <section class="tm-footer__section-quick-links">
+     <strong class="tm-footer__headline tm-footer__headline--large">
+      Quick Links
+     </strong>
+     <div class="tm-footer__link-wrapper">
+      <a class="tm-footer__link tm-footer__link--arrow" href="/spieler-statistik/wertvollstespieler/marktwertetop" onclick="tmEvent('footer', 'quick_links', '/spieler-statistik/wertvollstespieler')">
+       Most valuable players in the world
+      </a>
+      <a class="tm-footer__link tm-footer__link--arrow" href="/statistik/neuestetransfers" onclick="tmEvent('footer', 'quick_links', '/statistik/neuestetransfers')">
+       Latest transfers
+      </a>
+      <a class="tm-footer__link tm-footer__link--arrow" href="/geruechte/aktuellegeruechte/statistik" onclick="tmEvent('footer', 'quick_links', '/statistik/aktuellegeruechte')">
+       Latest rumours
+      </a>
+      <a class="tm-footer__link tm-footer__link--arrow" href="/spieler-statistik/marktwertaenderungen/marktwertetop" onclick="tmEvent('footer', 'quick_links', '/spieler-statistik/marktwertaenderungen/marktwertetop')">
+       Latest market value updates
+      </a>
+      <a class="tm-footer__link tm-footer__link--arrow" href="/statistik/weltrangliste" onclick="tmEvent('footer', 'quick_links', '/statistik/weltrangliste')">
+       FIFA World Ranking
+      </a>
+     </div>
+    </section>
+    <section class="tm-footer__section-involved">
+     <strong class="tm-footer__headline tm-footer__headline--large">
+      Be Involved
+     </strong>
+     <div class="tm-footer__link-wrapper">
+      <a class="tm-footer__link tm-footer__link--arrow" href="/intern/paten" onclick="tmEvent('footer', 'be_involved', 'mods_data_scouts')">
+       Mods &amp; Data Scouts
+      </a>
+      <a class="tm-footer__link tm-footer__link--arrow" href="/profil/bewerbung" onclick="tmEvent('footer', 'be_involved', 'apply_mod_datascout')">
+       Apply as Mod or Datascout
+      </a>
+      <a class="tm-footer__link tm-footer__link--arrow" href="/intern/elfGebote" onclick="tmEvent('footer', 'be_involved', '11_commandments')">
+       11 commandments
+      </a>
+      <a class="tm-footer__link tm-footer__link--arrow" href="/intern/fehlermelden" onclick="tmEvent('footer', 'be_involved', 'found_mistake')">
+       Found a mistake?
+      </a>
+     </div>
+    </section>
+    <section class="tm-footer__section-career">
+     <strong class="tm-footer__headline tm-footer__headline--large">
+      Career
+     </strong>
+     <div class="tm-footer__link-wrapper">
+      <a class="tm-footer__link tm-footer__link--arrow" href="/intern/tmteam" onclick="tmEvent('footer', 'career', 'contact')">
+       Contact
+      </a>
+     </div>
+    </section>
+    <section class="tm-footer__section-about">
+     <strong class="tm-footer__headline tm-footer__headline--large">
+      About Us
+     </strong>
+     <div class="tm-footer__link-wrapper">
+      <a class="tm-footer__link tm-footer__link--arrow" href="/intern/tmteam" onclick="tmEvent('footer', 'about_us', 'tm_team')">
+       TM-Team
+      </a>
+      <a class="tm-footer__link tm-footer__link--arrow" href="/intern/faq" onclick="tmEvent('footer', 'about_us', 'faq')">
+       FAQ
+      </a>
+     </div>
+    </section>
+    <section class="tm-footer__section-social">
+     <strong class="tm-footer__headline">
+      Social media
+     </strong>
+     <div class="tm-footer__social-wrapper">
+      <a class="tm-footer__link-social" href="https://www.instagram.com/transfermarkt.us" onclick="tmEvent('footer', 'social_media', 'instagram')" target="_blank">
+       <img alt="instagram" class="tm-footer__icon-social" height="28" src="https://tmsi.akamaized.net/icons/socialMedia/instaRebrush.svg" width="28"/>
+      </a>
+      <a class="tm-footer__link-social" href="https://www.facebook.com/transfermarkt.us" onclick="tmEvent('footer', 'social_media', 'facebook')" target="_blank">
+       <img alt="facebook" class="tm-footer__icon-social" height="25" src="https://tmsi.akamaized.net/icons/socialMedia/fbRebrush.svg" width="25"/>
+      </a>
+      <a class="tm-footer__link-social" href="https://www.whatsapp.com/channel/0029Va6Kevx47XeF0gE99J35" onclick="tmEvent('footer', 'social_media', 'whatsapp')" target="_blank">
+       <img alt="whatsapp" class="tm-footer__icon-social" height="28" src="https://tmsi.akamaized.net/icons/socialMedia/whatsappRebrush.svg" width="28"/>
+      </a>
+      <a class="tm-footer__link-social" href="https://twitter.com/TMuk_news" onclick="tmEvent('footer', 'social_media', 'x')" target="_blank">
+       <img alt="x" class="tm-footer__icon-social" height="28" src="https://tmsi.akamaized.net/icons/socialMedia/twitter_rebrush.svg" width="28"/>
+      </a>
+      <a class="tm-footer__link-social" href="https://www.threads.net/@transfermarkt.us" onclick="tmEvent('footer', 'social_media', 'threads')" target="_blank">
+       <img alt="threads" class="tm-footer__icon-social" height="28" src="https://tmsi.akamaized.net/icons/socialMedia/threadsRebrush.svg" width="28"/>
+      </a>
+      <a class="tm-footer__link-social" href="https://www.tiktok.com/@transfermarkt" onclick="tmEvent('footer', 'social_media', 'tiktok')" target="_blank">
+       <img alt="tiktok" class="tm-footer__icon-social" height="28" src="https://tmsi.akamaized.net/icons/socialMedia/tiktokRebrush.svg" width="28"/>
+      </a>
+      <a class="tm-footer__link-social" href="https://www.youtube.com/@TransfermarktEnglish" onclick="tmEvent('footer', 'social_media', 'youtube')" target="_blank">
+       <img alt="youtube" class="tm-footer__icon-social" height="28" src="https://tmsi.akamaized.net/icons/socialMedia/RebrushYoutube.svg" width="28"/>
+      </a>
+     </div>
+    </section>
+   </footer>
+   <div id="menue_overlay">
+   </div>
+  </div>
+  <section class="tm-footer__mobile tm-footer__transfermarkt-info">
+   <section class="tm-footer__section-desktop-width">
+    <section class="tm-footer__section-company-links">
+     <span class="tm-footer__headline tm-footer__headline--medium">
+      Transfermarkt Company Projects
+     </span>
+     <div class="tm-footer__project-wrapper">
+      <a class="tm-footer__link" href="/wahretabelle" onclick="tmEvent('footer', 'projects', 'wahretabelle')">
+       Wahretabelle
+      </a>
+      <a class="tm-footer__link" href="https://www.soccerdonna.de/" onclick="tmEvent('footer', 'projects', 'soccerdonna')">
+       Soccerdonna.de
+      </a>
+      <a class="tm-footer__link" href="https://scoutastic.com/de/" onclick="tmEvent('footer', 'projects', 'scoutastic')">
+       Scoutastic.com
+      </a>
+     </div>
+    </section>
+    <section class="tm-footer__section-company-infos">
+     <span class="tm-footer__headline tm-footer__headline--medium">
+      © Transfermarkt
+      <span id="currentYear">
+       2025
+      </span>
+     </span>
+     <div class="tm-footer__company-wrapper">
+      <a class="tm-footer__link tm-footer__link--blue" href="/intern/impressum" onclick="tmEvent('footer', 'officials', 'impressum')">
+       Legal notice
+      </a>
+      <a class="tm-footer__link tm-footer__link--blue" href="/intern/web/datenschutz" onclick="tmEvent('footer', 'officials', 'data_protection')">
+       Data protection
+      </a>
+      <a class="cmp-link tm-footer__link tm-footer__link--blue" href="javascript:void(0)" onclick="tmEvent('footer', 'officials', 'privacy')">
+       Privacy
+      </a>
+      <a class="revoke-tracking tm-footer__link tm-footer__link--blue" href="javascript:void(0)" onclick="tmEvent('footer', 'officials', 'tracking_revocation')">
+       Revoke Tracking
+      </a>
+      <a class="tm-footer__link tm-footer__link--blue" href="/intern/anb" onclick="tmEvent('footer', 'officials', 'general_conduct_of_use')">
+       Site policy
+      </a>
+     </div>
+    </section>
+   </section>
+  </section>
+  <script type="text/javascript">
+   if(typeof(adet) == "boolean" && adet == false){
+		img_src="/static/singlepictures/jk99hhfsdh209nbnkjldgh90sghfsdlk";
+	} else {
+		img_src="/static/singlepictures/jku90whjlkjbwbta1g4b8h89fh8sgh8d";
+	}
+	var elem = document.createElement("img");
+	document.body.appendChild(elem);
+	elem.src = img_src;
+  </script>
+  <tm-consent embed="PHNjcmlwdCBzcmM9Imh0dHBzOi8vY3JlYXRpdmUtY2RuLm9kZHNzZXJ2ZS5jb20vbG9hZGVyLmpzP3B1Ymxpc2hlcj10bSIgYXN5bmM9ImFzeW5jIj48L3NjcmlwdD4=" no-checkbox="" type="adition">
+  </tm-consent>
+  <tm-consent embed="PHNjcmlwdCB0eXBlPSd0ZXh0L2phdmFzY3JpcHQnPgogICAgICAgICAgICB3aW5kb3cuX25BZHpxPXdpbmRvdy5fbkFkenF8fFtdOyhmdW5jdGlvbigpewogICAgICAgICAgICB3aW5kb3cuX25BZHpxLnB1c2goWydzZXRJZHMnLCc2OWE2ZjQxMzI0OTZkMmQxJ10pOwogICAgICAgICAgICB2YXIgZT0naHR0cHM6Ly9ub3RpZnB1c2guY29tL3NjcmlwdHMvJzsKICAgICAgICAgICAgdmFyIHQ9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnc2NyaXB0Jyk7CiAgICAgICAgICAgIHQudHlwZT0ndGV4dC9qYXZhc2NyaXB0JzsKICAgICAgICAgICAgdC5kZWZlcj10cnVlOwogICAgICAgICAgICB0LmFzeW5jPXRydWU7CiAgICAgICAgICAgIHQuc3JjPWUrJ25hZHotc2RrLmpzJzsKICAgICAgICAgICAgdmFyIHM9ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoJ3NjcmlwdCcpWzBdOwogICAgICAgICAgICBzLnBhcmVudE5vZGUuaW5zZXJ0QmVmb3JlKHQscyl9KSgpOwogICAgICAgIDwvc2NyaXB0Pg==" no-checkbox="" type="adrenalead">
+  </tm-consent>
+  <tm-modal additionalclose="Close" id="tm-modal-revoke-tracking">
+   <div class="tm-modal__headline">
+    Revoke Tracking
+   </div>
+   <p class="tm-modal__text">
+    Sie haben erfolgreich Ihre Einwilligung in die Nutzung von Transfermarkt mit Tracking und Cookies widerrufen. Sie können sich jetzt zwischen dem Contentpass-Abo und der Nutzung mit personalisierter Werbung, Cookies und Tracking entscheiden.
+   </p>
+  </tm-modal>
+  <tm-consent embed="PHNjcmlwdCAgc3JjPSJodHRwczovL2xuZ3RkLmNvbS90cmFuc2Zlcm1hcmt0LmpzIiBhc3luYz0iYXN5bmMiPjwvc2NyaXB0Pg==" no-checkbox="" type="footballco">
+  </tm-consent>
+  <script src="https://tmsi.akamaized.net/js/svelte-components/subnavigation/bundle.js" type="text/javascript">
+  </script>
+  <script src="https://tmssl.akamaized.net/assets/b7c5571cf8957553f95f6d9069eaed67/jui/js/jquery-ui.min.js?lm=1760120460" type="text/javascript">
+  </script>
+  <script src="https://tmssl.akamaized.net/assets/b7c5571cf8957553f95f6d9069eaed67/jui/js/jquery-ui-i18n.min.js?lm=1760120460" type="text/javascript">
+  </script>
+  <script src="https://tmssl.akamaized.net/js/custom/vendors.min.js?lm=1760120460" type="text/javascript">
+  </script>
+  <script src="https://tmsi.akamaized.net/js/svelte-components/domain-switcher/bundle.js" type="text/javascript">
+  </script>
+  <script src="https://tmsi.akamaized.net/js/svelte-components/quick-select-bar/bundle.js" type="text/javascript">
+  </script>
+  <script src="https://tmsi.akamaized.net/js/svelte-components/userbox/bundle.js" type="text/javascript">
+  </script>
+  <script src="https://tmsi.akamaized.net/js/svelte-components/live-match-count/bundle.js" type="text/javascript">
+  </script>
+  <script src="https://tmsi.akamaized.net/js/svelte-components/domain-note/bundle.js" type="text/javascript">
+  </script>
+  <script src="https://tmsi.akamaized.net/js/svelte-components/consent/bundle.js" type="text/javascript">
+  </script>
+  <script src="https://tmsi.akamaized.net/js/svelte-components/modal/bundle.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   /*<![CDATA[*/
+	var loginUrl='/profil/login';
+	var onlyDE = '';
+	var onlyMobile = '';
+	var onlyTablet = '';
+	var getUserID = '';
+
+oddsServe("9470a850fcdeb462ef7dc30016d7cd0a", -1);
+jQuery(function($) {
+jQuery('#datum_von').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['en-US'],{'dateFormat':'dd.mm.yy','yearRange':'\x2D200\x3A\x2B1','changeYear':'true','changeMonth':'true'}));
+jQuery('#datum_bis').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['en-US'],{'dateFormat':'dd.mm.yy','yearRange':'\x2D200\x3A\x2B1','changeYear':'true','changeMonth':'true'}));
+});
+/*]]>*/
+  </script>
+ </body>
+</html>
