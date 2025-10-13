@@ -1,0 +1,9 @@
+{
+  "storage_account_name": "datagrpstorageaccount",
+  "container_name": "atlutdbackups",
+  "postgres_host": "gislobopostgres.postgres.database.azure.com",
+  "postgres_db": "atlutdhistory",
+  "postgres_user": "postgres",
+  "postgres_password": "PHsJ26hP5WJO",
+  "cleanup_local_backup": true
+}
