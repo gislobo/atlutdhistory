@@ -87,9 +87,17 @@ def download_backup(blob_name, config):
         return None
 
 
-def restore_backup(backup_file, target_db, config):
-    """Restore a PostgreSQL backup to a target database using pg_restore"""
-    print(f"Restoring {backup_file} to database '{target_db}'...")
+def restore_backup(backup_file, target_db, config, schema_only=False):
+    """Restore a PostgreSQL backup to a target database using pg_restore
+
+    Args:
+        backup_file: Path to the backup file
+        target_db: Target database name
+        config: Configuration dictionary
+        schema_only: If True, restore only schema (no data)
+    """
+    restore_type = "schema only" if schema_only else "full (schema + data)"
+    print(f"Restoring {backup_file} to database '{target_db}' ({restore_type})...")
 
     # Set password environment variable for pg_restore
     env = os.environ.copy()
@@ -151,20 +159,7 @@ def restore_backup(backup_file, target_db, config):
         print(f"Error checking/creating database: {e}")
         return False
 
-    # Restore the backup with better error handling
-    restore_command = [
-        'pg_restore',
-        '-h', config['postgres_host'],
-        '-U', config['postgres_user'],
-        '-d', target_db,
-        '-v',  # Verbose
-        '--no-owner',  # Skip ownership restoration
-        '--no-acl',  # Skip ACL restoration
-        '--exit-on-error',  # Exit on first error (we'll catch it)
-        backup_file
-    ]
-
-    # Run without --exit-on-error to allow partial restore
+    # Build restore command
     restore_command_lenient = [
         'pg_restore',
         '-h', config['postgres_host'],
@@ -173,10 +168,17 @@ def restore_backup(backup_file, target_db, config):
         '-v',  # Verbose
         '--no-owner',  # Skip ownership restoration
         '--no-acl',  # Skip ACL restoration
-        backup_file
     ]
 
-    print("Starting restore (this may take a while)...")
+    # Add schema-only flag if requested
+    if schema_only:
+        restore_command_lenient.append('--schema-only')
+
+    restore_command_lenient.append(backup_file)
+
+    print(f"Starting restore (this may take a while)...")
+    if schema_only:
+        print("Note: Only restoring schema (tables, views, etc.) - no data will be restored.")
     print()
 
     try:
@@ -230,6 +232,36 @@ def restore_backup(backup_file, target_db, config):
             if verify_result.returncode == 0:
                 table_count = verify_result.stdout.strip()
                 print(f"✓ Verification passed: {table_count} tables found in restored database.")
+
+                # If not schema-only, also verify data
+                if not schema_only:
+                    print()
+                    print("Checking for data...")
+                    data_check_command = [
+                        'psql',
+                        '-h', config['postgres_host'],
+                        '-U', config['postgres_user'],
+                        '-d', target_db,
+                        '-t',
+                        '-c', """
+                              SELECT SUM(n_live_tup)
+                              FROM pg_stat_user_tables
+                              WHERE schemaname = 'public'
+                              """
+                    ]
+
+                    data_result = subprocess.run(
+                        data_check_command,
+                        env=env,
+                        capture_output=True,
+                        text=True
+                    )
+
+                    if data_result.returncode == 0:
+                        row_count = data_result.stdout.strip()
+                        if row_count and row_count != '':
+                            print(f"✓ Data verified: approximately {row_count} rows restored.")
+
                 return True
             else:
                 print("✗ Could not verify restore.")
@@ -294,13 +326,28 @@ def main():
         print("Invalid input.")
         return
 
+    # Ask for restore type
+    print("Restore options:")
+    print("  1. Full restore (schema + data)")
+    print("  2. Schema only (tables, views, etc. - no data)")
+    restore_option = input("Select restore type (1 or 2, default: 1): ").strip()
+
+    schema_only = False
+    if restore_option == '2':
+        schema_only = True
+        print("Selected: Schema-only restore")
+    else:
+        print("Selected: Full restore")
+    print()
+
     # Get target database name
     target_db = input(f"Enter target database name (default: {config['postgres_db']}_restore): ").strip()
     if not target_db:
         target_db = f"{config['postgres_db']}_restore"
 
     print()
-    print(f"Will restore '{selected_backup}' to database '{target_db}'")
+    restore_type = "schema only" if schema_only else "full backup (schema + data)"
+    print(f"Will restore {restore_type} from '{selected_backup}' to database '{target_db}'")
     confirm = input("Continue? (yes/no): ")
 
     if confirm.lower() not in ['yes', 'y']:
@@ -314,7 +361,7 @@ def main():
 
     if local_file:
         # Restore backup
-        success = restore_backup(local_file, target_db, config)
+        success = restore_backup(local_file, target_db, config, schema_only=schema_only)
 
         if success:
             # Optionally cleanup downloaded file
