@@ -22,21 +22,6 @@ def loaddbconfig(configpath="dbconfig.json"):
 
 
 def getplayers(payload, playerids):
-    # apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
-    # fixtureid = f
-    # #fixtureid = int(input("Enter the Fixture ID:  "))
-    # #fixtureid = 147926
-    # #fixtureid = 147915
-    # #fixtureid = 147936
-    # path = f"/fixtures?id={fixtureid}"
-    #
-    # conn.request("GET", path, headers=headers)
-    # res = conn.getresponse()
-    # raw = res.read()
-    #
-    # payload = json.loads(raw.decode("utf-8"))
-    # print(payload)
-
     for item in payload.get("response", []):
         lineups = item.get("lineups") or []
         if not isinstance(lineups, list):
@@ -54,7 +39,6 @@ def getplayers(payload, playerids):
                 pid = player.get("id")
                 if pid and pid not in playerids:
                     playerids.append(pid)
-
 
 
 def getplayerprofile(headers, playerid):
@@ -264,7 +248,6 @@ def builddictionary(headers, conn, playerid):
         player[playerid]["nationality"],
         player[playerid]["heightcm"],
         player[playerid]["weightkg"],
-       # player[playerid]["position"],
     )
 
     with conn:
@@ -286,7 +269,7 @@ def players(payload, f, headers, conn):
 
 def main():
     # list out fixtures
-    fixturelist = []
+    fixturelist = [147926, 147936]
     ## Initializing
     # Load headers from json file for use in api requests
     print("Loading headers...")
@@ -296,7 +279,7 @@ def main():
 
     # Load DB config from json file for use in connecting to database
     print("Loading DB config...")
-    db = loaddbconfig("dbconfig.json")
+    db = loaddbconfig("testdbconfig.json")
     print("...DB config loaded.")
     print("")
 
@@ -310,11 +293,11 @@ def main():
     )
 
     for fixture in fixturelist:
+        print(f"\n{'=' * 100}")
+        print(f"{' ' * 20}Running {fixture}...")
+        print(f"{'=' * 100}\n")
+
         apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
-        # fixtureid = int(input("Enter the Fixture ID:  "))
-        # fixtureid = 147926
-        # fixtureid = 147915
-        # fixtureid = 147936
         path = f"/fixtures?id={fixture}"
 
         apiconn.request("GET", path, headers=headers)
@@ -322,7 +305,14 @@ def main():
         raw = res.read()
         payload = json.loads(raw.decode("utf-8"))
         print(payload)
+
+        print(f"\n{'=' * 50}")
+        print("Players...")
+        print(f"{'=' * 50}\n")
         players(payload, fixture, headers, conn)
+        print(f"\n{'=' * 50}")
+        print(f"...Players are done for {fixture}.")
+        print(f"{'=' * 50}\n")
 
 
 
