@@ -11,7 +11,7 @@ def loadHeaders(headersPath="headers.json"):
 
 
 #used
-def loadDbConfig(configPath="dbConfig.json"):
+def loadDbConfig(configPath="dbconfig.json"):
     with open(configPath, "r", encoding="utf-8") as f:
         cfg = json.load(f)
     return{
@@ -288,7 +288,7 @@ print("Loading headers...")
 headers = loadHeaders("headers.json")
 print("...headers loaded.")
 print("Loading DB config...")
-db = loadDbConfig("dbConfig.json")
+db = loadDbConfig("dbconfig.json")
 print("...DB config loaded.")
 
 print("Getting Referee...")

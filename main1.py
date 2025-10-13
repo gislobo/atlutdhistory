@@ -9,7 +9,7 @@ def loadheaders(headerspath="headers.json"):
         return json.load(f)
 
 
-def loaddbconfig(configpath="dbConfig.json"):
+def loaddbconfig(configpath="dbconfig.json"):
     with open(configpath, "r", encoding="utf-8") as f:
         cfg = json.load(f)
     return{
@@ -296,7 +296,7 @@ def main():
 
     # Load DB config from json file for use in connecting to database
     print("Loading DB config...")
-    db = loaddbconfig("dbConfig.json")
+    db = loaddbconfig("dbconfig.json")
     print("...DB config loaded.")
     print("")
 

@@ -42,7 +42,7 @@ def load_headers(headers_path="headers.json"):
         return json.load(f)
 
 
-def load_db_config(config_path="dbConfig.json"):
+def load_db_config(config_path="dbconfig.json"):
     with open(config_path, "r", encoding="utf-8") as f:
         cfg = json.load(f)
     return {
@@ -348,7 +348,7 @@ def upsert_players(pg_conn, schema, table, rows):
 
 def main():
     headers = load_headers("../headers.json")
-    db = load_db_config("../dbConfig.json")
+    db = load_db_config("../dbconfig.json")
 
     # PLAYER_IDS env var like "6068,1234,5678" or fallback to a single example
     player_ids_env = os.getenv("PLAYER_IDS")

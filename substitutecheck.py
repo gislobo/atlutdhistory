@@ -2,7 +2,7 @@ import json
 import psycopg2
 
 
-def loaddbconfig(configPath="dbConfig.json"):
+def loaddbconfig(configPath="dbconfig.json"):
     with open(configPath, "r", encoding="utf-8") as f:
         cfg = json.load(f)
     return {
@@ -16,7 +16,7 @@ def loaddbconfig(configPath="dbConfig.json"):
 
 # Load DB config from json file for use in connecting to database
 print("Loading DB config...")
-db = loaddbconfig("dbConfig.json")
+db = loaddbconfig("dbconfig.json")
 print("...DB config loaded.")
 print("")
 

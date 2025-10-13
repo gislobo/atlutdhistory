@@ -19,6 +19,6 @@ Thumbs.db
 .vscode/
 
 # Project
-dbConfig.json
+dbconfig.json
 headers.json
 

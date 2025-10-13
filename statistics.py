@@ -9,7 +9,7 @@ def loadHeaders(headersPath="headers.json"):
         return json.load(f)
 
 
-def loadDbConfig(configPath="dbConfig.json"):
+def loadDbConfig(configPath="dbconfig.json"):
     with open(configPath, "r", encoding="utf-8") as f:
         cfg = json.load(f)
     return{
@@ -36,7 +36,7 @@ print("...headers loaded.")
 
 # Load DB config from json file for use in connecting to database
 print("Loading DB config...")
-db = loadDbConfig("dbConfig.json")
+db = loadDbConfig("dbconfig.json")
 print("...DB config loaded.")
 
 ## Get api fixture id, store it as a variable
