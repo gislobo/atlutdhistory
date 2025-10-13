@@ -21,4 +21,5 @@ Thumbs.db
 # Project
 dbconfig.json
 headers.json
-
+backupconfig.json
+testdbconfig.json
