@@ -89,7 +89,7 @@ def splitfullname(fullname: str) -> tuple[str | None, str | None]:
     return firstname, lastname
 
 
-def insertRef(first, last, code, c):
+def insertref(first, last, code, c):
     sql = """
         INSERT INTO public.referee (firstname, \
                                    lastname, \
@@ -105,58 +105,58 @@ def insertRef(first, last, code, c):
     with c:
         with c.cursor() as cur:
             cur.execute(sql, params)
-            newId = cur.fetchone()[0]
-            print(f"Ref inserted with id {newId}.")
-    return newId
+            newid = cur.fetchone()[0]
+            print(f"Ref inserted with id {newid}.")
+    return newid
 
 
-def refereeWork(f, conn):
+def refereework(f, conn):
     # Get the raw referee info
-    refereeRaw = f.get("referee")
-    print(f"Referee raw info:  {refereeRaw}")
+    refereeraw = f.get("referee")
+    print(f"Referee raw info:  {refereeraw}")
     # If there is no information for referee in api, setting variables for None
     referee = None
-    refereeCountry = None
-    refId = 1
-    if refereeRaw:
+    refereecountry = None
+    refid = 1
+    if refereeraw:
         # Strip it into parts and store as variables
-        parts = [p.strip() for p in refereeRaw.split(",")]
+        parts = [p.strip() for p in refereeraw.split(",")]
         referee = parts[0] if len(parts) > 0 and parts[0] else None
-        refereeCountry = parts[1] if len(parts) > 1 and parts[1] else None
-        print(f"Referee: {referee}, Country: {refereeCountry}")
+        refereecountry = parts[1] if len(parts) > 1 and parts[1] else None
+        print(f"Referee: {referee}, Country: {refereecountry}")
         # See if referee is in db
         with conn.cursor() as cur:
             cur.execute("SELECT concat_ws(' ', firstname, lastname) as fullname, id FROM public.referee")
             rows = cur.fetchall()
-        existingReferees = {row[0]: row[1] for row in rows if row[0] is not None}
-        print(existingReferees)
+        existingreferees = {row[0]: row[1] for row in rows if row[0] is not None}
+        print(existingreferees)
         # If referee is in db, get referee id
-        if referee in existingReferees:
-            refId = existingReferees[referee]
-            print(f"Referee {referee} is already in the database, referee id: {refId}")
+        if referee in existingreferees:
+            refid = existingreferees[referee]
+            print(f"Referee {referee} is already in the database, referee id: {refid}")
         else:
             ##if referee is not in db, add referee to db
             print(f"Referee {referee} is not in the database, adding referee to db.")
             ##split full name into two
             firstname, lastname = splitfullname(referee)
             print(f"Firstname: {firstname} Lastname: {lastname}")
-            refereeCountryCodeMap = applycountrycodes(conn, refereeCountry)
-            print(refereeCountryCodeMap)
-            refereeCountryCode = None
-            if refereeCountryCodeMap:
-                refereeCountryCode = next(iter(refereeCountryCodeMap.values()))
-                print(f"Referee Country Code: {refereeCountryCode}")
-            refId = insertRef(firstname, lastname, refereeCountryCode, conn)
+            refereecountrycodemap = applycountrycodes(conn, refereecountry)
+            print(refereecountrycodemap)
+            refereecountrycode = None
+            if refereecountrycodemap:
+                refereecountrycode = next(iter(refereecountrycodemap.values()))
+                print(f"Referee Country Code: {refereecountrycode}")
+            refid = insertref(firstname, lastname, refereecountrycode, conn)
         ##switch out country w/ countrycode
 
     else:
         print("No referee information, referee will be \'None\'.")
 
-    print(f"refId = {refId}.")
-    return refId
+    print(f"refid = {refid}.")
+    return refid
 
 
-def insertVenue(apiid, name, address, city, state, countrycode, capacity, surface, lat, long, tz, c):
+def insertvenue(apiid, name, address, city, state, countrycode, capacity, surface, lat, long, tz, c):
     sql = """
         INSERT INTO public.venue (
             apifootballid, \
@@ -189,18 +189,18 @@ def insertVenue(apiid, name, address, city, state, countrycode, capacity, surfac
     with c:
         with c.cursor() as cur:
             cur.execute(sql, params)
-            newId = cur.fetchone()[0]
-            print(f"Venue inserted with id {newId}.")
+            newid = cur.fetchone()[0]
+            print(f"Venue inserted with id {newid}.")
 
-    return newId
+    return newid
 
 
-def venueWork(f, conn): # f is fixture
+def venuework(f, conn): # f is fixture
     #Get venue api id
-    venueRaw = f.get("venue")
-    print(f"Venue: {venueRaw}")
+    venueraw = f.get("venue")
+    print(f"Venue: {venueraw}")
     # single out the venue name
-    venueName = venueRaw['name']
+    venuename = venueraw['name']
     # some initializing
     apiid = None
     address = ""
@@ -210,33 +210,33 @@ def venueWork(f, conn): # f is fixture
     capacity = ""
     surface = ""
     tz = ""
-    if venueRaw['id'] is None: # most venues in apifootball don't have an api id, at least fo the first few matches
+    if venueraw['id'] is None: # most venues in apifootball don't have an api id, at least fo the first few matches
         print("Venue is None.")
         # Check to see if Venue already exists anyway
         with conn.cursor() as cur: # creating a list (or dictionary?  tuple?) of all venues where api id is none
             cur.execute("SELECT name, id FROM public.venue WHERE apifootballid is NULL")
             rows = cur.fetchall()
         # getting just the names of the venues into a dictionary
-        existingNoneVenues = {row[0]: row[1] for row in rows if row[0] is not None}
-        print(f"All existing venues w/o api id:  {existingNoneVenues}")
-        if venueName in existingNoneVenues: # running through the list to see if venue name is in the list
-            print(f"Venue {venueName} is already in the database, no need to proceed.")
-            print(f"Venue id: {existingNoneVenues[venueName]}")
+        existingnonevenues = {row[0]: row[1] for row in rows if row[0] is not None}
+        print(f"All existing venues w/o api id:  {existingnonevenues}")
+        if venuename in existingnonevenues: # running through the list to see if venue name is in the list
+            print(f"Venue {venuename} is already in the database, no need to proceed.")
+            print(f"Venue id: {existingnonevenues[venuename]}")
             with conn.cursor() as cur: # getting the timezone of the already existing venue
-                cur.execute("SELECT timezone FROM public.venue WHERE id = %s", (existingNoneVenues[venueName],))
+                cur.execute("SELECT timezone FROM public.venue WHERE id = %s", (existingnonevenues[venuename],))
                 tz = cur.fetchone()[0]
-            return existingNoneVenues[venueName], tz # if it is, we're done, return the id
-        elif venueName == 'Mercedes-Benz Stadium (Atlanta, Georgia)':
+            return existingnonevenues[venuename], tz # if it is, we're done, return the id
+        elif venuename == 'Mercedes-Benz Stadium (Atlanta, Georgia)':
             return 4, "America/New_York"
         else:  # else we have some work to do
             print("not in db, going to add it in")
             # solicit information
-            address = input(f"Enter the street address for {venueName}: ")
-            city = input(f"Enter the city for {venueName}: ")
-            state = input(f"Enter the state for {venueName}: ")
-            countrycode = input(f"Enter the country code for {venueName}: ")
-            capacity = input(f"Enter the capacity for {venueName}: ")
-            surface = input(f"Enter the surface for {venueName}: ")
+            address = input(f"Enter the street address for {venuename}: ")
+            city = input(f"Enter the city for {venuename}: ")
+            state = input(f"Enter the state for {venuename}: ")
+            countrycode = input(f"Enter the country code for {venuename}: ")
+            capacity = input(f"Enter the capacity for {venuename}: ")
+            surface = input(f"Enter the surface for {venuename}: ")
 
             # create a function that finds and inserts lat and long based on address
             def geocode_address(a: str) -> Optional[tuple[float, float]]:
@@ -293,13 +293,13 @@ def venueWork(f, conn): # f is fixture
             tz = tf.timezone_at(lng=lon, lat=lat)
             print(f"The timezone is {tz}.")
 
-            # call insertVenue
-            thevenueid = insertVenue(apiid, venueName, address, city, state, countrycode, capacity, surface, lat, lon,
+            # call insertvenue
+            thevenueid = insertvenue(apiid, venuename, address, city, state, countrycode, capacity, surface, lat, lon,
                                      tz, conn)
             return thevenueid, tz
     else:
         print("Venue has an id in the api!!")
-        return venueRaw['id'], tz
+        return venueraw['id'], tz
 
 
 def _normalize_tz_key(key: str | None) -> str | None:
@@ -824,11 +824,11 @@ def fixturefunction(payload, f, headers, conn):
         return
 
     # Referee info
-    refereeId = refereeWork(fixtureinfo, conn)
+    refereeId = refereework(fixtureinfo, conn)
     print(f"The referee id is {refereeId}.")
 
     # Venue info
-    venueId, fixturetimezone = venueWork(fixtureinfo, conn)
+    venueId, fixturetimezone = venuework(fixtureinfo, conn)
     print(f"The venue id is {venueId}.")
     print(f"The timezone is {fixturetimezone}.")
 
@@ -988,7 +988,8 @@ def main():
     # list out fixtures
     #fixturelist = [147926, 147936]
     #fixturelist = [147926]
-    fixturelist = [147940]
+    #fixturelist = [147940]
+    fixturelist = [147953]
     ## Initializing
     # Load headers from json file for use in api requests
     print("Loading headers...")
