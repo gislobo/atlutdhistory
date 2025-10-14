@@ -1020,7 +1020,7 @@ def eventtypework(c, et, ed):
     return dbeventtypeid
 
 
-def eventfunction(payload, f, headers, conn):
+def eventfunction(payload, f, conn):
     ## Grab the database fixtureid
     with conn.cursor() as cur:
         cur.execute("SELECT apisportsid, id from public.fixture where apisportsid = %s", (f,))
@@ -1157,9 +1157,204 @@ def eventfunction(payload, f, headers, conn):
         print("---------------------------------")
 
 
+def percentstringtofloat(str):
+    """Convert a percentage string like '61%' to a float like 61.0"""
+    if str is None or str == "":
+        return None
+    return float(str.strip('%'))
+
+
+def statisticsfunction(payload, f, conn):
+    ## Grab the database fixtureid
+    with conn.cursor() as cur:
+        cur.execute("SELECT apisportsid, id from public.fixture where apisportsid = %s", (f,))
+        existingfixtures = cur.fetchall()
+    existingfixturesdict = {existingfixture[0]: existingfixture[1] for existingfixture in existingfixtures if
+                            existingfixture[0] is not None}
+    print(f"Existing fixtures: {existingfixturesdict}")
+    databasefixtureid = None
+    if f in existingfixturesdict:
+        databasefixtureid = existingfixturesdict[f]
+        print(f"The database fixture id is {databasefixtureid}.")
+
+    ## See if the fixture already has statistics
+    with conn.cursor() as cur:
+        cur.execute("select dbfixtureid from public.fixturestatistics")
+        existingfixturestatisticsidsfetchall = cur.fetchall()
+    existingfixturestatisticsids = {row[0] for row in existingfixturestatisticsidsfetchall}
+    if databasefixtureid in existingfixturestatisticsids:
+        print(f"The fixture {databasefixtureid} already has statistics in the database, exiting.")
+        return
+
+    ## Work out how to grab each team's statistics individually
+    # API tells us how many events there are
+    apiresults = payload.get("results") or {}
+    print(f"The API tells us there are {apiresults} events.")
+
+    # Get the events into a list of dictionaries
+    response = payload.get("response") or {}
+    print(response)
+    print(f"There are {len(response)} events in the response.")
+    if len(response) == apiresults:
+        print("The number of events in the response matches the number of events the API initially tells us there are.")
+    else:
+        print(
+            "Something is wrong, the number of events in the response doesn't match the number of events the API tells us there are.")
+        return
+
+    count = 0
+    for event in response:
+        count += 1
+        print(f"Event {count}:")
+        print(event)
+
+        ## Get db team id
+        teaminfo = event.get("team") or {}
+        apiteamid = teaminfo.get("id")
+        print(f"apiteamid: {apiteamid}")
+        with conn.cursor() as cur:
+            cur.execute("SELECT apifootballid, id from public.team where apifootballid = %s", (apiteamid,))
+            existingteams = cur.fetchall()
+        existingteamsdict = {existingteam[0]: existingteam[1] for existingteam in existingteams if
+                             existingteam[0] is not None}
+        databaseteamid = None
+        if apiteamid in existingteamsdict:
+            databaseteamid = existingteamsdict[apiteamid]
+            print(f"The database team id is {databaseteamid}.")
+        else:
+            print(f"API Team ID {apiteamid} is not in your database.")
+            sys.exit(0)
+
+        ## Get stats into variables
+        # Initialize variables
+        shotsongoal = None
+        shotsoffgoal = None
+        totalshots = None
+        blockedshots = None
+        shotsinsidebox = None
+        shotsoutsidebox = None
+        fouls = None
+        cornerkicks = None
+        offsides = None
+        ballpossessionstr = None
+        ballpossession = None
+        yellowcards = None
+        redcards = None
+        goalkeepersaves = None
+        totalpasses = None
+        passesaccurate = None
+        apistats = event.get("statistics") or {}
+        print(f"Stats: {apistats}")
+        print(f"length of stats: {len(apistats)}")
+        for stat in apistats:
+            print(f"stat: {stat}")
+            stattype = stat.get("type")
+            statvalue = stat.get("value")
+            if stattype == 'Shots on Goal':
+                shotsongoal = statvalue
+                print(f"Shots on goal: {shotsongoal}")
+            if stattype == 'Shots off Goal':
+                shotsoffgoal = statvalue
+                print(f"Shots off goal: {shotsoffgoal}")
+            if stattype == 'Total Shots':
+                totalshots = statvalue
+                print(f"Total shots: {totalshots}")
+            if stattype == 'Blocked Shots':
+                blockedshots = statvalue
+                print(f"Blocked shots: {blockedshots}")
+            if stattype == 'Shots insidebox':
+                shotsinsidebox = statvalue
+                print(f"Shots inside box: {shotsinsidebox}")
+            if stattype == 'Shots outsidebox':
+                shotsoutsidebox = statvalue
+                print(f"Shots outside box: {shotsoutsidebox}")
+            if stattype == 'Fouls':
+                fouls = statvalue
+                print(f"Fouls: {fouls}")
+            if stattype == 'Corner Kicks':
+                cornerkicks = statvalue
+                print(f"Corner kicks: {cornerkicks}")
+            if stattype == 'Offsides':
+                offsides = statvalue
+                print(f"Offsides: {offsides}")
+            if stattype == 'Ball Possession':
+                ballpossessionstr = statvalue
+                print(f"Ball possession string: {ballpossessionstr}")
+                # Converting ballpossession to a float
+                print("Converting ballpossession to a float...")
+                ballpossession = percentstringtofloat(ballpossessionstr)
+                print(f"Ball possession percent: {ballpossession}")
+            if stattype == 'Yellow Cards':
+                yellowcards = statvalue
+                print(f"Yellow cards: {yellowcards}")
+            if stattype == 'Red Cards':
+                redcards = statvalue
+                print(f"Red cards: {redcards}")
+            if stattype == 'Goalkeeper Saves':
+                goalkeepersaves = statvalue
+                print(f"Goalkeeper saves: {goalkeepersaves}")
+            if stattype == 'Total passes':
+                totalpasses = statvalue
+                print(f"Total passes: {totalpasses}")
+            if stattype == 'Passes accurate':
+                passesaccurate = statvalue
+                print(f"Passes accurate: {passesaccurate}")
+
+        ## Load into database
+        sql = """
+              INSERT INTO public.fixturestatistics (dbfixtureid, \
+                                                    dbteamid, \
+                                                    shotsongoal, \
+                                                    shotsoffgoal, \
+                                                    totalshots, \
+                                                    blockedshots, \
+                                                    goalkeepersaves, \
+                                                    shotsinsidebox, \
+                                                    shotsoutsidebox, \
+                                                    cornerkicks, \
+                                                    offsides, \
+                                                    ballpossession, \
+                                                    totalpasses, \
+                                                    passesaccurate, \
+                                                    fouls, \
+                                                    yellowcards, \
+                                                    redcards)
+              VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
+              returning id \
+              """
+        params = (
+            databasefixtureid,
+            databaseteamid,
+            shotsongoal,
+            shotsoffgoal,
+            totalshots,
+            blockedshots,
+            goalkeepersaves,
+            shotsinsidebox,
+            shotsoutsidebox,
+            cornerkicks,
+            offsides,
+            ballpossession,
+            totalpasses,
+            passesaccurate,
+            fouls,
+            yellowcards,
+            redcards,
+        )
+
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(sql, params)
+                newid = cur.fetchone()[0]
+                print(f"New fixturestatistcs id: {newid}")
+
+        print("")
+        print("---------------------------------")
+
+
 def main():
     # list out fixtures
-    fixturelist = [147926, 147936]
+    fixturelist = [147926, 147936, 147940]
     #fixturelist = [147926]
     #fixturelist = [147936]
     #fixturelist = [147940]
@@ -1203,7 +1398,7 @@ def main():
         print(f"\n{'=' * 50}")
         print("Players...")
         print(f"{'=' * 50}\n")
-        #players(payload, headers, conn)
+        players(payload, headers, conn)
         print(f"\n{'=' * 50}")
         print(f"...Players are done for {fixture}.")
         print(f"{'=' * 50}\n")
@@ -1211,7 +1406,7 @@ def main():
         print(f"\n{'=' * 50}")
         print("Fixture...")
         print(f"{'=' * 50}\n")
-        #fixturefunction(payload, fixture, headers, conn)
+        fixturefunction(payload, fixture, headers, conn)
         print(f"\n{'=' * 50}")
         print(f"...Fixture is done for {fixture}.")
         print(f"{'=' * 50}\n")
@@ -1225,9 +1420,23 @@ def main():
         eventres = apiconn.getresponse()
         eventraw = eventres.read()
         eventpayload = json.loads(eventraw.decode("utf-8"))
-        eventfunction(eventpayload, fixture, headers, conn)
+        eventfunction(eventpayload, fixture, conn)
         print(f"\n{'=' * 50}")
         print(f"...Events are done for {fixture}.")
+        print(f"{'=' * 50}\n")
+
+        print(f"\n{'=' * 50}")
+        print("Game Statistics...")
+        print(f"{'=' * 50}\n")
+        print("Getting game statistics data from api...")
+        statisticspath = f"/fixtures/statistics?fixture={fixture}"
+        apiconn.request("GET", statisticspath, headers=headers)
+        statisticsres = apiconn.getresponse()
+        statisticsraw = statisticsres.read()
+        statisticspayload = json.loads(statisticsraw.decode("utf-8"))
+        statisticsfunction(statisticspayload, fixture, conn)
+        print(f"\n{'=' * 50}")
+        print(f"...Statistics are done for {fixture}.")
         print(f"{'=' * 50}\n")
 
 
