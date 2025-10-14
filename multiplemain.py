@@ -914,10 +914,134 @@ def fixturefunction(payload, f, headers, conn):
     print(f"Home team id:  {hometeamid}.")
     print(f"Away team id:  {awayteamid}.")
 
+    # Fixturestatus
+    fixturestatus = fixtureinfo.get("status")
+    print(f"Fixture status: {fixturestatus}.")
+    fixturestatusid = fixturestatuswork(fixturestatus)
+    print(f"Fixture status id is {fixturestatusid}.")
+
+    # Goals info
+    homegoals = goalsinfo.get("home")
+    awaygoals = goalsinfo.get("away")
+    print(f"home goals = {homegoals}.")
+    print(f"away goals = {awaygoals}.")
+
+    # Fixturewinner
+    print(f"home info {homeinfo}.")
+    print(f"away info {awayinfo}.")
+    homewinner = homeinfo.get("winner")
+    awaywinner = awayinfo.get("winner")
+    print(f"homewinner = {homewinner}.")
+    print(f"awaywinner = {awaywinner}.")
+    fixturewinner = None
+    if homewinner:
+        print("home won")
+        fixturewinner = hometeamid
+    elif awaywinner:
+        print("away won")
+        fixturewinner = awayteamid
+    else:
+        print("Ended in a draw")
+        fixturewinner = 8
+    print(f"fixturewinner = {fixturewinner}.")
+
+    # Score info
+    halftimeinfo = scoreinfo.get("halftime")
+    halftimehome = halftimeinfo.get("home")
+    halftimeaway = halftimeinfo.get("away")
+    print(f"halftimehome = {halftimehome}.")
+    print(f"halftimeaway = {halftimeaway}.")
+
+    fulltimeinfo = scoreinfo.get("fulltime")
+    fulltimehome = fulltimeinfo.get("home")
+    fulltimeaway = fulltimeinfo.get("away")
+    print(f"fulltimehome = {fulltimehome}.")
+    print(f"fulltimeaway = {fulltimeaway}.")
+
+    extratimeinfo = scoreinfo.get("extratime")
+    extratimehome = extratimeinfo.get("home")
+    extratimeaway = extratimeinfo.get("away")
+    print(f"extratimehome = {extratimehome}.")
+    print(f"extratimeaway = {extratimeaway}.")
+
+    penaltyinfo = scoreinfo.get("penalty")
+    penaltyhome = penaltyinfo.get("home")
+    penaltyaway = penaltyinfo.get("away")
+    print(f"penaltyhome = {penaltyhome}.")
+    print(f"penaltyaway = {penaltyaway}.")
+
+    # For timestamp (without time zone) columns, use naive "wall times"
+    utcdatetime = _parse_api_utc(utcdatetime_str).replace(tzinfo=None)  # wall time in UTC
+    localtime = localtime_aware.replace(tzinfo=None)  # wall time in venue tz
+    atlantatime = atlantatime_aware.replace(tzinfo=None)  # wall time in Atlanta
+
+    print(f"before insert, utcdatetime_str is {utcdatetime_str}")
+    print(f"before insert, localtime is {localtime}")
+    print(f"before insert, atlantatime is {atlantatime}")
+    utcdatetime = _parse_api_utc(utcdatetime_str)
+    print(f"after parsing thingy, utcdatetime is {utcdatetime}")
+    # Insert fixture record
+    sql = """
+          INSERT INTO public.fixture (apisportsid, \
+                                      referee, \
+                                      utcdatetime, \
+                                      localdatetime, \
+                                      venue, \
+                                      league, \
+                                      hometeam, \
+                                      awayteam, \
+                                      fixturestatus, \
+                                      fixturewinner, \
+                                      homegoal, \
+                                      awaygoal, \
+                                      halftimehomescore, \
+                                      halftimeawayscore, \
+                                      fulltimehomescore, \
+                                      fulltimeawayscore, \
+                                      extratimehomescore, \
+                                      extratimeawayscore, \
+                                      penaltyhome, \
+                                      penaltyaway, \
+                                      atlantatime)
+          VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
+          RETURNING id \
+          """
+    params = (
+        f,
+        refereeId,
+        utcdatetime,
+        localtime,
+        venueId,
+        leagueid,
+        hometeamid,
+        awayteamid,
+        fixturestatusid,
+        fixturewinner,
+        homegoals,
+        awaygoals,
+        halftimehome,
+        halftimeaway,
+        fulltimehome,
+        fulltimeaway,
+        extratimehome,
+        extratimeaway,
+        penaltyhome,
+        penaltyaway,
+        atlantatime,
+    )
+
+    with conn:
+        with conn.cursor() as cursor:
+            cursor.execute(sql, params)
+            databasefixtureid = cursor.fetchone()[0]
+            print(f"Database fixture id: {databasefixtureid}.")
+
+    print("and you're done")
+
 
 def main():
     # list out fixtures
-    fixturelist = [147926]
+    fixturelist = [147926, 147936]
     ## Initializing
     # Load headers from json file for use in api requests
     print("Loading headers...")
