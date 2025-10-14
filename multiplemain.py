@@ -1200,7 +1200,7 @@ def statisticsfunction(payload, f, conn):
     else:
         print(
             "Something is wrong, the number of events in the response doesn't match the number of events the API tells us there are.")
-        return
+        sys.exit(0)
 
     count = 0
     for event in response:
@@ -1469,7 +1469,7 @@ def playerstatisticsfunction(payload, f, conn):
                 print("")
             else:
                 print(f"API Player ID {apiplayerid} is not in your database.")
-                sys.exit(0)
+                dbplayerid = int(input("Enter the database player id for this player:  "))
 
             ## Initialize statistics variables
             print("Initializing statistics variables...")
@@ -2184,6 +2184,16 @@ def main():
     #fixturelist = [147936]
     #fixturelist = [147940]
     #fixturelist = [147953]
+    ## 2017 fixture list
+    fixturelist = [147926, 147936, 147940, 147953, 147967, 147976, 147992, 148006, 148019, 148029, 148043, 148057,
+                   148066, 148074, 148078, 148088, 148096, 280488, 280464, 148109, 148114, 148131, 148143, 148164,
+                   148186, 148194, 148217, 148219, 148221, 148232, 148243, 148245, 148255, 148264, 148271, 148281,
+                   147915]
+    # fixturelist = [148057,
+    #                148066, 148074, 148078, 148088, 148096, 280488, 280464, 148109, 148114, 148131, 148143, 148164,
+    #                148186, 148194, 148217, 148219, 148221, 148232, 148243, 148245, 148255, 148264, 148271, 148281,
+    #                147915]
+
     ## Initializing
     # Load headers from json file for use in api requests
     print("Loading headers...")
@@ -2223,7 +2233,7 @@ def main():
         print(f"\n{'=' * 50}")
         print("Players...")
         print(f"{'=' * 50}\n")
-        #players(payload, headers, conn)
+        players(payload, headers, conn)
         print(f"\n{'=' * 50}")
         print(f"...Players are done for {fixture}.")
         print(f"{'=' * 50}\n")
@@ -2231,7 +2241,7 @@ def main():
         print(f"\n{'=' * 50}")
         print("Fixture...")
         print(f"{'=' * 50}\n")
-        #fixturefunction(payload, fixture, headers, conn)
+        fixturefunction(payload, fixture, headers, conn)
         print(f"\n{'=' * 50}")
         print(f"...Fixture is done for {fixture}.")
         print(f"{'=' * 50}\n")
@@ -2245,7 +2255,7 @@ def main():
         eventres = apiconn.getresponse()
         eventraw = eventres.read()
         eventpayload = json.loads(eventraw.decode("utf-8"))
-        #eventfunction(eventpayload, fixture, conn)
+        eventfunction(eventpayload, fixture, conn)
         print(f"\n{'=' * 50}")
         print(f"...Events are done for {fixture}.")
         print(f"{'=' * 50}\n")
@@ -2259,7 +2269,7 @@ def main():
         statisticsres = apiconn.getresponse()
         statisticsraw = statisticsres.read()
         statisticspayload = json.loads(statisticsraw.decode("utf-8"))
-        #statisticsfunction(statisticspayload, fixture, conn)
+        statisticsfunction(statisticspayload, fixture, conn)
         print(f"\n{'=' * 50}")
         print(f"...Fixture Statistics are done for {fixture}.")
         print(f"{'=' * 50}\n")
@@ -2273,7 +2283,7 @@ def main():
         playerstatisticsres = apiconn.getresponse()
         playerstatisticsraw = playerstatisticsres.read()
         playerstatisticspayload = json.loads(playerstatisticsraw.decode("utf-8"))
-        #playerstatisticsfunction(playerstatisticspayload, fixture, conn)
+        playerstatisticsfunction(playerstatisticspayload, fixture, conn)
         print(f"\n{'=' * 50}")
         print(f"...Player Statistics are done for {fixture}.")
         print(f"{'=' * 50}\n")
