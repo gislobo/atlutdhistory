@@ -2,7 +2,6 @@ import http.client
 import json
 import psycopg2
 import unicodedata
-import sys
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError, GeocoderUnavailable
@@ -42,7 +41,7 @@ _TZ_ALIAS_MAP = {
 }
 
 
-def splitFullName(fullname: str) -> tuple[str | None, str | None]:
+def splitfullname(fullname: str) -> tuple[str | None, str | None]:
     if not fullname or not fullname.strip():
         return None, None
 
@@ -88,60 +87,6 @@ def splitFullName(fullname: str) -> tuple[str | None, str | None]:
         lastname = f"{middle} {lastname}" if lastname else middle
 
     return firstname, lastname
-
-
-def applyCountryCodes(conn, country):
-    def country_lookup_candidates(name):
-        if not name:
-            return []
-        s = str(name).strip()
-        candidates = set()
-
-        def add(v):
-            if v and v.strip():
-                candidates.add(" ".join(v.strip().lower().split()))
-
-        # Base
-        add(s)
-        # Hyphen/space variants
-        add(s.replace("-", " "))
-        add(s.replace(" ", "-"))
-        # Remove punctuation except hyphens
-        s_no_punct = "".join(ch for ch in s if ch.isalnum() or ch.isspace() or ch == "-")
-        add(s_no_punct)
-        add(s_no_punct.replace("-", " "))
-        add(s_no_punct.replace(" ", "-"))
-        # Accent fold
-        s_ascii = unicodedata.normalize("NFKD", s)
-        s_ascii = "".join(ch for ch in s_ascii if not unicodedata.combining(ch))
-        add(s_ascii)
-        add(s_ascii.replace("-", " "))
-        add(s_ascii.replace(" ", "-"))
-
-        # Special-case: Republic of Ireland -> also match Ireland
-        s_lower_spaces = " ".join(s.strip().lower().replace("-", " ").split())
-        if "republic of ireland" in s_lower_spaces:
-            add("ireland")
-
-        return sorted(candidates)
-
-    candidates = country_lookup_candidates(country)
-    print(f"Looking up candidates: {candidates!r}")
-
-    if not candidates:
-        return {}
-
-    with conn.cursor() as cur:
-        cur.execute(
-            """
-            SELECT LOWER(name) AS lname, code
-            FROM public.country
-            WHERE LOWER(name) = ANY(%s)
-            """,
-            (candidates,)
-        )
-        rows = cur.fetchall()
-    return {lname: code for lname, code in rows}
 
 
 def insertRef(first, last, code, c):
@@ -193,9 +138,9 @@ def refereeWork(f, conn):
             ##if referee is not in db, add referee to db
             print(f"Referee {referee} is not in the database, adding referee to db.")
             ##split full name into two
-            firstname, lastname = splitFullName(referee)
+            firstname, lastname = splitfullname(referee)
             print(f"Firstname: {firstname} Lastname: {lastname}")
-            refereeCountryCodeMap = applyCountryCodes(conn, refereeCountry)
+            refereeCountryCodeMap = applycountrycodes(conn, refereeCountry)
             print(refereeCountryCodeMap)
             refereeCountryCode = None
             if refereeCountryCodeMap:
@@ -510,7 +455,7 @@ def teamwork(tid, conn, headers):
         print(f"API Team ID {tid}: {teaminfo}")
         name = teaminfo.get("name")
         country = teaminfo.get("country")
-        teamcountrycodemap = applyCountryCodes(conn, country)
+        teamcountrycodemap = applycountrycodes(conn, country)
         teamcountrycode = None
         if teamcountrycodemap:
             teamcountrycode = next(iter(teamcountrycodemap.values()))
@@ -1041,7 +986,9 @@ def fixturefunction(payload, f, headers, conn):
 
 def main():
     # list out fixtures
-    fixturelist = [147926, 147936]
+    #fixturelist = [147926, 147936]
+    #fixturelist = [147926]
+    fixturelist = [147940]
     ## Initializing
     # Load headers from json file for use in api requests
     print("Loading headers...")
@@ -1081,7 +1028,7 @@ def main():
         print(f"\n{'=' * 50}")
         print("Players...")
         print(f"{'=' * 50}\n")
-        #players(payload, headers, conn)
+        players(payload, headers, conn)
         print(f"\n{'=' * 50}")
         print(f"...Players are done for {fixture}.")
         print(f"{'=' * 50}\n")
