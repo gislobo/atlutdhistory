@@ -1106,7 +1106,10 @@ def eventfunction(payload, f, conn):
         databaseplayerid = ""
         with conn.cursor() as cur:
             cur.execute("SELECT id from public.player WHERE apifootballid = %s", (apiplayerid,))
-            databaseplayerid = cur.fetchone()[0]
+            playerresult = cur.fetchone()
+            if playerresult is None:
+                print(f"WARNING:  Player with apifootballid {apiplayerid} not found in database.")
+                databaseplayerid = int(input("Enter the database player id for the player: "))
         print(f"Database player id: {databaseplayerid}")
         print("")
 
