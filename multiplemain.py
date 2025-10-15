@@ -94,13 +94,16 @@ def insertref(first, last, code, c):
     sql = """
         INSERT INTO public.referee (firstname, \
                                    lastname, \
-                                   countrycode) 
-            VALUES (%s, %s, %s) RETURNING id
+                                   countrycode, \
+                                   data_source) 
+            VALUES (%s, %s, %s, %s) RETURNING id
     """
+    ds = 'API-Football'
     params = (
         first,
         last,
         code,
+        ds,
     )
 
     with c:
@@ -2184,7 +2187,7 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
 
 def main():
     # list out fixtures
-    fixturelist = [280386]
+    fixturelist = [147548]
     ## 2017 fixture list
     # fixturelist = [147926, 147936, 147940, 147953, 147967, 147976, 147992, 148006, 148019, 148029, 148043, 148057,
     #                148066, 148074, 148078, 148088, 148096, 280488, 280464, 148109, 148114, 148131, 148143, 148164,
@@ -2204,7 +2207,7 @@ def main():
 
     # Load DB config from json file for use in connecting to database
     print("Loading DB config...")
-    db = loaddbconfig("dbconfig.json")
+    db = loaddbconfig("testdbconfig.json")
     print("...DB config loaded.")
     print("")
 
