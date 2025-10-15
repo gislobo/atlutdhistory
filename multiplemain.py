@@ -1103,13 +1103,15 @@ def eventfunction(payload, f, conn):
         playerinfo = event.get("player") or {}
         apiplayerid = playerinfo.get("id")
         print(f"apiplayerid: {apiplayerid}")
-        databaseplayerid = ""
+        databaseplayerid = None
         with conn.cursor() as cur:
             cur.execute("SELECT id from public.player WHERE apifootballid = %s", (apiplayerid,))
             playerresult = cur.fetchone()
             if playerresult is None:
                 print(f"WARNING:  Player with apifootballid {apiplayerid} not found in database.")
                 databaseplayerid = int(input("Enter the database player id for the player: "))
+            else:
+                databaseplayerid = playerresult[0]
         print(f"Database player id: {databaseplayerid}")
         print("")
 
@@ -2182,20 +2184,16 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
 
 def main():
     # list out fixtures
-    #fixturelist = [147926, 147936, 147940]
-    #fixturelist = [147926]
-    #fixturelist = [147936]
-    #fixturelist = [147940]
-    #fixturelist = [147953]
+    fixturelist = [280386]
     ## 2017 fixture list
     # fixturelist = [147926, 147936, 147940, 147953, 147967, 147976, 147992, 148006, 148019, 148029, 148043, 148057,
     #                148066, 148074, 148078, 148088, 148096, 280488, 280464, 148109, 148114, 148131, 148143, 148164,
     #                148186, 148194, 148217, 148219, 148221, 148232, 148243, 148245, 148255, 148264, 148271, 148281,
     #                147915]
     ## 2018 !!!MLS!!! fixture list
-    fixturelist = [147510, 147526, 147533, 147548, 147555, 147573, 147582, 147586, 147604, 147608, 147621, 147633,
-                   147646, 147656, 147662, 147672, 147686, 147690, 147701, 147705, 147727, 147730, 147745, 147755,
-                   147788, 147794, 147816, 147822, 147835, 147838, 147857, 147860, 147882, 147894]
+    # fixturelist = [147510, 147526, 147533, 147548, 147555, 147573, 147582, 147586, 147604, 147608, 147621, 147633,
+    #                147646, 147656, 147662, 147672, 147686, 147690, 147701, 147705, 147727, 147730, 147745, 147755,
+    #                147788, 147794, 147816, 147822, 147835, 147838, 147857, 147860, 147882, 147894]
 
     ## Initializing
     # Load headers from json file for use in api requests
