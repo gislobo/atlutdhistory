@@ -95,15 +95,18 @@ def insertref(first, last, code, c):
         INSERT INTO public.referee (firstname, \
                                    lastname, \
                                    countrycode, \
-                                   data_source) 
-            VALUES (%s, %s, %s, %s) RETURNING id
+                                   data_source, \
+                                   created_by) 
+            VALUES (%s, %s, %s, %s, %s) RETURNING id
     """
     ds = 'API-Football'
+    cb = 'gislobo'
     params = (
         first,
         last,
         code,
         ds,
+        cb,
     )
 
     with c:
@@ -173,9 +176,13 @@ def insertvenue(apiid, name, address, city, state, countrycode, capacity, surfac
             surface, \
             latitude, \
             longitude, \
-            timezone)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
+            timezone, \
+            data_source, \
+            created_by)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
     """
+    ds = 'API-Football'
+    cb = 'gislobo'
     params = (
         apiid,
         name,
@@ -188,6 +195,8 @@ def insertvenue(apiid, name, address, city, state, countrycode, capacity, surfac
         lat,
         long,
         tz,
+        ds,
+        cb,
     )
 
     with c:
@@ -414,14 +423,20 @@ def insertteam(aid, name, code, fdate, c):
         INSERT INTO public.team (apifootballid, \
                                  name, \
                                  countrycode, \
-                                 foundeddate)
-            VALUES (%s, %s, %s, %s) RETURNING id
+                                 foundeddate, \
+                                 data_source, \
+                                 created_by)
+            VALUES (%s, %s, %s, %s, %s, %s) RETURNING id
     """
+    ds = 'API-Football'
+    cb = 'gislobo'
     params = (
         aid,
         name,
         code,
         fdate,
+        ds,
+        cb,
     )
 
     with c:
@@ -696,10 +711,12 @@ def getpositionid(conn, positionname):
             return positionId
     else:
         print(f"Position {positionname} is not in the database.")
+        ds = 'API-Football'
+        cb = 'gislobo'
         with conn.cursor() as cur:
             cur.execute(
-                "INSERT INTO public.position (position) VALUES (%s) RETURNING id",
-                (positionname,),
+                "INSERT INTO public.position (position, data_source, created_by) VALUES (%s, %s, %s) RETURNING id",
+                (positionname, ds, cb,),
             )
             positionId = cur.fetchone()[0]
             return positionId
@@ -765,9 +782,13 @@ def builddictionary(headers, conn, playerid):
                                    birthcountrycode, \
                                    nationality, \
                                    heightcm, \
-                                   weightkg) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
+                                   weightkg, \
+                                   data_source, \
+                                   created_by) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
     """
+    ds = 'API-Football'
+    cb = 'gislobo'
     params = (
         playerid,
         player[playerid]["firstname"],
@@ -778,6 +799,8 @@ def builddictionary(headers, conn, playerid):
         player[playerid]["nationality"],
         player[playerid]["heightcm"],
         player[playerid]["weightkg"],
+        ds,
+        cb,
     )
 
     with conn:
@@ -951,10 +974,14 @@ def fixturefunction(payload, f, headers, conn):
                                       extratimeawayscore, \
                                       penaltyhome, \
                                       penaltyaway, \
-                                      atlantatime)
-          VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
+                                      atlantatime, \
+                                      data_source, \
+                                      created_by)
+          VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
           RETURNING id \
           """
+    ds = 'API-Football'
+    cb = 'gislobo'
     params = (
         f,
         refereeId,
@@ -977,6 +1004,8 @@ def fixturefunction(payload, f, headers, conn):
         penaltyhome,
         penaltyaway,
         atlantatime,
+        ds,
+        cb,
     )
 
     with conn:
@@ -1010,11 +1039,13 @@ def eventtypework(c, et, ed):
     # If not in the database, add them in as a new row in public.eventtype
     if not eventtypeexists:
         print(f"Event type {et} and event detail {ed} not found in database.")
+        ds = 'API-Football'
+        cb = 'gislobo'
         with c:
             with c.cursor() as cur:
                 cur.execute(
-                    "INSERT INTO public.eventtype (type, eventdetail) VALUES (%s, %s) RETURNING id",
-                    (et, ed),
+                    "INSERT INTO public.eventtype (type, eventdetail, data_source, created_by) VALUES (%s, %s, %s, %s) RETURNING id",
+                    (et, ed, ds, cb),
                 )
                 dbeventtypeid = cur.fetchone()[0]
                 print(f"Event type {et} and event detail {ed} inserted with id {dbeventtypeid}.")
@@ -1140,10 +1171,14 @@ def eventfunction(payload, f, conn):
                                                extratimeelapsed, \
                                                team, \
                                                player, \
-                                               assist)
-              VALUES (%s, %s, %s, %s, %s, %s, %s, %s) \
+                                               assist, \
+                                               data_source, \
+                                               created_by)
+              VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
               RETURNING id \
               """
+        ds = 'API-Football'
+        cb = 'gislobo'
         params = (
             databasefixtureid,
             eventypeid,
@@ -1153,6 +1188,8 @@ def eventfunction(payload, f, conn):
             databaseteamid,
             databaseplayerid,
             databaseassistid,
+            ds,
+            cb,
         )
 
         with conn:
@@ -1326,10 +1363,14 @@ def statisticsfunction(payload, f, conn):
                                                     passesaccurate, \
                                                     fouls, \
                                                     yellowcards, \
-                                                    redcards)
-              VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
+                                                    redcards, \
+                                                    data_source, \
+                                                    created_by)
+              VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
               returning id \
               """
+        ds = 'API-Football'
+        cb = 'gislobo'
         params = (
             databasefixtureid,
             databaseteamid,
@@ -1348,6 +1389,8 @@ def statisticsfunction(payload, f, conn):
             fouls,
             yellowcards,
             redcards,
+            ds,
+            cb,
         )
 
         with conn:
@@ -1555,9 +1598,11 @@ def playerstatisticsfunction(payload, f, conn):
                 print(f"The position already exists in the database, position id:  {positionid}.")
             else:
                 print(f"The position does not exist in the database, inserting it...")
+                ds = 'API-Football'
+                cb = 'gislobo'
                 with conn:
                     with conn.cursor() as cur:
-                        cur.execute("insert into public.position (position) values (%s) returning id", (apiposition,))
+                        cur.execute("insert into public.position (position, data_source, created_by) values (%s, %s, %s) returning id", (apiposition, ds, cb,))
                         positionid = cur.fetchone()[0]
                         print(f"...position inserted, position id:  {positionid}.")
 
@@ -1723,11 +1768,15 @@ def playerstatisticsfunction(payload, f, conn):
                                                               penaltiescommitted, \
                                                               penaltiesscored, \
                                                               penaltiesmissed, \
-                                                              penaltiessaved)
+                                                              penaltiessaved, \
+                                                              data_source, \
+                                                              created_by)
                   values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \
-                          %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
+                          %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
                   returning id \
                   """
+            ds = 'API-Football'
+            cb = 'gislobo'
             params = (
                 dbfixtureid,
                 dbteamid,
@@ -1765,6 +1814,8 @@ def playerstatisticsfunction(payload, f, conn):
                 penaltiesscored,
                 penaltiesmissed,
                 penaltiessaved,
+                ds,
+                cb,
             )
 
             with conn:
@@ -1847,9 +1898,11 @@ def coachwork(ac, h, aid, c):
 
     ## Load into database
     sql = """
-    insert into public.coach (apifootballid, firstname, lastname, birthdate, birthplace, birthcountrycode, nationality)
-        values (%s, %s, %s, %s, %s, %s, %s) returning id
+    insert into public.coach (apifootballid, firstname, lastname, birthdate, birthplace, birthcountrycode, nationality, data_source, created_by)
+        values (%s, %s, %s, %s, %s, %s, %s, %s, %s) returning id
     """
+    ds = 'API-Football'
+    cb = 'gislobo'
     params = (
         aid,
         firstname,
@@ -1857,7 +1910,9 @@ def coachwork(ac, h, aid, c):
         birthdate,
         birthplace,
         birthcountrycode,
-        nationality
+        nationality,
+        ds,
+        cb,
     )
 
     with c:
@@ -1985,9 +2040,11 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
         else:
             print(f"Formation {formation} is not in your database.")
             print("Adding formation to database...")
+            ds = 'API-Football'
+            cb = 'gislobo'
             with conn:
                 with conn.cursor() as cur:
-                    cur.execute("insert into public.formation (formation) values (%s) returning id", (formation,))
+                    cur.execute("insert into public.formation (formation, data_source, created_by) values (%s, %s, %s) returning id", (formation, ds, cb,))
                     formationid = cur.fetchone()[0]
                     print(f"The formation id is {formationid}.")
                     print("")
@@ -2143,10 +2200,14 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
                                                  substitute4, \
                                                  substitute5, \
                                                  substitute6, \
-                                                 substitute7)
-              values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
+                                                 substitute7, \
+                                                 data_source, \
+                                                 created_by)
+              values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
               returning id \
               """
+        ds = 'API-Football'
+        cb = 'gislobo'
         params = (
             fixtureid,
             dbteamid,
@@ -2170,6 +2231,8 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
             substitute5,
             substitute6,
             substitute7,
+            ds,
+            cb,
         )
 
         with conn:
@@ -2187,7 +2250,7 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
 
 def main():
     # list out fixtures
-    fixturelist = [147548]
+    fixturelist = [147586]
     ## 2017 fixture list
     # fixturelist = [147926, 147936, 147940, 147953, 147967, 147976, 147992, 148006, 148019, 148029, 148043, 148057,
     #                148066, 148074, 148078, 148088, 148096, 280488, 280464, 148109, 148114, 148131, 148143, 148164,
@@ -2207,7 +2270,7 @@ def main():
 
     # Load DB config from json file for use in connecting to database
     print("Loading DB config...")
-    db = loaddbconfig("testdbconfig.json")
+    db = loaddbconfig("dbconfig.json")
     print("...DB config loaded.")
     print("")
 
