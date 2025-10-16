@@ -405,11 +405,17 @@ def leaguework(lid, conn, lr):
     existingleaguesdict = {row[0]: row[1] for row in rows if row[0] is not None}
     existingleagues = list(existingleaguesdict.values())
     print(f"All existing leagues: {existingleagues}")
-    databaseid = ""
+    databaseid = None
     if lid in existingleagues:
         print(f"Yes, {lid}")
         databaseid = key_for_value(existingleaguesdict, lid)
         if lid == 253 and lr == 'Play-In Round - Finals':
+            databaseid = 3
+        if lid == 253 and lr == 'MLS Cup - Conference Semi-finals':
+            databaseid = 3
+        if lid == 253 and lr == 'MLS Cup - Conference Finals':
+            databaseid = 3
+        if lid == 253 and lr == 'MLS Cup - Final':
             databaseid = 3
     else:
         print(f"API League ID {lid} is not in your database.")
@@ -2250,7 +2256,7 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
 
 def main():
     # list out fixtures
-    fixturelist = [147586]
+    fixturelist = [147502, 147493, 147494, 147492]
     ## 2017 fixture list
     # fixturelist = [147926, 147936, 147940, 147953, 147967, 147976, 147992, 148006, 148019, 148029, 148043, 148057,
     #                148066, 148074, 148078, 148088, 148096, 280488, 280464, 148109, 148114, 148131, 148143, 148164,
@@ -2260,6 +2266,8 @@ def main():
     # fixturelist = [147510, 147526, 147533, 147548, 147555, 147573, 147582, 147586, 147604, 147608, 147621, 147633,
     #                147646, 147656, 147662, 147672, 147686, 147690, 147701, 147705, 147727, 147730, 147745, 147755,
     #                147788, 147794, 147816, 147822, 147835, 147838, 147857, 147860, 147882, 147894]
+    ## 2018 NON-MLS fixture list [280386, 280371, 147501, 147502, 147493, 147494, 147492]
+
 
     ## Initializing
     # Load headers from json file for use in api requests
