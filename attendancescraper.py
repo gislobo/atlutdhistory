@@ -114,7 +114,7 @@ def get_date_attendance_dict(url):
 
 # Main execution
 if __name__ == "__main__":
-    url = "https://www.transfermarkt.us/atlanta-united-fc/spielplandatum/verein/51663/saison_id/2016/wettbewerb_id//datum_von/0000-00-00/datum_bis/0000-00-00/day/0/plus/1"
+    url = "https://www.transfermarkt.us/atlanta-united-fc/spielplandatum/verein/51663/plus/1?saison_id=2017&wettbewerb_id=&day=&heim_gast=&punkte=&datum_von=&datum_bis="
 
     print("Fetching match data...\n")
 

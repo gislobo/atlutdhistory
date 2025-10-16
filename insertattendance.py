@@ -16,7 +16,7 @@ def loaddbconfig(configPath="dbconfig.json"):
     }
 
 
-with open('Archive/2017attendance.txt', 'r') as file:
+with open('Archive/2018attendance.txt', 'r') as file:
     lines = file.readlines()
 
 updates = []
@@ -67,7 +67,7 @@ with conn:
             # Use DATE cast to match just the date part, ignoring time
             cur.execute("""
                         UPDATE fixture
-                        SET attendance = %s
+                        SET attendance = %s, updated_by = 'gislobo'
                         WHERE DATE(atlantatime) = %s
                         """, (attendance, date))
 
