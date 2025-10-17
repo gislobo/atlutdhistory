@@ -223,7 +223,7 @@ def venuework(f, conn): # f is fixture
     capacity = ""
     surface = ""
     tz = ""
-    if venueraw['id'] is None: # most venues in apifootball don't have an api id, at least fo the first few matches
+    if venueraw['id'] is None: # most venues in apifootball don't have an api id, at least for the first few matches
         print("Venue is None.")
         # Check to see if Venue already exists anyway
         with conn.cursor() as cur: # creating a list (or dictionary?  tuple?) of all venues where api id is none
@@ -244,6 +244,10 @@ def venuework(f, conn): # f is fixture
         else:  # else we have some work to do
             print("not in db, going to add it in")
             # solicit information
+            yesno = input("Is this venue an already existing venue that has been renamed? (y/n): ")
+            if yesno == "y":
+                changedvenueid = input("Enter the database id of the venue:  ")
+                return changedvenueid, tz
             address = input(f"Enter the street address for {venuename}: ")
             city = input(f"Enter the city for {venuename}: ")
             state = input(f"Enter the state for {venuename}: ")
@@ -339,6 +343,10 @@ def _alias_to_iana(key: str) -> str:
 def _safe_zoneinfo(key: str) -> ZoneInfo | None:
     iana = _alias_to_iana(key)
     print(f"in the second function, iana is {iana}")
+    # Validate that iana is not empty or None before creating ZoneInfo
+    if not iana or not iana.strip():
+        print("Invalid timezone: empty or None, returning None")
+        return None
     try:
         return ZoneInfo(iana)
     except ZoneInfoNotFoundError:
@@ -416,6 +424,8 @@ def leaguework(lid, conn, lr):
         if lid == 253 and lr == 'MLS Cup - Conference Finals':
             databaseid = 3
         if lid == 253 and lr == 'MLS Cup - Final':
+            databaseid = 3
+        if lid == 253 and lr == 'Play-In Round':
             databaseid = 3
     else:
         print(f"API League ID {lid} is not in your database.")
@@ -2084,10 +2094,14 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
             print(f"The api player id is {apiplayerid}.")
 
             # Get db player id
-            with conn.cursor() as cur:
-                cur.execute("SELECT id from public.player WHERE apifootballid = %s", (apiplayerid,))
-                databaseplayerid = cur.fetchone()[0]
-            print(f"The database player id is {databaseplayerid}.")
+            try:
+                with conn.cursor() as cur:
+                    cur.execute("SELECT id from public.player WHERE apifootballid = %s", (apiplayerid,))
+                    databaseplayerid = cur.fetchone()[0]
+                print(f"The database player id is {databaseplayerid}.")
+            except TypeError:
+                print(f"The player doesn't exist in the database, setting playerid to 707 (null).")
+                databaseplayerid = 707
 
             # Set starter variables
             if count1 == 1:
@@ -2151,10 +2165,14 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
             print(f"The api player id is {apiplayerid}.")
 
             # Get db player id
-            with conn.cursor() as cur:
-                cur.execute("SELECT id from public.player WHERE apifootballid = %s", (apiplayerid,))
-                databaseplayerid = cur.fetchone()[0]
-            print(f"The database player id is {databaseplayerid}.")
+            try:
+                with conn.cursor() as cur:
+                    cur.execute("SELECT id from public.player WHERE apifootballid = %s", (apiplayerid,))
+                    databaseplayerid = cur.fetchone()[0]
+                print(f"The database player id is {databaseplayerid}.")
+            except TypeError:
+                print(f"The player doesn't exist in the database, setting playerid to 707 (null).")
+                databaseplayerid = 707
 
             # Set substitute variables
             if count2 == 1:
@@ -2256,7 +2274,7 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
 
 def main():
     # list out fixtures
-    fixturelist = [147502, 147493, 147494, 147492]
+    #fixturelist = [147502, 147493, 147494, 147492]
     ## 2017 fixture list
     # fixturelist = [147926, 147936, 147940, 147953, 147967, 147976, 147992, 148006, 148019, 148029, 148043, 148057,
     #                148066, 148074, 148078, 148088, 148096, 280488, 280464, 148109, 148114, 148131, 148143, 148164,
@@ -2267,6 +2285,13 @@ def main():
     #                147646, 147656, 147662, 147672, 147686, 147690, 147701, 147705, 147727, 147730, 147745, 147755,
     #                147788, 147794, 147816, 147822, 147835, 147838, 147857, 147860, 147882, 147894]
     ## 2018 NON-MLS fixture list [280386, 280371, 147501, 147502, 147493, 147494, 147492]
+    ## 2019 MLS regular season and MLS playoffs fixture list]
+    # fixturelist = [128178, 128189, 128200, 128213, 128237, 128251, 128266, 128286, 128287, 128301, 128305, 128316,
+    #                128321, 128332, 128339, 128364, 128370, 128381, 128396, 128408, 128410, 128424, 128429, 128440,
+    #                128461, 128481, 128486, 128502, 128521, 128531, 128534, 128546, 128555, 128564, 246444, 250195,
+    #                250198]
+    fixturelist = [128486, 128502, 128521, 128531, 128534, 128546, 128555, 128564, 246444, 250195,
+                   250198]
 
 
     ## Initializing
@@ -2282,7 +2307,7 @@ def main():
     print("...DB config loaded.")
     print("")
 
-    # Connect once for lookups and load
+    # Connect
     conn = psycopg2.connect(
         host=db["host"],
         port=db["port"],
@@ -2302,6 +2327,7 @@ def main():
         apiconn.request("GET", path, headers=headers)
         res = apiconn.getresponse()
         raw = res.read()
+        apiconn.close()
         payload = json.loads(raw.decode("utf-8"))
         print(f"Fixture payload data:  {payload}.")
 
@@ -2325,10 +2351,12 @@ def main():
         print("Events...")
         print(f"{'=' * 50}\n")
         print("Getting events data from api...")
+        apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
         eventpath = f"/fixtures/events?fixture={fixture}"
         apiconn.request("GET", eventpath, headers=headers)
         eventres = apiconn.getresponse()
         eventraw = eventres.read()
+        apiconn.close()
         eventpayload = json.loads(eventraw.decode("utf-8"))
         eventfunction(eventpayload, fixture, conn)
         print(f"\n{'=' * 50}")
@@ -2339,10 +2367,12 @@ def main():
         print("Fixture Statistics...")
         print(f"{'=' * 50}\n")
         print("Getting Fixture Statistics data from api...")
+        apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
         statisticspath = f"/fixtures/statistics?fixture={fixture}"
         apiconn.request("GET", statisticspath, headers=headers)
         statisticsres = apiconn.getresponse()
         statisticsraw = statisticsres.read()
+        apiconn.close()
         statisticspayload = json.loads(statisticsraw.decode("utf-8"))
         statisticsfunction(statisticspayload, fixture, conn)
         print(f"\n{'=' * 50}")
@@ -2353,10 +2383,12 @@ def main():
         print("Player Statistics...")
         print(f"{'=' * 50}\n")
         print("Getting Player Statistics data from api...")
+        apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
         playerstatisticspath = f"/fixtures/players?fixture={fixture}"
         apiconn.request("GET", playerstatisticspath, headers=headers)
         playerstatisticsres = apiconn.getresponse()
         playerstatisticsraw = playerstatisticsres.read()
+        apiconn.close()
         playerstatisticspayload = json.loads(playerstatisticsraw.decode("utf-8"))
         playerstatisticsfunction(playerstatisticspayload, fixture, conn)
         print(f"\n{'=' * 50}")
@@ -2367,10 +2399,12 @@ def main():
         print("Lineups...")
         print(f"{'=' * 50}\n")
         print("Getting Lineups data from api...")
+        apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
         lineupspath = f"/fixtures/lineups?fixture={fixture}"
         apiconn.request("GET", lineupspath, headers=headers)
         lineupsres = apiconn.getresponse()
         lineupsraw = lineupsres.read()
+        apiconn.close()
         lineupspayload = json.loads(lineupsraw.decode("utf-8"))
         lineupsfunction(lineupspayload, fixture, conn, headers, apiconn)
         print(f"\n{'=' * 50}")
