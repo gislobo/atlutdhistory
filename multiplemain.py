@@ -316,7 +316,8 @@ def venuework(f, conn): # f is fixture
             return thevenueid, tz
     else:
         print("Venue has an id in the api!!")
-        return venueraw['id'], tz
+        thevenueid = int(input(f"Enter the database venue id of {venueraw['id']}:  "))
+        return thevenueid, tz
 
 
 def _normalize_tz_key(key: str | None) -> str | None:
@@ -2153,6 +2154,8 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
         substitute5 = None
         substitute6 = None
         substitute7 = None
+        substitute8 = None
+        substitute9 = None
 
         # Loop through substitutes
         print("Looping through substitutes...")
@@ -2196,6 +2199,12 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
             elif count2 == 7:
                 substitute7 = databaseplayerid
                 print(f"Substitute 7 is {substitute7}.")
+            elif count2 == 8:
+                substitute8 = databaseplayerid
+                print(f"Substitute 8 is {substitute8}.")
+            elif count2 == 9:
+                substitute9 = databaseplayerid
+                print(f"Substitute 9 is {substitute9}.")
             else:
                 print("Something is wrong, the number of substitutes is not 7.")
                 sys.exit(0)
@@ -2225,9 +2234,11 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
                                                  substitute5, \
                                                  substitute6, \
                                                  substitute7, \
+                                                 substitute8, \
+                                                 substitute9, \
                                                  data_source, \
                                                  created_by)
-              values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
+              values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
               returning id \
               """
         ds = 'API-Football'
@@ -2255,6 +2266,8 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
             substitute5,
             substitute6,
             substitute7,
+            substitute8,
+            substitute9,
             ds,
             cb,
         )
@@ -2291,8 +2304,11 @@ def main():
     #                128461, 128481, 128486, 128502, 128521, 128531, 128534, 128546, 128555, 128564, 246444, 250195,
     #                250198]
     ## 2020 MLS regular season and MLS is back tournament fixture list
-    fixturelist = [634454, 634443, 634431, 634415, 634407, 634394, 634376, 634363, 634349, 628454, 628438, 628427,
-                   588656, 588611, 588644, 588627, 588616, 588600, 566056, 566043, 566031, 564278, 564266]
+    # fixturelist = [634454, 634443, 634431, 634415, 634407, 634394, 634376, 634363, 634349, 628454, 628438, 628427,
+    #                588656, 588611, 588644, 588627, 588616, 588600, 566056, 566043, 566031, 564278, 564266]
+    # fixturelist = [634443, 634431, 634415, 634407, 634394, 634376, 634363, 634349, 628454, 628438, 628427,
+    #                 588656, 588611, 588644, 588627, 588616, 588600, 566056, 566043, 566031, 564278, 564266]
+    fixturelist = [634443]
 
 
     ## Initializing
