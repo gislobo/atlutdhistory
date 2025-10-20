@@ -247,6 +247,10 @@ def venuework(f, conn): # f is fixture
             yesno = input("Is this venue an already existing venue that has been renamed? (y/n): ")
             if yesno == "y":
                 changedvenueid = input("Enter the database id of the venue:  ")
+                # FIXED: Retrieve timezone for the existing venue
+                with conn.cursor() as cur:
+                    cur.execute("SELECT timezone FROM public.venue WHERE id = %s", (changedvenueid,))
+                    tz = cur.fetchone()[0]
                 return changedvenueid, tz
             address = input(f"Enter the street address for {venuename}: ")
             city = input(f"Enter the city for {venuename}: ")
@@ -306,9 +310,17 @@ def venuework(f, conn): # f is fixture
                 print("Address not found.")
 
             # create a function that finds and inserts timezone based on lat/long
-            tf = TimezoneFinder()
-            tz = tf.timezone_at(lng=lon, lat=lat)
-            print(f"The timezone is {tz}.")
+            # FIXED: Only attempt timezone lookup if we have valid coordinates
+            if lat is not None and lon is not None:
+                tf = TimezoneFinder()
+                tz = tf.timezone_at(lng=lon, lat=lat)
+                print(f"The timezone is {tz}.")
+            else:
+                print("Cannot determine timezone without valid coordinates.")
+                tz = input(f"Please enter the timezone manually (e.g., 'America/New_York'): ")
+                if not tz or not tz.strip():
+                    tz = None
+                    print("No timezone provided, setting to None.")
 
             # call insertvenue
             thevenueid = insertvenue(apiid, venuename, address, city, state, countrycode, capacity, surface, lat, lon,
@@ -1037,6 +1049,12 @@ def fixturefunction(payload, f, headers, conn):
 def eventtypework(c, et, ed):
     # Get the event type information into a list of dictionaries
     print("Starting the eventypework function.")
+
+    # Handle NULL eventdetail by providing a default value
+    if ed is None or (isinstance(ed, str) and not ed.strip()):
+        ed = "None"
+        print(f"Event detail was None or empty, using default value: {ed}")
+
     with c.cursor() as cur:
         cur.execute("SELECT id, type, eventdetail FROM public.eventtype")
         rows = cur.fetchall()
@@ -1176,8 +1194,13 @@ def eventfunction(payload, f, conn):
         else:
             with conn.cursor() as cur:
                 cur.execute("SELECT id from public.player WHERE apifootballid = %s", (apiassistid,))
-                databaseassistid = cur.fetchone()[0]
-            print(f"Assist id: {databaseassistid}")
+                assistresult = cur.fetchone()
+                if assistresult is None:
+                    print(f"WARNING:  Assist with apifootballid {apiassistid} not found in database.")
+                    databaseassistid = int(input("Enter the database player id for the player: "))
+                else:
+                    databaseassistid = assistresult[0]
+            print(f"Database assist id: {databaseassistid}")
 
         ## Load into database
         sql = """
@@ -2156,6 +2179,9 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
         substitute7 = None
         substitute8 = None
         substitute9 = None
+        substitute10 = None
+        substitute11 = None
+        substitute12 = None
 
         # Loop through substitutes
         print("Looping through substitutes...")
@@ -2205,8 +2231,17 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
             elif count2 == 9:
                 substitute9 = databaseplayerid
                 print(f"Substitute 9 is {substitute9}.")
+            elif count2 == 10:
+                substitute10 = databaseplayerid
+                print(f"Substitute 10 is {substitute10}.")
+            elif count2 == 11:
+                substitute11 = databaseplayerid
+                print(f"Substitute 11 is {substitute11}.")
+            elif count2 == 12:
+                substitute12 = databaseplayerid
+                print(f"Substitute 12 is {substitute12}.")
             else:
-                print("Something is wrong, the number of substitutes is not 7.")
+                print("Something is wrong, the number of substitutes is more than 12.")
                 sys.exit(0)
 
         # Inserting variables into database
@@ -2236,9 +2271,12 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
                                                  substitute7, \
                                                  substitute8, \
                                                  substitute9, \
+                                                 substitute10, \
+                                                 substitute11, \
+                                                 substitute12, \
                                                  data_source, \
                                                  created_by)
-              values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
+              values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) \
               returning id \
               """
         ds = 'API-Football'
@@ -2268,6 +2306,9 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
             substitute7,
             substitute8,
             substitute9,
+            substitute10,
+            substitute11,
+            substitute12,
             ds,
             cb,
         )
@@ -2306,9 +2347,8 @@ def main():
     ## 2020 MLS regular season and MLS is back tournament fixture list
     # fixturelist = [634454, 634443, 634431, 634415, 634407, 634394, 634376, 634363, 634349, 628454, 628438, 628427,
     #                588656, 588611, 588644, 588627, 588616, 588600, 566056, 566043, 566031, 564278, 564266]
-    # fixturelist = [634443, 634431, 634415, 634407, 634394, 634376, 634363, 634349, 628454, 628438, 628427,
-    #                 588656, 588611, 588644, 588627, 588616, 588600, 566056, 566043, 566031, 564278, 564266]
-    fixturelist = [634443]
+    fixturelist = [566056, 566043, 566031, 564278, 564266]
+
 
 
     ## Initializing
