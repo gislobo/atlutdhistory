@@ -2467,7 +2467,7 @@ def main():
 
     # Load DB config from json file for use in connecting to database
     print("Loading DB config...")
-    db = loaddbconfig("testdbconfig.json")
+    db = loaddbconfig("dbconfig.json")
     print("...DB config loaded.")
     print("")
 
