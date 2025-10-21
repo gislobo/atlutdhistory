@@ -720,37 +720,68 @@ def getplayers(payload, playerids):
 
 
 def getplayerprofile(headers, playerid):
-    playerconn = http.client.HTTPSConnection("v3.football.api-sports.io")
-    playerpath = f"/players/profiles?player={playerid}"
-    normalized = {}
+    import time
 
-    playerconn.request("GET", playerpath, headers=headers)
-    playerres = playerconn.getresponse()
-    playerraw = playerres.read()
+    max_retries = 3
+    timeout = 30  # 30 seconds timeout
+    retry_delay = 2  # Initial delay in seconds
 
-    playerpayload = json.loads(playerraw.decode("utf-8"))
+    for attempt in range(max_retries):
+        playerconn = None
+        try:
+            playerconn = http.client.HTTPSConnection("v3.football.api-sports.io", timeout=timeout)
+            playerpath = f"/players/profiles?player={playerid}"
+            normalized = {}
 
-    for item in playerpayload.get("response", []):
-        p = item.get("player") or {}
-        birth = p.get("birth") or {}
-        pid = p.get("id")
-        if pid is None:
-            # Skip players without an ID
-            continue
+            playerconn.request("GET", playerpath, headers=headers)
+            playerres = playerconn.getresponse()
+            playerraw = playerres.read()
 
-        normalized[pid] = {
-            "apifootballid": pid,
-            "firstname": p.get("firstname"),
-            "lastname": p.get("lastname"),
-            "birthdate": birth.get("date"),
-            "birthplace": birth.get("place"),
-            "birthcountrycode": birth.get("country"),
-            "nationality": p.get("nationality"),
-            "heightcm": parseheightweight(p.get("height")),
-            "weightkg": parseheightweight(p.get("weight")),
-        }
-    playerconn.close()
-    return normalized
+            playerpayload = json.loads(playerraw.decode("utf-8"))
+
+            for item in playerpayload.get("response", []):
+                p = item.get("player") or {}
+                birth = p.get("birth") or {}
+                pid = p.get("id")
+                if pid is None:
+                    # Skip players without an ID
+                    continue
+
+                normalized[pid] = {
+                    "apifootballid": pid,
+                    "firstname": p.get("firstname"),
+                    "lastname": p.get("lastname"),
+                    "birthdate": birth.get("date"),
+                    "birthplace": birth.get("place"),
+                    "birthcountrycode": birth.get("country"),
+                    "nationality": p.get("nationality"),
+                    "heightcm": parseheightweight(p.get("height")),
+                    "weightkg": parseheightweight(p.get("weight")),
+                }
+
+            if playerconn:
+                playerconn.close()
+            return normalized
+
+        except (TimeoutError, ConnectionError, http.client.HTTPException) as e:
+            if playerconn:
+                playerconn.close()
+
+            if attempt < max_retries - 1:
+                wait_time = retry_delay * (2 ** attempt)  # Exponential backoff
+                print(
+                    f"Connection attempt {attempt + 1} failed for player {playerid}. Retrying in {wait_time} seconds...")
+                time.sleep(wait_time)
+            else:
+                print(f"Failed to fetch player {playerid} after {max_retries} attempts. Error: {e}")
+                return {}
+        except Exception as e:
+            if playerconn:
+                playerconn.close()
+            print(f"Unexpected error fetching player {playerid}: {e}")
+            return {}
+
+    return {}
 
 
 def parseheightweight(str):
@@ -944,6 +975,8 @@ def builddictionary(headers, conn, playerid):
 
 
 def players(payload, headers, conn):
+    import time
+
     playerids = []
     print(f"Getting player IDs...")
     getplayers(payload, playerids)
@@ -951,6 +984,7 @@ def players(payload, headers, conn):
 
     for playerid in playerids:
         playerlookup(headers, conn, playerid)
+        time.sleep(0.5)  # Add 500ms delay between requests
 
 
 def fixturefunction(payload, f, headers, conn):
@@ -2451,7 +2485,10 @@ def main():
     # fixturelist = [634454, 634443, 634431, 634415, 634407, 634394, 634376, 634363, 634349, 628454, 628438, 628427,
     #                588656, 588611, 588644, 588627, 588616, 588600, 566056, 566043, 566031, 564278, 564266]
     ## 2021 MLS regular season and the one MLS playoff game
-    fixturelist = [684131, 684144, 695168, 695187, 695199, 695219, 695227, 695246, 695249, 695269, 695278, 695296,
+    # fixturelist = [684131, 684144, 695168, 695187, 695199, 695219, 695227, 695246, 695249, 695269, 695278, 695296,
+    #                695297, 695311, 695323, 695340, 695355, 695366, 695387, 695393, 695410, 695419, 695437, 695452,
+    #                695463, 695476, 695490, 695505, 695521, 695529, 695554, 695567, 695578, 695582, 812188]
+    fixturelist = [695227, 695246, 695249, 695269, 695278, 695296,
                    695297, 695311, 695323, 695340, 695355, 695366, 695387, 695393, 695410, 695419, 695437, 695452,
                    695463, 695476, 695490, 695505, 695521, 695529, 695554, 695567, 695578, 695582, 812188]
 
