@@ -542,6 +542,8 @@ def leaguework(lid, conn, lr):
             databaseid = 3
         if lid == 253 and lr == 'Play-In Round':
             databaseid = 3
+        if lid == 253 and lr == 'MLS Cup - Round 1':
+            databaseid = 3
     else:
         print(f"API League ID {lid} is not in your database.")
         print("Please insert it and then give me the number.")
