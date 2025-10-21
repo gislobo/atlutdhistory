@@ -338,9 +338,96 @@ def venuework(f, conn): # f is fixture
         if venueraw['id'] in existingapivenues:
             print(f"Venue {venueraw['id']} is already in the database, no need to proceed.")
             print(f"Venue databaseid = {existingapivenues[venueraw['id']]}.")
+            with conn.cursor() as cur:
+                cur.execute("SELECT timezone FROM public.venue WHERE id = %s", (existingapivenues[venueraw['id']],))
+                tz = cur.fetchone()[0]
             return existingapivenues[venueraw['id']], tz
         else:
-            return venueraw['id'], tz
+            yesno = input(f"Is this a venue already in the database without an api id? (y/n): ")
+            if yesno == 'y':
+                thevenueid = int(input("Enter the database id of the venue: "))
+                with conn.cursor() as cur:
+                    cur.execute("SELECT timezone FROM public.venue WHERE id = %s", (thevenueid,))
+                    tz = cur.fetchone()[0]
+                return thevenueid, tz
+            else:
+                print("We must create a new venue.")
+                apiid = int(input("Enter the api id for the venue: "))
+                venuename = input("Enter the venue name: ")
+                address = input("Enter the street address: ")
+                city = input("Enter the city: ")
+                state = input("Enter the state: ")
+                countrycode = input("Enter the country code: ")
+                capacity = input("Enter the capacity: ")
+                surface = input("Enter the surface: ")
+
+                # create a function that finds and inserts lat and long based on address
+                def geocode_address(a: str) -> Optional[tuple[float, float]]:
+                    """
+                    Returns (latitude, longitude) in decimal degrees for the given address,
+                    or None if not found or on transient network errors.
+                    """
+                    address = (a or "").strip()
+                    if not address:
+                        return None
+
+                    # Configure a descriptive user agent and a sensible timeout per request
+                    geolocator = Nominatim(user_agent="atlutdhistory-app/1.0 (contact: youremail@example.com)",
+                                           timeout=10)
+
+                    # RateLimiter helps respect Nominatim usage policy; add retries and error swallowing
+                    geocode = RateLimiter(
+                        geolocator.geocode,
+                        min_delay_seconds=1.0,
+                        max_retries=3,  # retry transient failures
+                        error_wait_seconds=2.0,  # wait between retries on errors
+                        swallow_exceptions=False,  # propagate so we can handle specific cases below
+                    )
+
+                    try:
+                        # exactly_one True returns a single Location or None
+                        location = geocode(address, exactly_one=True, addressdetails=False)
+                    except (GeocoderTimedOut, GeocoderUnavailable) as e:
+                        # Network/service transient issue: return None gracefully
+                        return None
+                    except GeocoderServiceError:
+                        # Other geopy service errors (e.g., bad response)
+                        return None
+                    except Exception:
+                        # Any unexpected error: fail gracefully
+                        return None
+
+                    if location is None:
+                        return None
+                    return location.latitude, location.longitude
+
+                geocodeaddr = f"{address}, {city}, {state}"
+                coords = geocode_address(geocodeaddr)
+                if coords:
+                    lat, lon = coords
+                    print(f"Latitude: {lat}, Longitude: {lon}")
+                else:
+                    lat = None
+                    lon = None
+                    print("Address not found.")
+
+                # create a function that finds and inserts timezone based on lat/long
+                # FIXED: Only attempt timezone lookup if we have valid coordinates
+                if lat is not None and lon is not None:
+                    tf = TimezoneFinder()
+                    tz = tf.timezone_at(lng=lon, lat=lat)
+                    print(f"The timezone is {tz}.")
+                else:
+                    print("Cannot determine timezone without valid coordinates.")
+                    tz = input(f"Please enter the timezone manually (e.g., 'America/New_York'): ")
+                    if not tz or not tz.strip():
+                        tz = None
+                        print("No timezone provided, setting to None.")
+
+                thevenueid = insertvenue(apiid, venuename, address, city, state, countrycode, capacity, surface, lat,
+                                         lon,
+                                         tz, conn)
+                return thevenueid, tz
 
 
 
@@ -2363,7 +2450,7 @@ def main():
     # fixturelist = [684131, 684144, 695168, 695187, 695199, 695219, 695227, 695246, 695249, 695269, 695278, 695296,
     #                695297, 695311, 695323, 695340, 695355, 695366, 695387, 695393, 695410, 695419, 695437, 695452,
     #                695463, 695476, 695490, 695505, 695521, 695529, 695554, 695567, 695578, 695582, 812188]
-    fixturelist = [684131]
+    fixturelist = [695168, 695187]
 
 
 
@@ -2424,14 +2511,14 @@ def main():
         print("Events...")
         print(f"{'=' * 50}\n")
         print("Getting events data from api...")
-        apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
-        eventpath = f"/fixtures/events?fixture={fixture}"
-        apiconn.request("GET", eventpath, headers=headers)
-        eventres = apiconn.getresponse()
-        eventraw = eventres.read()
-        apiconn.close()
-        eventpayload = json.loads(eventraw.decode("utf-8"))
-        eventfunction(eventpayload, fixture, conn)
+        # apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
+        # eventpath = f"/fixtures/events?fixture={fixture}"
+        # apiconn.request("GET", eventpath, headers=headers)
+        # eventres = apiconn.getresponse()
+        # eventraw = eventres.read()
+        # apiconn.close()
+        # eventpayload = json.loads(eventraw.decode("utf-8"))
+        # eventfunction(eventpayload, fixture, conn)
         print(f"\n{'=' * 50}")
         print(f"...Events are done for {fixture}.")
         print(f"{'=' * 50}\n")
@@ -2440,14 +2527,14 @@ def main():
         print("Fixture Statistics...")
         print(f"{'=' * 50}\n")
         print("Getting Fixture Statistics data from api...")
-        apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
-        statisticspath = f"/fixtures/statistics?fixture={fixture}"
-        apiconn.request("GET", statisticspath, headers=headers)
-        statisticsres = apiconn.getresponse()
-        statisticsraw = statisticsres.read()
-        apiconn.close()
-        statisticspayload = json.loads(statisticsraw.decode("utf-8"))
-        statisticsfunction(statisticspayload, fixture, conn)
+        # apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
+        # statisticspath = f"/fixtures/statistics?fixture={fixture}"
+        # apiconn.request("GET", statisticspath, headers=headers)
+        # statisticsres = apiconn.getresponse()
+        # statisticsraw = statisticsres.read()
+        # apiconn.close()
+        # statisticspayload = json.loads(statisticsraw.decode("utf-8"))
+        # statisticsfunction(statisticspayload, fixture, conn)
         print(f"\n{'=' * 50}")
         print(f"...Fixture Statistics are done for {fixture}.")
         print(f"{'=' * 50}\n")
@@ -2456,14 +2543,14 @@ def main():
         print("Player Statistics...")
         print(f"{'=' * 50}\n")
         print("Getting Player Statistics data from api...")
-        apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
-        playerstatisticspath = f"/fixtures/players?fixture={fixture}"
-        apiconn.request("GET", playerstatisticspath, headers=headers)
-        playerstatisticsres = apiconn.getresponse()
-        playerstatisticsraw = playerstatisticsres.read()
-        apiconn.close()
-        playerstatisticspayload = json.loads(playerstatisticsraw.decode("utf-8"))
-        playerstatisticsfunction(playerstatisticspayload, fixture, conn)
+        # apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
+        # playerstatisticspath = f"/fixtures/players?fixture={fixture}"
+        # apiconn.request("GET", playerstatisticspath, headers=headers)
+        # playerstatisticsres = apiconn.getresponse()
+        # playerstatisticsraw = playerstatisticsres.read()
+        # apiconn.close()
+        # playerstatisticspayload = json.loads(playerstatisticsraw.decode("utf-8"))
+        # playerstatisticsfunction(playerstatisticspayload, fixture, conn)
         print(f"\n{'=' * 50}")
         print(f"...Player Statistics are done for {fixture}.")
         print(f"{'=' * 50}\n")
@@ -2472,14 +2559,14 @@ def main():
         print("Lineups...")
         print(f"{'=' * 50}\n")
         print("Getting Lineups data from api...")
-        apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
-        lineupspath = f"/fixtures/lineups?fixture={fixture}"
-        apiconn.request("GET", lineupspath, headers=headers)
-        lineupsres = apiconn.getresponse()
-        lineupsraw = lineupsres.read()
-        apiconn.close()
-        lineupspayload = json.loads(lineupsraw.decode("utf-8"))
-        lineupsfunction(lineupspayload, fixture, conn, headers, apiconn)
+        # apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
+        # lineupspath = f"/fixtures/lineups?fixture={fixture}"
+        # apiconn.request("GET", lineupspath, headers=headers)
+        # lineupsres = apiconn.getresponse()
+        # lineupsraw = lineupsres.read()
+        # apiconn.close()
+        # lineupspayload = json.loads(lineupsraw.decode("utf-8"))
+        # lineupsfunction(lineupspayload, fixture, conn, headers, apiconn)
         print(f"\n{'=' * 50}")
         print(f"...Lineups are done for {fixture}.")
         print(f"{'=' * 50}\n")
