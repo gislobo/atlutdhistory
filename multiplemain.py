@@ -133,13 +133,17 @@ def refereework(f, conn):
         print(f"Referee: {referee}, Country: {refereecountry}")
         # See if referee is in db
         with conn.cursor() as cur:
-            cur.execute("SELECT concat_ws(' ', firstname, lastname) as fullname, id FROM public.referee")
+            cur.execute("SELECT concat_ws(' ', left(firstname, 1), lastname) as fullname, id FROM public.referee")
             rows = cur.fetchall()
         existingreferees = {row[0]: row[1] for row in rows if row[0] is not None}
         print(existingreferees)
+
+        # Normalize referee name by removing period after initial for comparison
+        referee_normalized = referee.replace('.', '') if referee else None
+
         # If referee is in db, get referee id
-        if referee in existingreferees:
-            refid = existingreferees[referee]
+        if referee_normalized in existingreferees:
+            refid = existingreferees[referee_normalized]
             print(f"Referee {referee} is already in the database, referee id: {refid}")
         else:
             ##if referee is not in db, add referee to db
@@ -428,8 +432,6 @@ def venuework(f, conn): # f is fixture
                                          lon,
                                          tz, conn)
                 return thevenueid, tz
-
-
 
 
 def _normalize_tz_key(key: str | None) -> str | None:
@@ -2447,10 +2449,10 @@ def main():
     # fixturelist = [634454, 634443, 634431, 634415, 634407, 634394, 634376, 634363, 634349, 628454, 628438, 628427,
     #                588656, 588611, 588644, 588627, 588616, 588600, 566056, 566043, 566031, 564278, 564266]
     ## 2021 MLS regular season and the one MLS playoff game
-    # fixturelist = [684131, 684144, 695168, 695187, 695199, 695219, 695227, 695246, 695249, 695269, 695278, 695296,
-    #                695297, 695311, 695323, 695340, 695355, 695366, 695387, 695393, 695410, 695419, 695437, 695452,
-    #                695463, 695476, 695490, 695505, 695521, 695529, 695554, 695567, 695578, 695582, 812188]
-    fixturelist = [695168, 695187]
+    fixturelist = [684131, 684144, 695168, 695187, 695199, 695219, 695227, 695246, 695249, 695269, 695278, 695296,
+                   695297, 695311, 695323, 695340, 695355, 695366, 695387, 695393, 695410, 695419, 695437, 695452,
+                   695463, 695476, 695490, 695505, 695521, 695529, 695554, 695567, 695578, 695582, 812188]
+
 
 
 
@@ -2511,14 +2513,14 @@ def main():
         print("Events...")
         print(f"{'=' * 50}\n")
         print("Getting events data from api...")
-        # apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
-        # eventpath = f"/fixtures/events?fixture={fixture}"
-        # apiconn.request("GET", eventpath, headers=headers)
-        # eventres = apiconn.getresponse()
-        # eventraw = eventres.read()
-        # apiconn.close()
-        # eventpayload = json.loads(eventraw.decode("utf-8"))
-        # eventfunction(eventpayload, fixture, conn)
+        apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
+        eventpath = f"/fixtures/events?fixture={fixture}"
+        apiconn.request("GET", eventpath, headers=headers)
+        eventres = apiconn.getresponse()
+        eventraw = eventres.read()
+        apiconn.close()
+        eventpayload = json.loads(eventraw.decode("utf-8"))
+        eventfunction(eventpayload, fixture, conn)
         print(f"\n{'=' * 50}")
         print(f"...Events are done for {fixture}.")
         print(f"{'=' * 50}\n")
@@ -2527,14 +2529,14 @@ def main():
         print("Fixture Statistics...")
         print(f"{'=' * 50}\n")
         print("Getting Fixture Statistics data from api...")
-        # apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
-        # statisticspath = f"/fixtures/statistics?fixture={fixture}"
-        # apiconn.request("GET", statisticspath, headers=headers)
-        # statisticsres = apiconn.getresponse()
-        # statisticsraw = statisticsres.read()
-        # apiconn.close()
-        # statisticspayload = json.loads(statisticsraw.decode("utf-8"))
-        # statisticsfunction(statisticspayload, fixture, conn)
+        apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
+        statisticspath = f"/fixtures/statistics?fixture={fixture}"
+        apiconn.request("GET", statisticspath, headers=headers)
+        statisticsres = apiconn.getresponse()
+        statisticsraw = statisticsres.read()
+        apiconn.close()
+        statisticspayload = json.loads(statisticsraw.decode("utf-8"))
+        statisticsfunction(statisticspayload, fixture, conn)
         print(f"\n{'=' * 50}")
         print(f"...Fixture Statistics are done for {fixture}.")
         print(f"{'=' * 50}\n")
@@ -2543,14 +2545,14 @@ def main():
         print("Player Statistics...")
         print(f"{'=' * 50}\n")
         print("Getting Player Statistics data from api...")
-        # apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
-        # playerstatisticspath = f"/fixtures/players?fixture={fixture}"
-        # apiconn.request("GET", playerstatisticspath, headers=headers)
-        # playerstatisticsres = apiconn.getresponse()
-        # playerstatisticsraw = playerstatisticsres.read()
-        # apiconn.close()
-        # playerstatisticspayload = json.loads(playerstatisticsraw.decode("utf-8"))
-        # playerstatisticsfunction(playerstatisticspayload, fixture, conn)
+        apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
+        playerstatisticspath = f"/fixtures/players?fixture={fixture}"
+        apiconn.request("GET", playerstatisticspath, headers=headers)
+        playerstatisticsres = apiconn.getresponse()
+        playerstatisticsraw = playerstatisticsres.read()
+        apiconn.close()
+        playerstatisticspayload = json.loads(playerstatisticsraw.decode("utf-8"))
+        playerstatisticsfunction(playerstatisticspayload, fixture, conn)
         print(f"\n{'=' * 50}")
         print(f"...Player Statistics are done for {fixture}.")
         print(f"{'=' * 50}\n")
@@ -2559,14 +2561,14 @@ def main():
         print("Lineups...")
         print(f"{'=' * 50}\n")
         print("Getting Lineups data from api...")
-        # apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
-        # lineupspath = f"/fixtures/lineups?fixture={fixture}"
-        # apiconn.request("GET", lineupspath, headers=headers)
-        # lineupsres = apiconn.getresponse()
-        # lineupsraw = lineupsres.read()
-        # apiconn.close()
-        # lineupspayload = json.loads(lineupsraw.decode("utf-8"))
-        # lineupsfunction(lineupspayload, fixture, conn, headers, apiconn)
+        apiconn = http.client.HTTPSConnection("v3.football.api-sports.io")
+        lineupspath = f"/fixtures/lineups?fixture={fixture}"
+        apiconn.request("GET", lineupspath, headers=headers)
+        lineupsres = apiconn.getresponse()
+        lineupsraw = lineupsres.read()
+        apiconn.close()
+        lineupspayload = json.loads(lineupsraw.decode("utf-8"))
+        lineupsfunction(lineupspayload, fixture, conn, headers, apiconn)
         print(f"\n{'=' * 50}")
         print(f"...Lineups are done for {fixture}.")
         print(f"{'=' * 50}\n")
