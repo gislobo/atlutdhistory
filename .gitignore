@@ -23,3 +23,4 @@ dbconfig.json
 headers.json
 backupconfig.json
 testdbconfig.json
+table_copy_config.json

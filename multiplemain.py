@@ -328,8 +328,21 @@ def venuework(f, conn): # f is fixture
             return thevenueid, tz
     else:
         print("Venue has an id in the api!!")
-        thevenueid = int(input(f"Enter the database venue id of {venueraw['id']}:  "))
-        return thevenueid, tz
+
+        # Check to see if the venuid is already in the database
+        with conn.cursor() as cur:
+            cur.execute("select id, apifootballid from public.venue where apifootballid is not null")
+            rows = cur.fetchall()
+        existingapivenues = {row[1]: row[0] for row in rows if row[1] is not None}
+        print(f"All existing apivenues: {existingapivenues}")
+        if venueraw['id'] in existingapivenues:
+            print(f"Venue {venueraw['id']} is already in the database, no need to proceed.")
+            print(f"Venue databaseid = {existingapivenues[venueraw['id']]}.")
+            return existingapivenues[venueraw['id']], tz
+        else:
+            return venueraw['id'], tz
+
+
 
 
 def _normalize_tz_key(key: str | None) -> str | None:
@@ -2328,7 +2341,6 @@ def lineupsfunction(payload, f, conn, headers, apiconn):
 
 def main():
     # list out fixtures
-    #fixturelist = [147502, 147493, 147494, 147492]
     ## 2017 fixture list
     # fixturelist = [147926, 147936, 147940, 147953, 147967, 147976, 147992, 148006, 148019, 148029, 148043, 148057,
     #                148066, 148074, 148078, 148088, 148096, 280488, 280464, 148109, 148114, 148131, 148143, 148164,
@@ -2347,7 +2359,11 @@ def main():
     ## 2020 MLS regular season and MLS is back tournament fixture list
     # fixturelist = [634454, 634443, 634431, 634415, 634407, 634394, 634376, 634363, 634349, 628454, 628438, 628427,
     #                588656, 588611, 588644, 588627, 588616, 588600, 566056, 566043, 566031, 564278, 564266]
-    fixturelist = [566056, 566043, 566031, 564278, 564266]
+    ## 2021 MLS regular season and the one MLS playoff game
+    # fixturelist = [684131, 684144, 695168, 695187, 695199, 695219, 695227, 695246, 695249, 695269, 695278, 695296,
+    #                695297, 695311, 695323, 695340, 695355, 695366, 695387, 695393, 695410, 695419, 695437, 695452,
+    #                695463, 695476, 695490, 695505, 695521, 695529, 695554, 695567, 695578, 695582, 812188]
+    fixturelist = [684131]
 
 
 
@@ -2360,7 +2376,7 @@ def main():
 
     # Load DB config from json file for use in connecting to database
     print("Loading DB config...")
-    db = loaddbconfig("dbconfig.json")
+    db = loaddbconfig("testdbconfig.json")
     print("...DB config loaded.")
     print("")
 
