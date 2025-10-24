@@ -92,7 +92,7 @@ print("")
 # Get what season you want the fixture list for
 print("Getting the season...")
 #season = int(input("Enter the season:  "))
-season = 2021
+season = 2022
 print(f"...season is {season}.")
 print("Storing the path to the api in a path variable...")
 path = f"/fixtures?team=1608&season={season}"
