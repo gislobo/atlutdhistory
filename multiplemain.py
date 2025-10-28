@@ -904,6 +904,12 @@ def builddictionary(headers, conn, playerid):
     print(f"Building the dictionary for {playerid}...")
     player = getplayerprofile(headers, playerid)
     print("...dictionary built.")
+
+    # Validate that player data was retrieved successfully
+    if not player or playerid not in player or player.get(playerid) is None:
+        print(f"ERROR: Failed to retrieve player data for player ID {playerid}. Skipping...")
+        return
+
     print("Replacing birthcountry and nationality with codes from database...")
     birthcountryname = player.get(playerid).get("birthcountrycode")
     nationalityname = player.get(playerid).get("nationality")
@@ -2493,10 +2499,18 @@ def main():
     #               816900, 816927, 816934, 816952, 816956, 816972, 816982, 816999, 817019, 817023, 817041,
     #               817055, 817069, 817084, 817097, 817106, 817118, 817131, 817147, 817152, 817166, 817178]
     ## 2023 MLS regular season and playoffs (one round)
-    fixturelist= [980793, 980806, 980818, 980832, 980846, 980857, 980876, 980888, 980908, 980909, 980924, 980935,
-                  980948, 980968, 980977, 980987, 981010, 981012, 981030, 981046, 981067, 981076, 981086, 981094,
-                  981118, 981120, 981133, 981150, 981162, 981176, 981187, 981217, 981224, 981239, 1139501, 1139505,
-                  1139513]
+    # fixturelist= [980793, 980806, 980818, 980832, 980846, 980857, 980876, 980888, 980908, 980909, 980924, 980935,
+    #               980948, 980968, 980977, 980987, 981010, 981012, 981030, 981046, 981067, 981076, 981086, 981094,
+    #               981118, 981120, 981133, 981150, 981162, 981176, 981187, 981217, 981224, 981239, 1139501, 1139505,
+    #               1139513]
+    ## 2024 MLS regular season and playoffs
+    fixturelist= [1150755, 1150785, 1150810, 1150817, 1150837, 1150844, 1150864, 1150866, 1150889, 1150895, 1150908,
+                  1150922, 1150935, 1199581, 1150950, 1150965, 1150989, 1150995, 1151010, 1151029, 1151037, 1151052,
+                  1151068, 1151078, 1151090, 1151105, 1151130, 1151132, 1151151, 1151164, 1151181, 1151198, 1151205,
+                  1151220, 1151238, 1312300, 1312865, 1312866, 1312867, 1315362]
+
+
+
 
     ## Initializing
     # Load headers from json file for use in api requests
