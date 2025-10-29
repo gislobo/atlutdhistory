@@ -218,6 +218,7 @@ def venuework(f, conn): # f is fixture
     print(f"Venue: {venueraw}")
     # single out the venue name
     venuename = venueraw['name']
+    print(f"Venue name: {venuename}")
     # some initializing
     apiid = None
     address = ""
@@ -231,11 +232,11 @@ def venuework(f, conn): # f is fixture
         print("Venue is None.")
         # Check to see if Venue already exists anyway
         with conn.cursor() as cur: # creating a list (or dictionary?  tuple?) of all venues where api id is none
-            cur.execute("SELECT name, id FROM public.venue WHERE apifootballid is NULL")
+            cur.execute("SELECT name, id from public.venue")
             rows = cur.fetchall()
         # getting just the names of the venues into a dictionary
         existingnonevenues = {row[0]: row[1] for row in rows if row[0] is not None}
-        print(f"All existing venues w/o api id:  {existingnonevenues}")
+        print(f"All existing venues:  {existingnonevenues}")
         if venuename in existingnonevenues: # running through the list to see if venue name is in the list
             print(f"Venue {venuename} is already in the database, no need to proceed.")
             print(f"Venue id: {existingnonevenues[venuename]}")
@@ -2509,11 +2510,14 @@ def main():
     #               1151068, 1151078, 1151090, 1151105, 1151130, 1151132, 1151151, 1151164, 1151181, 1151198, 1151205,
     #               1151220, 1151238, 1312300, 1312865, 1312866, 1312867, 1315362]
     ## 2025 MLS regular season (no playoffs)
-    fixturelist = [1339744, 1345072, 1346346, 1346489, 1346021, 1349227, 1326235, 1326247, 1326263, 1326288, 1326289,
+    # fixturelist = [1326235, 1326247, 1326263, 1326288, 1326289,
+    #                1326305, 1326318, 1326330, 1326349, 1326362, 1326372, 1326386, 1326405, 1326415, 1326439, 1326440,
+    #                1326458, 1326471, 1326484, 1326515, 1326529, 1326538, 1326551, 1326570, 1326578, 1326602, 1326617,
+    #                1326630, 1326637, 1326739, 1326671, 1326694, 1326496, 1326695]
+    fixturelist = [1326247, 1326263, 1326288, 1326289,
                    1326305, 1326318, 1326330, 1326349, 1326362, 1326372, 1326386, 1326405, 1326415, 1326439, 1326440,
                    1326458, 1326471, 1326484, 1326515, 1326529, 1326538, 1326551, 1326570, 1326578, 1326602, 1326617,
                    1326630, 1326637, 1326739, 1326671, 1326694, 1326496, 1326695]
-
 
 
     ## Initializing
